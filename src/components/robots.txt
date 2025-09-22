@@ -1,0 +1,60 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://poppaswoodencreations.co.nz/sitemap.xml
+
+# Important pages
+Allow: /about
+Allow: /contact
+Allow: /shipping
+Allow: /reviews
+Allow: /privacy
+Allow: /terms
+
+# Product categories
+Allow: /wooden-trains
+Allow: /wooden-baby-toys
+Allow: /wooden-trucks
+Allow: /wooden-cars
+Allow: /wooden-planes-helicopters
+Allow: /wooden-kitchenware
+Allow: /wooden-tractors-boats
+Allow: /wooden-other-toys
+
+# Crawl delay
+Crawl-delay: 1
+
+# Block admin areas
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /_admin/
+Disallow: /wp-admin/
+Disallow: /administrator/
+
+# Block sensitive files
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /*.log$
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /.env
+Disallow: /vite.config.ts
+Disallow: /tsconfig.json
+
+# Block development files
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.vscode/
+Disallow: /dist/
+
+# Allow important files
+Allow: /favicon.ico
+Allow: /robots.txt
+Allow: /sitemap.xml
+Allow: /images/
+Allow: /assets/
+
+# Host information
+# Host: poppaswoodencreations.co.nz

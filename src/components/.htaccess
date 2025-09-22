@@ -1,0 +1,72 @@
+# Apache Configuration for Poppa's Wooden Creations
+# Single Page Application (SPA) Routing
+
+RewriteEngine On
+
+# Security Headers
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options DENY
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# GZIP Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Cache Control
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# SPA Routing - Handle all routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/assets/
+RewriteCond %{REQUEST_URI} !^/images/
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico|pdf|txt|xml)$
+RewriteRule . /index.html [L]
+
+# Specific route handling for better SEO
+RewriteRule ^about/?$ /index.html [L]
+RewriteRule ^contact/?$ /index.html [L]
+RewriteRule ^reviews/?$ /index.html [L]
+RewriteRule ^shipping/?$ /index.html [L]
+RewriteRule ^privacy/?$ /index.html [L]
+RewriteRule ^terms/?$ /index.html [L]
+RewriteRule ^wooden-trains/?$ /index.html [L]
+RewriteRule ^wooden-baby-toys/?$ /index.html [L]
+RewriteRule ^wooden-trucks/?$ /index.html [L]
+RewriteRule ^wooden-cars/?$ /index.html [L]
+RewriteRule ^wooden-planes-helicopters/?$ /index.html [L]
+RewriteRule ^wooden-kitchenware/?$ /index.html [L]
+RewriteRule ^wooden-tractors-boats/?$ /index.html [L]
+RewriteRule ^wooden-other-toys/?$ /index.html [L]
+RewriteRule ^products/(.*)$ /index.html [L]
+
+# Force HTTPS (uncomment when SSL is setup)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [R=301,L]
