@@ -1,59 +1,14 @@
-# Netlify/Vercel Redirects for Poppa's Wooden Creations
-# Single Page Application (SPA) Routing
-
-# Main pages
-/about /index.html 200
-/contact /index.html 200
-/reviews /index.html 200
-/shipping /index.html 200
-/privacy /index.html 200
-/terms /index.html 200
-
-# Product categories
-/wooden-trains /index.html 200
-/wooden-baby-toys /index.html 200
-/wooden-trucks /index.html 200
-/wooden-cars /index.html 200
-/wooden-planes-helicopters /index.html 200
-/wooden-kitchenware /index.html 200
-/wooden-tractors-boats /index.html 200
-/wooden-other-toys /index.html 200
-
-# Product pages
-/products/* /index.html 200
-
-# Search and filters
-/search /index.html 200
-/search/* /index.html 200
-
-# Admin (redirect to main app)
-/admin /index.html 200
-/admin/* /index.html 200
-
-# API routes (if any)
-/api/* /api/:splat 200
-
-# Fallback for all other routes
-/* /index.html 200
-
-# Security headers
-/*
-  X-Frame-Options: DENY
-  X-XSS-Protection: 1; mode=block
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self' https:; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; connect-src 'self' https:;
-
-# Cache control
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.woff2
-  Cache-Control: public, max-age=31536000, immutable
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // Redirect to main app with the original path
+    window.location.href = '/index.html#' + window.location.pathname;
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
