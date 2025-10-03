@@ -11,7 +11,6 @@ import SupabaseSync from './SupabaseSync';
 import EmailManager from './EmailManager';
 import OrderManager from './OrderManager';
 import FooterEditor from './FooterEditor';
-import CategoryForm from './CategoryForm';  // ADD THIS LINE
 import { useProducts } from '../../hooks/useProducts';
 
 interface AdminDashboardProps {
