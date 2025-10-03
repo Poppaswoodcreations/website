@@ -7,6 +7,7 @@ import CSVImporter from './CSVImporter';
 import BackupManager from './BackupManager';
 import ImageManager from './ImageManager';
 import CategoryImageEditor from './CategoryImageEditor';
+import CategoryManager from './CategoryManager';
 import SupabaseSync from './SupabaseSync';
 import EmailManager from './EmailManager';
 import OrderManager from './OrderManager';
@@ -39,16 +40,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const tabs = [
     { id: 'products', label: '📦 Product Manager', icon: Package },
+    { id: 'orders', label: '📋 Orders', icon: BarChart3 },
     { id: 'hero-editor', label: '🎨 Edit Hero', icon: Edit3 },
     { id: 'footer-editor', label: '📄 Edit Footer', icon: Settings },
-    { id: 'category-images', label: '🖼️ Category Images', icon: Image },
-    { id: 'orders', label: '📋 Orders', icon: BarChart3 },
+    { id: 'add-category', label: '➕ Add Category', icon: Plus },
     { id: 'database', label: '🗄️ Database Sync', icon: Database },
-    { id: 'email', label: '📧 Email Settings', icon: Settings },
-    { id: 'inventory', label: '📊 Inventory', icon: BarChart3 },
+    { id: 'email', label: '📧 Email Manager', icon: Settings },
+    { id: 'inventory', label: '📊 Inventory Manager', icon: BarChart3 },
     { id: 'import', label: '📥 CSV Import', icon: Upload },
-    { id: 'backup', label: '💾 Backup', icon: Database },
-    { id: 'images', label: '🖼️ Images', icon: Image }
+    { id: 'backup', label: '💾 Backup & Database', icon: Database },
+    { id: 'images', label: '🖼️ Upload Images', icon: Upload },
+    { id: 'category-images', label: '🖼️ Category Images', icon: Image }
   ];
 
   // Load saved hero data
@@ -382,6 +384,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             onSave={(footerData) => {
               console.log('💾 Saving footer data:', footerData);
               alert('Footer settings saved successfully! Refresh the page to see changes.');
+            }}
+          />
+        );
+
+      case 'add-category':
+        return (
+          <CategoryManager
+            onSave={(categories) => {
+              console.log('💾 Saving categories:', categories);
+              alert('Categories saved successfully! Refresh the page to see changes.');
             }}
           />
         );
