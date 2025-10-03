@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Package, Settings, Upload, Download, Database, Truck, Edit3, Globe, Image, FileText, BarChart3, Plus, Edit, Trash2, Save, Eye } from 'lucide-react';
+import { X, Package, Settings, Upload, Download, Database, Truck, CreditCard as Edit3, Globe, Image, FileText, BarChart3, Plus, CreditCard as Edit, Trash2, Save, Eye } from 'lucide-react';
 import { Product } from '../../types';
 import { saveProductsToStorage } from '../../utils/productStorage';
 import ProductForm from './ProductForm';
