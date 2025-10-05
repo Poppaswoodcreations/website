@@ -157,39 +157,76 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     }
   };
 
-  const handleStockToggle = (productId: string) => {
-    const updatedProducts = products.map(product =>
-      product.id === productId
-        ? { ...product, inStock: !product.inStock }
-        : product
-    );
-    onProductsUpdate(updatedProducts);
-    saveProductsToStorage(updatedProducts);
+  const handleStockToggle = async (productId: string) => {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    try {
+      if (isAdminConnected) {
+        await updateProduct(productId, { inStock: !product.inStock });
+      } else {
+        const updatedProducts = products.map(p =>
+          p.id === productId ? { ...p, inStock: !p.inStock } : p
+        );
+        onProductsUpdate(updatedProducts);
+        saveProductsToStorage(updatedProducts);
+      }
+    } catch (error) {
+      console.error('❌ Stock toggle failed:', error);
+      alert('Failed to update stock status');
+    }
   };
 
-  const handleBulkStockUpdate = (inStock: boolean) => {
-    const updatedProducts = products.map(product => ({
-      ...product,
-      inStock,
-      stockQuantity: inStock ? (product.stockQuantity || 5) : 0
-    }));
-    onProductsUpdate(updatedProducts);
-    saveProductsToStorage(updatedProducts);
-    alert(`✅ All products marked as ${inStock ? 'in stock' : 'out of stock'}!`);
+  const handleBulkStockUpdate = async (inStock: boolean) => {
+    try {
+      if (isAdminConnected) {
+        // Update each product in the database
+        for (const product of products) {
+          await updateProduct(product.id, {
+            inStock,
+            stockQuantity: inStock ? (product.stockQuantity || 5) : 0
+          });
+        }
+      } else {
+        const updatedProducts = products.map(product => ({
+          ...product,
+          inStock,
+          stockQuantity: inStock ? (product.stockQuantity || 5) : 0
+        }));
+        onProductsUpdate(updatedProducts);
+        saveProductsToStorage(updatedProducts);
+      }
+      alert(`✅ All products marked as ${inStock ? 'in stock' : 'out of stock'}!`);
+    } catch (error) {
+      console.error('❌ Bulk update failed:', error);
+      alert('Failed to update stock status');
+    }
   };
 
-  const handleUpdateStockQuantity = (productId: string, quantity: number) => {
-    const updatedProducts = products.map(product =>
-      product.id === productId
-        ? { 
-            ...product, 
-            stockQuantity: quantity,
-            inStock: quantity > 0
-          }
-        : product
-    );
-    onProductsUpdate(updatedProducts);
-    saveProductsToStorage(updatedProducts);
+  const handleUpdateStockQuantity = async (productId: string, quantity: number) => {
+    try {
+      if (isAdminConnected) {
+        await updateProduct(productId, {
+          stockQuantity: quantity,
+          inStock: quantity > 0
+        });
+      } else {
+        const updatedProducts = products.map(product =>
+          product.id === productId
+            ? {
+                ...product,
+                stockQuantity: quantity,
+                inStock: quantity > 0
+              }
+            : product
+        );
+        onProductsUpdate(updatedProducts);
+        saveProductsToStorage(updatedProducts);
+      }
+    } catch (error) {
+      console.error('❌ Stock quantity update failed:', error);
+      alert('Failed to update stock quantity');
+    }
   };
 
   const handleSaveHero = () => {
