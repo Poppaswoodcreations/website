@@ -110,8 +110,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
           console.log('✅ ADMIN: Database update successful');
         } else {
           // Fallback to local update
-          const updatedProducts = products.map(p => 
-            p.id === editingProduct.id 
+          const updatedProducts = products.map(p =>
+            p.id === editingProduct.id
               ? {
                   ...productData,
                   id: editingProduct.id,
@@ -147,10 +147,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       console.log('✅ ADMIN: Product save completed successfully');
       setShowProductForm(false);
       setEditingProduct(null);
-      
+
       // Show success message
       alert(`✅ Product "${productData.name}" saved successfully!`);
-      
+
     } catch (error) {
       console.error('❌ ADMIN: Save failed:', error);
       alert(`❌ Save failed: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease try again or check the browser console for details.`);
