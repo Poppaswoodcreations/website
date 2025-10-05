@@ -13,14 +13,62 @@ export const useProducts = () => {
   const loadProducts = async () => {
     setLoading(true);
     setError(null);
-    
+
     console.log('🔄 useProducts: Loading products from storage...');
 
     try {
-      // First try to load from localStorage (saved products)
+      // If admin is connected, try to load from Supabase first
+      if (supabaseAdmin) {
+        console.log('🔐 Admin connected, loading from Supabase...');
+        try {
+          const { data, error } = await supabaseAdmin
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (error) {
+            console.error('❌ Supabase load error:', error);
+            throw error;
+          }
+
+          if (data && data.length > 0) {
+            console.log(`✅ Loaded ${data.length} products from Supabase`);
+            // Convert database format to Product format
+            const convertedProducts: Product[] = data.map(dbProduct => ({
+              id: dbProduct.id,
+              name: dbProduct.name,
+              description: dbProduct.description,
+              price: dbProduct.price,
+              category: dbProduct.category,
+              images: dbProduct.images,
+              inStock: dbProduct.in_stock,
+              featured: dbProduct.featured,
+              weight: dbProduct.weight || 0.5,
+              stockQuantity: dbProduct.stock_quantity || 5,
+              seoTitle: dbProduct.seo_title || '',
+              seoDescription: dbProduct.seo_description || '',
+              seoKeywords: dbProduct.seo_keywords || '',
+              createdAt: dbProduct.created_at,
+              updatedAt: dbProduct.updated_at
+            }));
+            setProducts(convertedProducts);
+            // Also save to localStorage as backup
+            saveProductsToStorage(convertedProducts);
+            setLoading(false);
+            console.log('✅ useProducts: Product loading from Supabase completed');
+            return;
+          } else {
+            console.log('📦 No products in Supabase, falling back to localStorage...');
+          }
+        } catch (supabaseError) {
+          console.error('❌ Supabase error, falling back to localStorage:', supabaseError);
+        }
+      }
+
+      // Fallback to localStorage (saved products)
       console.log('📦 Checking localStorage for saved products...');
       const savedProducts = loadProductsFromStorage();
-      
+
       if (savedProducts.length > 0) {
         console.log(`✅ Found ${savedProducts.length} saved products in localStorage`);
         setProducts(savedProducts);
@@ -30,7 +78,7 @@ export const useProducts = () => {
         // Save static products to localStorage for future edits
         saveProductsToStorage(staticProducts);
       }
-      
+
     } catch (error) {
       console.error('❌ Error loading products:', error);
       // Fallback to static products if everything fails
