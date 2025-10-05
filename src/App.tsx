@@ -28,14 +28,6 @@ const App: React.FC = () => {
   const { products, loading, error, loadProducts } = useProducts();
   const { cart, addToCart, updateQuantity, removeFromCart, getCartItemCount } = useCart();
 
-  // Debug product loading
-  useEffect(() => {
-    console.log('🔄 App: Products updated, count:', products.length);
-    if (products.length > 0) {
-      console.log('📦 App: First product:', products[0].name);
-      console.log('🖼️ App: First product images:', Array.isArray(products[0].images) ? products[0].images : 'Not an array');
-    }
-  }, [products]);
 
   const handleCategorySelect = (category: string) => {
     setCurrentView(category);
@@ -154,10 +146,7 @@ const App: React.FC = () => {
           <div className="fixed inset-0 bg-black bg-opacity-75 z-50" style={{ zIndex: 9999 }}>
           <AdminDashboard
             products={products}
-            onProductsUpdate={async (updatedProducts) => {
-              console.log('🔄 App: Received products update from admin:', updatedProducts.length);
-              
-              // Force reload products from storage to get the latest changes
+            onProductsUpdate={async () => {
               await loadProducts();
             }}
             onClose={() => setShowAdmin(false)}

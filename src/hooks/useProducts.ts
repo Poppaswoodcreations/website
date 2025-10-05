@@ -34,23 +34,35 @@ export const useProducts = () => {
           if (data && data.length > 0) {
             console.log(`✅ Loaded ${data.length} products from Supabase`);
             // Convert database format to Product format
-            const convertedProducts: Product[] = data.map(dbProduct => ({
-              id: dbProduct.id,
-              name: dbProduct.name,
-              description: dbProduct.description,
-              price: dbProduct.price,
-              category: dbProduct.category,
-              images: dbProduct.images,
-              inStock: dbProduct.in_stock,
-              featured: dbProduct.featured,
-              weight: dbProduct.weight || 0.5,
-              stockQuantity: dbProduct.stock_quantity || 5,
-              seoTitle: dbProduct.seo_title || '',
-              seoDescription: dbProduct.seo_description || '',
-              seoKeywords: dbProduct.seo_keywords || '',
-              createdAt: dbProduct.created_at,
-              updatedAt: dbProduct.updated_at
-            }));
+            const convertedProducts: Product[] = data.map(dbProduct => {
+              // Parse images if it's a string
+              let parsedImages = dbProduct.images;
+              if (typeof dbProduct.images === 'string') {
+                try {
+                  parsedImages = JSON.parse(dbProduct.images);
+                } catch (e) {
+                  parsedImages = [dbProduct.images];
+                }
+              }
+
+              return {
+                id: dbProduct.id,
+                name: dbProduct.name,
+                description: dbProduct.description,
+                price: dbProduct.price,
+                category: dbProduct.category,
+                images: Array.isArray(parsedImages) ? parsedImages : [parsedImages],
+                inStock: dbProduct.in_stock,
+                featured: dbProduct.featured,
+                weight: dbProduct.weight || 0.5,
+                stockQuantity: dbProduct.stock_quantity || 5,
+                seoTitle: dbProduct.seo_title || '',
+                seoDescription: dbProduct.seo_description || '',
+                seoKeywords: dbProduct.seo_keywords || '',
+                createdAt: dbProduct.created_at,
+                updatedAt: dbProduct.updated_at
+              };
+            });
             setProducts(convertedProducts);
             // Also save to localStorage as backup
             saveProductsToStorage(convertedProducts);

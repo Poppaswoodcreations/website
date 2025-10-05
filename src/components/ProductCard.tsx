@@ -14,12 +14,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCar
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       const firstImage = product.images[0];
       if (firstImage && firstImage.trim() !== '') {
-        console.log(`🖼️ ProductCard: Using image for ${product.name}:`, firstImage);
         return firstImage;
       }
     }
-    
-    console.log(`❌ ProductCard: No valid image for ${product.name}, using fallback`);
+
     return 'https://i.ibb.co/dw3x0Kmm/image.jpg';
   };
 
@@ -46,13 +44,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCar
           alt={`${product.name} - Handcrafted wooden toy by Poppa's Wooden Creations`}
           className="w-full h-48 object-cover"
           loading="lazy"
-          onLoad={() => console.log(`✅ Image loaded for ${product.name}:`, productImage)}
-          onError={(e) => {
-            console.log(`❌ Image failed for ${product.name}:`, productImage);
-            const target = e.target as HTMLImageElement;
-            // Don't change the src on error - let it show broken image or keep trying
-            target.style.border = '2px solid red';
-          }}
         />
         
         {product.featured && (
