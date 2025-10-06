@@ -89,12 +89,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
           saveProductsToStorage(updatedProducts);
           console.log('✅ Product deleted locally');
         }
+        // Reload page to show changes
+        window.location.reload();
       } catch (error) {
         console.error('❌ Delete failed:', error);
         // Fallback to local delete
         const updatedProducts = products.filter(p => p.id !== productId);
         onProductsUpdate(updatedProducts);
         saveProductsToStorage(updatedProducts);
+        window.location.reload();
       }
     }
   };
@@ -149,7 +152,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       setEditingProduct(null);
 
       // Show success message
-      alert(`✅ Product "${productData.name}" saved successfully!`);
+      alert(`✅ Product "${productData.name}" saved successfully! The page will reload to show your changes.`);
+      
+      // Reload page to show the new product
+      window.location.reload();
 
     } catch (error) {
       console.error('❌ ADMIN: Save failed:', error);
@@ -171,6 +177,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         onProductsUpdate(updatedProducts);
         saveProductsToStorage(updatedProducts);
       }
+      window.location.reload();
     } catch (error) {
       console.error('❌ Stock toggle failed:', error);
       alert('Failed to update stock status');
@@ -197,6 +204,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         saveProductsToStorage(updatedProducts);
       }
       alert(`✅ All products marked as ${inStock ? 'in stock' : 'out of stock'}!`);
+      window.location.reload();
     } catch (error) {
       console.error('❌ Bulk update failed:', error);
       alert('Failed to update stock status');
@@ -223,6 +231,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         onProductsUpdate(updatedProducts);
         saveProductsToStorage(updatedProducts);
       }
+      window.location.reload();
     } catch (error) {
       console.error('❌ Stock quantity update failed:', error);
       alert('Failed to update stock quantity');

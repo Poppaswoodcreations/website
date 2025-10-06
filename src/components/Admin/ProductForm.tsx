@@ -696,3 +696,4 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
 };
 
 export default ProductForm;
+
