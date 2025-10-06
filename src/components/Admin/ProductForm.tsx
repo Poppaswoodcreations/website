@@ -274,8 +274,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
                   step="0.01"
                   min="0"
                   required
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                  value={formData.price || ''}
+                  onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
               </div>
@@ -289,7 +289,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
                   min="0"
                   max="999"
                   required
-                  value={formData.stockQuantity}
+                  value={formData.stockQuantity || ''}
                   onChange={(e) => {
                     const qty = parseInt(e.target.value) || 0;
                     setFormData({ 
@@ -316,8 +316,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
                   step="0.1"
                   min="0.1"
                   required
-                  value={formData.weight || 0.5}
-                  onChange={(e) => setFormData({ ...formData, weight: parseFloat(e.target.value) })}
+                  value={formData.weight || ''}
+                  onChange={(e) => setFormData({ ...formData, weight: parseFloat(e.target.value) || 0.5 })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
                 <p className="text-xs text-gray-500 mt-1">
