@@ -4,7 +4,7 @@
 
 # Environment variables for production
 [build.environment]
-  NODE_ENV = "production"
+  NODE_ENV = "development"
   VITE_NODE_ENV = "production"
 
 # Netlify redirects for React SPA - CRITICAL for proper routing
