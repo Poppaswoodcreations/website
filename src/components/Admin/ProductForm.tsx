@@ -372,11 +372,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
               <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <h4 className="font-medium text-blue-900 mb-3">Upload Product Images</h4>
                 <ImageUpload
-                  onImagesUploaded={(imageUrls) => {
+                  onImagesUploaded={(imageData) => {
                     const currentImages = formData.images.filter(img => img.trim() !== '');
+                    const newImageUrls = imageData.map(img => img.url);
                     setFormData({
                       ...formData,
-                      images: [...currentImages, ...imageUrls]
+                      images: [...currentImages, ...newImageUrls]
                     });
                   }}
                   maxImages={5}
@@ -547,7 +548,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.src = '/FB_IMG_1640827671355.jpg';
-                            }}
+                        }}
                             onLoad={() => console.log('✅ Preview loaded for image', index + 1)}
                           />
                         </div>
@@ -696,4 +697,3 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
 };
 
 export default ProductForm;
-
