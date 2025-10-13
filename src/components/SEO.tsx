@@ -14,16 +14,18 @@ const SEO: React.FC<SEOProps> = ({
   keywords = "wooden toys, handcrafted toys, New Zealand made, sustainable toys, children toys, wooden kitchenware, safe toys, eco-friendly toys",
   currentPage
 }) => {
-  // Use window.location instead of useLocation hook
   const getCanonicalUrl = () => {
-    // Get the pathname and remove trailing slash
-    let pathname = window.location.pathname;
-    if (pathname !== '/' && pathname.endsWith('/')) {
-      pathname = pathname.slice(0, -1);
-    }
-    
-    // Return the canonical URL
-    return `https://poppaswoodencreations.co.nz${pathname}`;
+  // Use currentPage prop if provided, otherwise use window.location
+  let pathname = currentPage || window.location.pathname;
+  
+  // Remove trailing slash except for homepage
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    pathname = pathname.slice(0, -1);
+  }
+  
+  // Return the canonical URL
+  return `https://poppaswoodencreations.co.nz${pathname}`;
+};
   };
   
   const canonicalUrl = getCanonicalUrl();
