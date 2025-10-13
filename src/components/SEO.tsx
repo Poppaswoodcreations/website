@@ -1,13 +1,11 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-
 interface SEOProps {
   title?: string;
   description?: string;
   keywords?: string;
   currentPage?: string;
 }
-
 const SEO: React.FC<SEOProps> = ({ 
   title = "Poppa's Wooden Creations - Handcrafted Wooden Toys NZ",
   description = "Discover premium handcrafted wooden toys and kitchenware made with love in New Zealand. Safe, sustainable, and built to last. Free shipping over $150 NZD.",
@@ -15,17 +13,16 @@ const SEO: React.FC<SEOProps> = ({
   currentPage
 }) => {
   const getCanonicalUrl = () => {
-  // Use currentPage prop if provided, otherwise use window.location
-  let pathname = currentPage || window.location.pathname;
-  
-  // Remove trailing slash except for homepage
-  if (pathname !== '/' && pathname.endsWith('/')) {
-    pathname = pathname.slice(0, -1);
-  }
-  
-  // Return the canonical URL
-  return `https://poppaswoodencreations.co.nz${pathname}`;
-};
+    // Use currentPage prop if provided, otherwise use window.location
+    let pathname = currentPage || window.location.pathname;
+    
+    // Remove trailing slash except for homepage
+    if (pathname !== '/' && pathname.endsWith('/')) {
+      pathname = pathname.slice(0, -1);
+    }
+    
+    // Return the canonical URL
+    return `https://poppaswoodencreations.co.nz${pathname}`;
   };
   
   const canonicalUrl = getCanonicalUrl();
@@ -101,5 +98,4 @@ const SEO: React.FC<SEOProps> = ({
     </Helmet>
   );
 };
-
 export default SEO;
