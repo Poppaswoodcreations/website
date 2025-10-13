@@ -24,10 +24,28 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState('home');
   const [showCart, setShowCart] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
   
   const { products, loading, error, loadProducts } = useProducts();
   const { cart, addToCart, updateQuantity, removeFromCart, getCartItemCount } = useCart();
 
+  // Update currentPath when URL changes
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    
+    // Listen for popstate (back/forward buttons)
+    window.addEventListener('popstate', handleLocationChange);
+    
+    // Also check on interval as a fallback for client-side routing
+    const interval = setInterval(handleLocationChange, 100);
+    
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleCategorySelect = (category: string) => {
     setCurrentView(category);
@@ -116,7 +134,7 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <SEO currentPage={window.location.pathname} />
+      <SEO currentPage={currentPath} key={currentPath} />
       <div className="min-h-screen bg-gray-50">
         <Header 
           onCategorySelect={handleCategorySelect}
