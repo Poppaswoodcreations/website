@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+
 interface SEOProps {
   title?: string;
   description?: string;
   keywords?: string;
   currentPage?: string;
 }
+
 const SEO: React.FC<SEOProps> = ({ 
   title = "Poppa's Wooden Creations - Handcrafted Wooden Toys NZ",
   description = "Discover premium handcrafted wooden toys and kitchenware made with love in New Zealand. Safe, sustainable, and built to last. Free shipping over $150 NZD.",
@@ -26,6 +28,21 @@ const SEO: React.FC<SEOProps> = ({
   };
   
   const canonicalUrl = getCanonicalUrl();
+
+  // Force update when currentPage changes
+  useEffect(() => {
+    // Remove existing canonical tags
+    const existingCanonicals = document.querySelectorAll('link[rel="canonical"]');
+    existingCanonicals.forEach(tag => tag.remove());
+    
+    // Add new canonical tag
+    const link = document.createElement('link');
+    link.rel = 'canonical';
+    link.href = canonicalUrl;
+    document.head.appendChild(link);
+
+    console.log('📍 SEO: Updated canonical to:', canonicalUrl);
+  }, [canonicalUrl]);
   
   return (
     <Helmet>
@@ -98,4 +115,5 @@ const SEO: React.FC<SEOProps> = ({
     </Helmet>
   );
 };
+
 export default SEO;
