@@ -17,7 +17,7 @@ import SEO from './components/SEO';
 import ErrorBoundary from './components/ErrorBoundary';
 import { useProducts } from './hooks/useProducts';
 import { useCart } from './hooks/useCart';
-<SEO currentPage={window.location.pathname} />
+import { categories } from './data/products';
 import { Product } from './types';
 
 const App: React.FC = () => {
@@ -116,7 +116,7 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <SEO currentPage={currentView} />
+      <SEO currentPage={window.location.pathname} />
       <div className="min-h-screen bg-gray-50">
         <Header 
           onCategorySelect={handleCategorySelect}
