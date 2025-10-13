@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -21,36 +22,22 @@ import { categories } from './data/products';
 import { Product } from './types';
 
 const App: React.FC = () => {
+  const location = useLocation();
   const [currentView, setCurrentView] = useState(() => {
-    const path = window.location.pathname.slice(1) || 'home';
+    const path = location.pathname.slice(1) || 'home';
     return path.split('/')[0] || 'home';
   });
   const [showCart, setShowCart] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
   
   const { products, loading, error, loadProducts } = useProducts();
   const { cart, addToCart, updateQuantity, removeFromCart, getCartItemCount } = useCart();
 
-  // Update currentPath when URL changes
+  // Update currentView when location changes
   useEffect(() => {
-    const handleLocationChange = () => {
-      setCurrentPath(window.location.pathname);
-      const path = window.location.pathname.slice(1) || 'home';
-      setCurrentView(path.split('/')[0] || 'home');
-    };
-    
-    // Listen for popstate (back/forward buttons)
-    window.addEventListener('popstate', handleLocationChange);
-    
-    // Also check on interval as a fallback for client-side routing
-    const interval = setInterval(handleLocationChange, 100);
-    
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-      clearInterval(interval);
-    };
-  }, []);
+    const path = location.pathname.slice(1) || 'home';
+    setCurrentView(path.split('/')[0] || 'home');
+  }, [location.pathname]);
 
   const handleCategorySelect = (category: string) => {
     setCurrentView(category);
@@ -139,7 +126,7 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <SEO currentPage={currentPath} key={currentPath} />
+      <SEO currentPage={location.pathname} key={location.pathname} />
       <div className="min-h-screen bg-gray-50">
         <Header 
           onCategorySelect={handleCategorySelect}
