@@ -1,6 +1,5 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
 
 interface SEOProps {
   title?: string;
@@ -15,12 +14,10 @@ const SEO: React.FC<SEOProps> = ({
   keywords = "wooden toys, handcrafted toys, New Zealand made, sustainable toys, children toys, wooden kitchenware, safe toys, eco-friendly toys",
   currentPage
 }) => {
-  const location = useLocation();
-  
-  // Use the actual URL path from the browser
+  // Use window.location instead of useLocation hook
   const getCanonicalUrl = () => {
     // Get the pathname and remove trailing slash
-    let pathname = location.pathname;
+    let pathname = window.location.pathname;
     if (pathname !== '/' && pathname.endsWith('/')) {
       pathname = pathname.slice(0, -1);
     }
