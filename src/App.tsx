@@ -17,7 +17,7 @@ import SEO from './components/SEO';
 import ErrorBoundary from './components/ErrorBoundary';
 import { useProducts } from './hooks/useProducts';
 import { useCart } from './hooks/useCart';
-import { categories } from './data/products';
+<SEO currentPage={window.location.pathname} />
 import { Product } from './types';
 
 const App: React.FC = () => {
