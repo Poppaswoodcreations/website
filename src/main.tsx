@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import App from './App';
+import AppWrapper from './AppWrapper';
 import './index.css';
 
-// Production-only entry point - no development tools
 const rootElement = document.getElementById('root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <HelmetProvider>
-        <App />
+        <BrowserRouter>
+          <AppWrapper />
+        </BrowserRouter>
       </HelmetProvider>
     </React.StrictMode>
   );
