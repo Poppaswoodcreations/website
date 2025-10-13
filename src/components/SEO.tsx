@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 interface SEOProps {
   title?: string;
@@ -12,24 +13,20 @@ const SEO: React.FC<SEOProps> = ({
   title = "Poppa's Wooden Creations - Handcrafted Wooden Toys NZ",
   description = "Discover premium handcrafted wooden toys and kitchenware made with love in New Zealand. Safe, sustainable, and built to last. Free shipping over $150 NZD.",
   keywords = "wooden toys, handcrafted toys, New Zealand made, sustainable toys, children toys, wooden kitchenware, safe toys, eco-friendly toys",
-  currentPage = "home"
+  currentPage
 }) => {
-  // Use clean URLs without trailing slashes for better Google indexing
+  const location = useLocation();
+  
+  // Use the actual URL path from the browser
   const getCanonicalUrl = () => {
-    if (currentPage === 'home' || currentPage === '') {
-      return 'https://poppaswoodencreations.co.nz';
+    // Get the pathname and remove trailing slash
+    let pathname = location.pathname;
+    if (pathname !== '/' && pathname.endsWith('/')) {
+      pathname = pathname.slice(0, -1);
     }
     
-    // Clean path without trailing slash
-    const cleanPath = currentPage.replace(/\/$/, '');
-    
-    // Handle product pages specifically
-    if (cleanPath.startsWith('products/')) {
-      return `https://poppaswoodencreations.co.nz/${cleanPath}`;
-    }
-    
-    // For category and other pages, ensure no trailing slash
-    return `https://poppaswoodencreations.co.nz/${cleanPath}`;
+    // Return the canonical URL
+    return `https://poppaswoodencreations.co.nz${pathname}`;
   };
   
   const canonicalUrl = getCanonicalUrl();
