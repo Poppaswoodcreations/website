@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Plus, Trash2, Edit, Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface FooterLink {
   id: string;
@@ -73,30 +74,63 @@ const FooterEditor: React.FC<FooterEditorProps> = ({ onSave }) => {
     url: '',
     category: 'quick-links'
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  // Load saved footer data
+  // Load saved footer data from Supabase
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('poppas-footer-settings');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        setFooterData(parsed);
-        console.log('📄 Loaded saved footer data');
+    const loadFooterData = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('site_settings')
+          .select('setting_value')
+          .eq('setting_key', 'footer')
+          .single();
+
+        if (error) {
+          console.error('Error loading footer data:', error);
+          // If no data exists yet, the default state will be used
+          return;
+        }
+        
+        if (data?.setting_value && Object.keys(data.setting_value).length > 0) {
+          setFooterData(data.setting_value as FooterData);
+          console.log('📄 Loaded footer data from Supabase');
+        }
+      } catch (error) {
+        console.error('Error loading footer data:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading footer data:', error);
-    }
+    };
+    
+    loadFooterData();
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     try {
-      localStorage.setItem('poppas-footer-settings', JSON.stringify(footerData));
-      console.log('💾 Footer settings saved:', footerData);
+      setSaving(true);
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert({ 
+          setting_key: 'footer', 
+          setting_value: footerData,
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'setting_key'
+        });
+
+      if (error) throw error;
+
+      console.log('💾 Footer settings saved to Supabase:', footerData);
       onSave(footerData);
-      alert('Footer settings saved successfully!');
+      alert('Footer settings saved successfully! Changes are now live.');
     } catch (error) {
       console.error('❌ Failed to save footer settings:', error);
       alert('Failed to save footer settings. Please try again.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -168,6 +202,17 @@ const FooterEditor: React.FC<FooterEditorProps> = ({ onSave }) => {
     return footerData.links.filter(link => link.category === category);
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading footer settings...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -175,10 +220,11 @@ const FooterEditor: React.FC<FooterEditorProps> = ({ onSave }) => {
         <h3 className="text-2xl font-bold text-gray-900">Footer Editor</h3>
         <button
           onClick={handleSave}
-          className="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition-colors flex items-center space-x-2"
+          disabled={saving}
+          className="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Save size={16} />
-          <span>Save Footer</span>
+          <span>{saving ? 'Saving...' : 'Save Footer'}</span>
         </button>
       </div>
 
