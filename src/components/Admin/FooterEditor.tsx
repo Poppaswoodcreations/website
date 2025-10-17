@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Plus, Trash2, Edit, Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { supabase, supabaseAdmin } from '../../lib/supabase';
 
 interface FooterLink {
   id: string;
@@ -82,6 +82,14 @@ const FooterEditor: React.FC<FooterEditorProps> = ({ onSave }) => {
     const loadFooterData = async () => {
       try {
         setLoading(true);
+        
+        // Check if Supabase is configured
+        if (!supabase) {
+          console.log('📦 Supabase not configured, using default footer data');
+          setLoading(false);
+          return;
+        }
+        
         const { data, error } = await supabase
           .from('site_settings')
           .select('setting_value')
@@ -111,7 +119,15 @@ const FooterEditor: React.FC<FooterEditorProps> = ({ onSave }) => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      const { error } = await supabase
+      
+      // Check if Supabase admin is configured
+      if (!supabaseAdmin) {
+        console.error('❌ Supabase not configured. Please add your Supabase credentials.');
+        alert('Supabase is not configured. Please add your Supabase URL and keys in the environment variables.');
+        return;
+      }
+      
+      const { error } = await supabaseAdmin
         .from('site_settings')
         .upsert({ 
           setting_key: 'footer', 
