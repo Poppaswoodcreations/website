@@ -7,6 +7,42 @@
   NODE_ENV = "development"
   VITE_NODE_ENV = "production"
 
+# Force HTTPS and remove www (THESE MUST BE FIRST)
+[[redirects]]
+  from = "http://poppaswoodencreations.co.nz/*"
+  to = "https://poppaswoodencreations.co.nz/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.poppaswoodencreations.co.nz/*"
+  to = "https://poppaswoodencreations.co.nz/:splat"
+  status = 301
+  force = true
+
+# Remove trailing slashes
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+  force = false
+
+# Fix duplicate URLs
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
 # Netlify redirects for React SPA - CRITICAL for proper routing
 [[redirects]]
   from = "/about"
