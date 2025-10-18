@@ -7,83 +7,13 @@
   NODE_ENV = "development"
   VITE_NODE_ENV = "production"
 
-# Force HTTPS and remove www - SIMPLIFIED
-[[redirects]]
-  from = "http://poppaswoodencreations.co.nz/*"
-  to = "https://poppaswoodencreations.co.nz/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://www.poppaswoodencreations.co.nz/*"
-  to = "https://poppaswoodencreations.co.nz/:splat"
-  status = 301
-  force = true
-
-# Fix duplicate URLs - 301 redirects
-[[redirects]]
-  from = "/home"
-  to = "/"
-  status = 301
-
-[[redirects]]
-  from = "/index"
-  to = "/"
-  status = 301
-
-[[redirects]]
-  from = "/index.html"
-  to = "/"
-  status = 301
-
-# Netlify redirects for React SPA - CRITICAL for proper routing
-[[redirects]]
-  from = "/about"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/contact"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/reviews"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/shipping"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/privacy"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/terms"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/products/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/wooden-*"
-  to = "/index.html"
-  status = 200
-
-# SPA fallback for all other routes - MUST be last
+# ONLY ONE REDIRECT - SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Security headers with proper CSP for production
+# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
