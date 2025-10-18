@@ -7,7 +7,7 @@
   NODE_ENV = "development"
   VITE_NODE_ENV = "production"
 
-# Force HTTPS and remove www (THESE MUST BE FIRST)
+# Force HTTPS and remove www - SIMPLIFIED
 [[redirects]]
   from = "http://poppaswoodencreations.co.nz/*"
   to = "https://poppaswoodencreations.co.nz/:splat"
@@ -20,14 +20,7 @@
   status = 301
   force = true
 
-# Remove trailing slashes
-[[redirects]]
-  from = "/*/"
-  to = "/:splat"
-  status = 301
-  force = false
-
-# Fix duplicate URLs
+# Fix duplicate URLs - 301 redirects
 [[redirects]]
   from = "/home"
   to = "/"
