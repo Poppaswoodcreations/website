@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  publicDir: 'public',  // ← ADD THIS LINE - tells Vite to copy public folder files
   server: {
     host: true,
     port: 5173,
