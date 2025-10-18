@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <lastmod>2025-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/products</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2025-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2025-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2025-10-18</lastmod>
+  </url>
+</urlset>
