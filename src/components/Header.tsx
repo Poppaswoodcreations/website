@@ -107,6 +107,14 @@ const Header: React.FC<HeaderProps> = ({ onCategorySelect, onShowAdmin, onShowCa
               </button>
             ))}
             
+            {/* ⭐ NEW: BLOG LINK ⭐ */}
+            <button
+              onClick={() => handlePageClick('blog')}
+              className="text-gray-700 hover:text-amber-600 transition-colors font-medium text-sm xl:text-base"
+            >
+              Blog
+            </button>
+            
             <button
               onClick={() => handlePageClick('about')}
               className="text-gray-700 hover:text-amber-600 transition-colors font-medium text-sm xl:text-base"
@@ -194,6 +202,14 @@ const Header: React.FC<HeaderProps> = ({ onCategorySelect, onShowAdmin, onShowCa
                   ))}
                 </div>
               </div>
+              
+              {/* ⭐ NEW: MOBILE BLOG LINK ⭐ */}
+              <button 
+                onClick={() => handlePageClick('blog')} 
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors font-medium"
+              >
+                Blog
+              </button>
               
               <button onClick={() => handlePageClick('about')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors">About Us</button>
               <button onClick={() => handlePageClick('contact')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition-colors">Contact Us</button>
