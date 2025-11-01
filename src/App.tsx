@@ -93,12 +93,8 @@ const App: React.FC = () => {
       );
     }
 
-    // Check URL path for blog routes FIRST (before switch statement)
+    // Check for specific blog post URLs first (these have slashes in the path)
     const path = location.pathname;
-    
-    if (path === '/blog') {
-      return <BlogList />;
-    }
     
     if (path === '/blog/benefits-of-wooden-toys') {
       return <BenefitsOfWoodenToys />;
@@ -108,7 +104,7 @@ const App: React.FC = () => {
       return <BestWoodenToysByAge />;
     }
 
-    // Regular page routes
+    // Use currentView state for other pages
     switch (currentView) {
       case 'home':
         return (
@@ -122,6 +118,8 @@ const App: React.FC = () => {
             />
           </>
         );
+      case 'blog':
+        return <BlogList />;
       case 'about':
         return <AboutSection />;
       case 'contact':
@@ -134,8 +132,6 @@ const App: React.FC = () => {
         return <TermsOfService />;
       case 'reviews':
         return <ReviewsSection />;
-      case 'blog':
-        return <BlogList />;
       default:
         return (
           <ProductGrid 
