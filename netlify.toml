@@ -1,27 +1,75 @@
+[build]
+  publish = "dist"
+  command = "rm -rf node_modules package-lock.json && npm install && npm run build"
+
+[build.environment]
+  NODE_ENV = "development"
+  VITE_NODE_ENV = "production"
+
+# Force HTTPS
 [[redirects]]
-  from = "/wooden-cars"
-  to = "/toys"
+  from = "http://poppaswoodencreations.co.nz/*"
+  to = "https://poppaswoodencreations.co.nz/:splat"
+  status = 301
+  force = true
+
+# Remove www
+[[redirects]]
+  from = "https://www.poppaswoodencreations.co.nz/*"
+  to = "https://poppaswoodencreations.co.nz/:splat"
+  status = 301
+  force = true
+
+# Remove trailing slashes from category pages
+[[redirects]]
+  from = "/wooden-baby-toys/"
+  to = "/wooden-baby-toys"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/wooden-trucks"
-  to = "/toys"
+  from = "/wooden-trains/"
+  to = "/wooden-trains"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-trucks/"
+  to = "/wooden-trucks"
   status = 301
   force = true
 
 [[redirects]]
   from = "/wooden-cars/"
-  to = "/toys"
+  to = "/wooden-cars"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/shopcars/*"
-  to = "/products"
+  from = "/wooden-planes-helicopters/"
+  to = "/wooden-planes-helicopters"
   status = 301
   force = true
 
+[[redirects]]
+  from = "/wooden-kitchenware/"
+  to = "/wooden-kitchenware"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-tractors-boats/"
+  to = "/wooden-tractors-boats"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-other-toys/"
+  to = "/wooden-other-toys"
+  status = 301
+  force = true
+
+# Remove trailing slashes from regular pages
 [[redirects]]
   from = "/about/"
   to = "/about"
@@ -40,15 +88,82 @@
   status = 301
   force = true
 
-# Catch-all redirect for non-existent product IDs
+[[redirects]]
+  from = "/shipping/"
+  to = "/shipping"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/"
+  to = "/blog"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/products/"
+  to = "/products"
+  status = 301
+  force = true
+
+# Fix old/broken URLs
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/shopcars/*"
+  to = "/products"
+  status = 301
+  force = true
+
+# Catch-all for invalid product IDs
 [[redirects]]
   from = "/products/SQ*"
   to = "/products"
   status = 301
-  force = false
+  force = true
 
-# SPA fallback - must be last
+# SPA fallback - MUST BE LAST
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https: *.ibb.co *.pexels.com *.unsplash.com; script-src 'self' 'unsafe-inline' https: *.supabase.co; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; connect-src 'self' https: wss: *.supabase.co *.formspree.io; worker-src 'self' blob:; object-src 'none'; base-uri 'self';"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
