@@ -15,6 +15,7 @@ const AppWrapper: React.FC = () => {
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/home" element={<Navigate to="/" replace />} />
+      
       <Route 
         path="/products/:productId" 
         element={
@@ -24,7 +25,10 @@ const AppWrapper: React.FC = () => {
           />
         } 
       />
+      
       <Route path="/paypal-success" element={<PayPalSuccess />} />
+      
+      {/* Product Categories */}
       <Route path="/wooden-trains" element={<App />} />
       <Route path="/wooden-baby-toys" element={<App />} />
       <Route path="/wooden-trucks" element={<App />} />
@@ -33,6 +37,12 @@ const AppWrapper: React.FC = () => {
       <Route path="/wooden-kitchenware" element={<App />} />
       <Route path="/wooden-tractors-boats" element={<App />} />
       <Route path="/wooden-other-toys" element={<App />} />
+      
+      {/* ⭐ NEW: Blog Routes */}
+      <Route path="/blog" element={<App />} />
+      <Route path="/blog/:slug" element={<App />} />
+      
+      {/* Other Pages */}
       <Route path="/about" element={<App />} />
       <Route path="/contact" element={<App />} />
       <Route path="/reviews" element={<App />} />
@@ -40,6 +50,8 @@ const AppWrapper: React.FC = () => {
       <Route path="/privacy" element={<App />} />
       <Route path="/terms" element={<App />} />
       <Route path="/search" element={<App />} />
+      
+      {/* 404 Catch-all - Must be last */}
       <Route path="*" element={<NotFound onGoHome={() => window.location.href = '/'} />} />
     </Routes>
   );
