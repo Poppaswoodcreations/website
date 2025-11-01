@@ -29,8 +29,8 @@ export function BenefitsOfWoodenToys() {
           </div>
           
           <img 
-            src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1200&q=80" 
-            alt="Child playing with handcrafted wooden toys"
+            src="https://i.ibb.co/zVP9hTH1/teething-ring.jpg" 
+            alt="Handcrafted wooden teething rings by Poppa's Wooden Creations"
             className="w-full h-96 object-cover rounded-lg shadow-lg mb-8"
           />
         </header>
@@ -95,6 +95,18 @@ export function BenefitsOfWoodenToys() {
             precisely (hand-eye coordination). An electronic puzzle that lights up when pieces are near 
             the right spot? It's doing half the work for them.
           </p>
+
+          {/* ⭐ YOUR BABY RATTLE IMAGE */}
+          <div className="my-8">
+            <img 
+              src="https://i.ibb.co/Pdb63cf/baby-rattle.jpg" 
+              alt="Handcrafted wooden baby rattles made in New Zealand by Poppa's Wooden Creations"
+              className="w-full rounded-lg shadow-md"
+            />
+            <p className="text-sm text-gray-500 mt-2 text-center italic">
+              Our handcrafted wooden rattles - perfect for developing fine motor skills and sensory exploration
+            </p>
+          </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">
             2. They Encourage Creative and Imaginative Play
