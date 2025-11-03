@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Star, Truck, Shield, Award } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
@@ -15,29 +15,27 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products, onAddToCart }) 
   
   const product = products.find(p => p.id === productId);
   
-  if (!product) {
+  // ⭐ REDIRECT TO HOME IF PRODUCT DOESN'T EXIST
+  useEffect(() => {
+    if (!product && products.length > 0) {
+      // Products are loaded but this product doesn't exist
+      navigate('/', { replace: true });
+    }
+  }, [product, products, navigate]);
+  
+  // Show loading while products are loading
+  if (products.length === 0) {
     return (
-      <>
-        <Helmet>
-          <title>Product Not Found | Poppa's Wooden Creations</title>
-          <meta name="description" content="The product you're looking for is not available. Browse our collection of handcrafted wooden toys." />
-          <link rel="canonical" href={`https://poppaswoodencreations.co.nz/products/${productId}`} />
-          <meta name="robots" content="noindex, follow" />
-        </Helmet>
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-            <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
-            <button
-              onClick={() => navigate('/')}
-              className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors"
-            >
-              Back to Home
-            </button>
-          </div>
-        </div>
-      </>
+      <div className="container mx-auto px-4 py-16 text-center">
+        <div className="inline-block w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-600 mt-4">Loading product...</p>
+      </div>
     );
+  }
+  
+  // If product doesn't exist, show nothing (will redirect)
+  if (!product) {
+    return null;
   }
 
   const canonicalUrl = `https://poppaswoodencreations.co.nz/products/${product.id}`;
