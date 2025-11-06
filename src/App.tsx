@@ -25,6 +25,7 @@ import { Product } from './types';
 import { BlogList } from './pages/blog/BlogList';
 import { BenefitsOfWoodenToys } from './pages/blog/BenefitsOfWoodenToys';
 import { BestWoodenToysByAge } from './pages/blog/BestWoodenToysByAge';
+import { SensoryToysForBabies } from './pages/blog/SensoryToysForBabies';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -102,6 +103,10 @@ const App: React.FC = () => {
     
     if (path === '/blog/best-wooden-toys-by-age') {
       return <BestWoodenToysByAge />;
+    }
+
+    if (path === '/blog/sensory-toys-for-babies') {
+      return <SensoryToysForBabies />;
     }
 
     // Use currentView state for other pages
