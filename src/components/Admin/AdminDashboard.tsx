@@ -66,6 +66,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     }
   }, []);
 
+  // CSV Export Function
+  const handleExportCSV = () => {
+    const headers = ['Name', 'Category', 'Price', 'Stock', 'SKU', 'Description', 'Image URL', 'Featured', 'Weight'];
+    
+    const rows = products.map(product => [
+      `"${product.name}"`,
+      `"${product.category}"`,
+      product.price,
+      product.stockQuantity || 0,
+      `"${product.sku || ''}"`,
+      `"${(product.description || '').replace(/"/g, '""')}"`,
+      `"${product.images?.[0] || ''}"`,
+      product.featured ? 'Yes' : 'No',
+      product.weight || ''
+    ]);
+    
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `poppas_inventory_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    URL.revokeObjectURL(url);
+    alert('✅ Inventory exported to CSV! You can now import this into your stock-manager.html file.');
+  };
+
   const handleAddProduct = () => {
     setEditingProduct(null);
     setShowProductForm(true);
@@ -471,14 +508,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       case 'inventory':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center flex-wrap gap-2">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">📊 Inventory Manager</h3>
                 <p className="text-sm text-gray-600">
                   📦 {products.filter(p => p.inStock).length} in stock, {products.filter(p => !p.inStock).length} out of stock
                 </p>
               </div>
-              <div className="space-x-2">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={handleExportCSV}
+                  className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 flex items-center space-x-1"
+                >
+                  <Download size={14} />
+                  <span>Export CSV</span>
+                </button>
                 <button
                   onClick={() => handleBulkStockUpdate(true)}
                   className="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700"
@@ -492,6 +536,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   All Out of Stock
                 </button>
               </div>
+            </div>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 className="font-medium text-blue-900 mb-2">💡 CSV Export Instructions</h4>
+              <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+                <li>Click "Export CSV" to download your inventory</li>
+                <li>Open your stock-manager.html file (C:/Users/adria/OneDrive/Desktop/stock-manager.html)</li>
+                <li>Import the downloaded CSV file</li>
+                <li>Your stock data is now backed up and can be restored anytime!</li>
+              </ol>
             </div>
             
             <div className="bg-white rounded-lg shadow overflow-hidden">
