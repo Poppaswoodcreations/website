@@ -201,6 +201,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, showAddRevie
             </p>
           </div>
 
+          {/* Google Reviews Widget - Added Here */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Our Google Reviews</h2>
+              <div className="elfsight-app-f83c5b81-ad06-4d9a-bbaa-340c8b9c0fc5" data-elfsight-app-lazy></div>
+            </div>
+          </div>
+
           <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Verified Customer Reviews</h2>
