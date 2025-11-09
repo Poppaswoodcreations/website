@@ -13,6 +13,15 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
+    slug: 'personalised-handmade-keepsakes',
+    title: 'Custom Wooden Toys NZ: Personalised Handmade Keepsakes',
+    excerpt: 'Discover custom wooden toys in NZ – safe, eco-friendly, handmade keepsakes perfect for children and unique baby gifts.',
+    date: '2025-11-10',
+    readTime: '10 min read',
+    category: 'Gift Guide',
+    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80'
+  },
+  {
     slug: 'sensory-toys-for-babies',
     title: 'Sensory Toys for Babies: Why Tactile Wooden Toys Are Perfect',
     excerpt: 'Discover how sensory toys for babies, especially tactile wooden toys handmade in NZ, support early development while being safe, durable, and eco-friendly.',
