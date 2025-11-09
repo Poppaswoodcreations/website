@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
-import CategoryGrid from './components/CategoryGrid';
-import ProductGrid from './components/ProductGrid';
-import AboutSection from './components/AboutSection';
-import ContactForm from './components/ContactForm';
-import ShippingInfo from './components/ShippingInfo';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsOfService from './components/TermsOfService';
-import ReviewsSection from './components/Reviews/ReviewsSection';
-import Cart from './components/Cart/Cart';
-import AdminDashboard from './components/Admin/AdminDashboard';
 import SEO from './components/SEO';
 import ErrorBoundary from './components/ErrorBoundary';
 import { useProducts } from './hooks/useProducts';
@@ -21,11 +10,33 @@ import { useCart } from './hooks/useCart';
 import { categories } from './data/products';
 import { Product } from './types';
 
-// Import Blog Components
-import { BlogList } from './pages/blog/BlogList';
-import { BenefitsOfWoodenToys } from './pages/blog/BenefitsOfWoodenToys';
-import { BestWoodenToysByAge } from './pages/blog/BestWoodenToysByAge';
-import { SensoryToysForBabies } from './pages/blog/SensoryToysForBabies';
+// Lazy load heavy components
+const CategoryGrid = lazy(() => import('./components/CategoryGrid'));
+const ProductGrid = lazy(() => import('./components/ProductGrid'));
+const AboutSection = lazy(() => import('./components/AboutSection'));
+const ContactForm = lazy(() => import('./components/ContactForm'));
+const ShippingInfo = lazy(() => import('./components/ShippingInfo'));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./components/TermsOfService'));
+const ReviewsSection = lazy(() => import('./components/Reviews/ReviewsSection'));
+const Cart = lazy(() => import('./components/Cart/Cart'));
+const AdminDashboard = lazy(() => import('./components/Admin/AdminDashboard'));
+
+// Lazy load Blog Components
+const BlogList = lazy(() => import('./pages/blog/BlogList').then(m => ({ default: m.BlogList })));
+const BenefitsOfWoodenToys = lazy(() => import('./pages/blog/BenefitsOfWoodenToys').then(m => ({ default: m.BenefitsOfWoodenToys })));
+const BestWoodenToysByAge = lazy(() => import('./pages/blog/BestWoodenToysByAge').then(m => ({ default: m.BestWoodenToysByAge })));
+const SensoryToysForBabies = lazy(() => import('./pages/blog/SensoryToysForBabies').then(m => ({ default: m.SensoryToysForBabies })));
+
+// Loading component
+const PageLoader = () => (
+  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="text-center">
+      <div className="inline-block w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+      <p className="text-gray-600 mt-4">Loading...</p>
+    </div>
+  </div>
+);
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -98,22 +109,34 @@ const App: React.FC = () => {
     const path = location.pathname;
     
     if (path === '/blog/benefits-of-wooden-toys') {
-      return <BenefitsOfWoodenToys />;
+      return (
+        <Suspense fallback={<PageLoader />}>
+          <BenefitsOfWoodenToys />
+        </Suspense>
+      );
     }
     
     if (path === '/blog/best-wooden-toys-by-age') {
-      return <BestWoodenToysByAge />;
+      return (
+        <Suspense fallback={<PageLoader />}>
+          <BestWoodenToysByAge />
+        </Suspense>
+      );
     }
 
     if (path === '/blog/sensory-toys-for-babies') {
-      return <SensoryToysForBabies />;
+      return (
+        <Suspense fallback={<PageLoader />}>
+          <SensoryToysForBabies />
+        </Suspense>
+      );
     }
 
     // Use currentView state for other pages
     switch (currentView) {
       case 'home':
         return (
-          <>
+          <Suspense fallback={<PageLoader />}>
             <Hero onCategorySelect={handleCategorySelect} products={products} />
             <CategoryGrid categories={categories} onCategorySelect={handleCategorySelect} />
             <ProductGrid 
@@ -121,30 +144,60 @@ const App: React.FC = () => {
               onProductSelect={handleProductSelect}
               onAddToCart={handleAddToCart}
             />
-          </>
+          </Suspense>
         );
       case 'blog':
-        return <BlogList />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <BlogList />
+          </Suspense>
+        );
       case 'about':
-        return <AboutSection />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <AboutSection />
+          </Suspense>
+        );
       case 'contact':
-        return <ContactForm />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <ContactForm />
+          </Suspense>
+        );
       case 'shipping':
-        return <ShippingInfo />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <ShippingInfo />
+          </Suspense>
+        );
       case 'privacy':
-        return <PrivacyPolicy />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <PrivacyPolicy />
+          </Suspense>
+        );
       case 'terms':
-        return <TermsOfService />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <TermsOfService />
+          </Suspense>
+        );
       case 'reviews':
-        return <ReviewsSection />;
+        return (
+          <Suspense fallback={<PageLoader />}>
+            <ReviewsSection />
+          </Suspense>
+        );
       default:
         return (
-          <ProductGrid 
-            products={filteredProducts} 
-            onProductSelect={handleProductSelect}
-            onAddToCart={handleAddToCart}
-            category={currentView}
-          />
+          <Suspense fallback={<PageLoader />}>
+            <ProductGrid 
+              products={filteredProducts} 
+              onProductSelect={handleProductSelect}
+              onAddToCart={handleAddToCart}
+              category={currentView}
+            />
+          </Suspense>
         );
     }
   };
@@ -168,24 +221,28 @@ const App: React.FC = () => {
         
         {/* Cart Modal */}
         {showCart && (
-          <Cart
-            items={cart}
-            onClose={() => setShowCart(false)}
-            onUpdateQuantity={updateQuantity}
-            onRemoveItem={removeFromCart}
-          />
+          <Suspense fallback={null}>
+            <Cart
+              items={cart}
+              onClose={() => setShowCart(false)}
+              onUpdateQuantity={updateQuantity}
+              onRemoveItem={removeFromCart}
+            />
+          </Suspense>
         )}
         
         {/* Admin Dashboard Modal */}
         {showAdmin && (
           <div className="fixed inset-0 bg-black bg-opacity-75 z-50" style={{ zIndex: 9999 }}>
-            <AdminDashboard
-              products={products}
-              onProductsUpdate={async () => {
-                await loadProducts();
-              }}
-              onClose={() => setShowAdmin(false)}
-            />
+            <Suspense fallback={<PageLoader />}>
+              <AdminDashboard
+                products={products}
+                onProductsUpdate={async () => {
+                  await loadProducts();
+                }}
+                onClose={() => setShowAdmin(false)}
+              />
+            </Suspense>
           </div>
         )}
       </div>
