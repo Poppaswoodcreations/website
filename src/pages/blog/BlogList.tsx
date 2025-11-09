@@ -19,7 +19,7 @@ const blogPosts: BlogPost[] = [
     date: '2025-11-10',
     readTime: '10 min read',
     category: 'Gift Guide',
-    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=60&auto=format&fit=crop'
   },
   {
     slug: 'sensory-toys-for-babies',
@@ -28,7 +28,7 @@ const blogPosts: BlogPost[] = [
     date: '2025-11-07',
     readTime: '8 min read',
     category: 'Baby Development',
-    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=60&auto=format&fit=crop'
   },
   {
     slug: 'benefits-of-wooden-toys',
@@ -37,7 +37,7 @@ const blogPosts: BlogPost[] = [
     date: '2025-11-01',
     readTime: '8 min read',
     category: 'Child Development',
-    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=60&auto=format&fit=crop'
   },
   {
     slug: 'best-wooden-toys-by-age',
@@ -46,7 +46,7 @@ const blogPosts: BlogPost[] = [
     date: '2025-11-15',
     readTime: '10 min read',
     category: 'Buying Guide',
-    image: 'https://images.unsplash.com/photo-1587070163926-eb9c93d2b3c4?w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1587070163926-eb9c93d2b3c4?w=400&q=60&auto=format&fit=crop'
   }
 ];
 
@@ -77,6 +77,7 @@ export function BlogList() {
                   alt={post.title}
                   className="w-full h-48 object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               </Link>
               
