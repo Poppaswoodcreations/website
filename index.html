@@ -7,6 +7,10 @@
     <meta name="google-site-verification" content="C3-J4gNSV9r3BE8yiODgVA3ORw0lu-uqrURG2jKZI_M" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://elfsightcdn.com" crossorigin>
+    <link rel="dns-prefetch" href="https://elfsightcdn.com">
+    
     <title>Poppa's Wooden Creations - Premium Handcrafted Wooden Toys Made in New Zealand</title>
     <meta name="description" content="Discover premium handcrafted wooden toys made in New Zealand. Safe, durable, and educational toys for children of all ages. Free shipping on orders over $1000." />
     <meta name="keywords" content="wooden toys, handcrafted toys, New Zealand toys, educational toys, safe toys, children toys, wooden blocks, teething rings" />
@@ -56,6 +60,7 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <!-- Load Elfsight widget async and defer for better performance -->
+    <script src="https://elfsightcdn.com/platform.js" async defer></script>
   </body>
 </html>
