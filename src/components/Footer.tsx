@@ -123,19 +123,19 @@ const Footer: React.FC = () => {
                 <span className="text-white font-bold" aria-label="Poppa's Wooden Creations Logo">P</span>
               </div>
               <div>
-                <h3 className="font-bold text-lg">{companyName}</h3>
-                <p className="text-xs text-gray-400">{tagline}</p>
+                <h2 className="font-bold text-lg">{companyName}</h2>
+                <p className="text-sm text-gray-300">{tagline}</p>
               </div>
             </div>
-            <p className="text-gray-400 text-sm">{description}</p>
+            <p className="text-gray-300 text-sm">{description}</p>
             <div className="flex space-x-4">
               {facebook && (
-                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-amber-400 transition-colors" aria-label="Facebook">
+                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-amber-400 transition-colors" aria-label="Visit our Facebook page">
                   <Facebook size={20} />
                 </a>
               )}
               {instagram && (
-                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-amber-400 transition-colors" aria-label="Instagram">
+                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-amber-400 transition-colors" aria-label="Visit our Instagram page">
                   <Instagram size={20} />
                 </a>
               )}
@@ -144,23 +144,23 @@ const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               {quickLinks.length > 0 ? (
                 quickLinks.map((link) => (
                   <li key={link.id}>
-                    <a href={link.url} className="text-gray-400 hover:text-white transition-colors">
+                    <a href={link.url} className="text-gray-300 hover:text-white transition-colors">
                       {link.title}
                     </a>
                   </li>
                 ))
               ) : (
                 <>
-                  <li><a href="/" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                  <li><a href="/about" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-                  <li><a href="/products" className="text-gray-400 hover:text-white transition-colors">All Products</a></li>
-                  <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
-                  <li><a href="/shipping" className="text-gray-400 hover:text-white transition-colors">Shipping & Returns</a></li>
+                  <li><a href="/" className="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                  <li><a href="/about" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
+                  <li><a href="/products" className="text-gray-300 hover:text-white transition-colors">All Products</a></li>
+                  <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                  <li><a href="/shipping" className="text-gray-300 hover:text-white transition-colors">Shipping & Returns</a></li>
                 </>
               )}
             </ul>
@@ -168,23 +168,23 @@ const Footer: React.FC = () => {
 
           {/* Categories */}
           <div>
-            <h4 className="font-semibold mb-4">Categories</h4>
+            <h3 className="font-semibold mb-4 text-white">Categories</h3>
             <ul className="space-y-2 text-sm">
               {categoryLinks.length > 0 ? (
                 categoryLinks.map((link) => (
                   <li key={link.id}>
-                    <a href={link.url} className="text-gray-400 hover:text-white transition-colors">
+                    <a href={link.url} className="text-gray-300 hover:text-white transition-colors">
                       {link.title}
                     </a>
                   </li>
                 ))
               ) : (
                 <>
-                  <li><a href="/wooden-trains" className="text-gray-400 hover:text-white transition-colors">Wooden Trains</a></li>
-                  <li><a href="/wooden-baby-toys" className="text-gray-400 hover:text-white transition-colors">Baby Toys</a></li>
-                  <li><a href="/wooden-trucks" className="text-gray-400 hover:text-white transition-colors">Trucks</a></li>
-                  <li><a href="/wooden-cars" className="text-gray-400 hover:text-white transition-colors">Cars</a></li>
-                  <li><a href="/wooden-kitchenware" className="text-gray-400 hover:text-white transition-colors">Kitchenware</a></li>
+                  <li><a href="/wooden-trains" className="text-gray-300 hover:text-white transition-colors">Wooden Trains</a></li>
+                  <li><a href="/wooden-baby-toys" className="text-gray-300 hover:text-white transition-colors">Baby Toys</a></li>
+                  <li><a href="/wooden-trucks" className="text-gray-300 hover:text-white transition-colors">Trucks</a></li>
+                  <li><a href="/wooden-cars" className="text-gray-300 hover:text-white transition-colors">Cars</a></li>
+                  <li><a href="/wooden-kitchenware" className="text-gray-300 hover:text-white transition-colors">Kitchenware</a></li>
                 </>
               )}
             </ul>
@@ -192,11 +192,11 @@ const Footer: React.FC = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
+            <h3 className="font-semibold mb-4 text-white">Contact</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start space-x-2">
                 <MapPin size={16} className="text-amber-400 mt-0.5" />
-                <div className="text-gray-400">
+                <div className="text-gray-300">
                   {addressLines.map((line, index) => (
                     <div key={index}>{line}</div>
                   ))}
@@ -204,23 +204,23 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Phone size={16} className="text-amber-400" />
-                <a href={`tel:${phone}`} className="text-gray-400 hover:text-white transition-colors">
+                <a href={`tel:${phone}`} className="text-gray-300 hover:text-white transition-colors">
                   {phone}
                 </a>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail size={16} className="text-amber-400" />
-                <a href={`mailto:${email}`} className="text-gray-400 hover:text-white transition-colors">
+                <a href={`mailto:${email}`} className="text-gray-300 hover:text-white transition-colors">
                   {email}
                 </a>
               </div>
               <div className="flex items-start space-x-2">
                 <div className="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                <div className="text-gray-400 text-sm">
+                <div className="text-gray-300 text-sm">
                   {hoursLines.map((line, index) => (
                     <div key={index}>{line}</div>
                   ))}
-                  <div className="text-xs text-gray-500 mt-1">Established 2015 • NZ Registered Business</div>
+                  <div className="text-sm text-gray-400 mt-1">Established 2015 • NZ Registered Business</div>
                 </div>
               </div>
             </div>
@@ -229,10 +229,10 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <div className="space-y-3">
-            <p className="text-gray-400 text-sm flex items-center justify-center space-x-1">
+            <p className="text-gray-300 text-sm flex items-center justify-center space-x-1">
               <span>{footerData?.copyrightText || defaults.copyrightText}</span>
             </p>
-            <div className="text-gray-500 text-xs space-y-1">
+            <div className="text-gray-400 text-sm space-y-1">
               <p>Secure SSL Encrypted • GDPR Compliant • Privacy Protected</p>
               <p>Registered Business • Established 2015 • New Zealand Made</p>
               <p>Workshop: {addressLines[0]}, {addressLines[1]}</p>
