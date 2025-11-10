@@ -3,39 +3,59 @@ import { supabase, supabaseAdmin } from '../lib/supabase';
 import { Product } from '../types';
 import { products as staticProducts } from '../data/products';
 
-// Simple cache - only store product IDs and timestamps, not full data
-const CACHE_KEY = 'poppas-products-cache';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+// AGGRESSIVE CACHE - Store full product data for 4 hours
+const CACHE_KEY = 'poppas-products-full-cache';
+const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 HOURS (was 5 minutes)
 
 interface ProductCache {
   timestamp: number;
-  count: number;
+  products: Product[];
 }
 
-const getCache = (): ProductCache | null => {
+const getCache = (): Product[] | null => {
   try {
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
-      const data = JSON.parse(cached);
-      if (Date.now() - data.timestamp < CACHE_DURATION) {
-        return data;
+      const data: ProductCache = JSON.parse(cached);
+      const age = Date.now() - data.timestamp;
+      
+      // Check if cache is still valid
+      if (age < CACHE_DURATION) {
+        const minutesOld = Math.floor(age / 60000);
+        console.log(`✅ Using cached products (${minutesOld} minutes old)`);
+        return data.products;
       }
+      
+      console.log('⏰ Cache expired, will fetch fresh data');
+      localStorage.removeItem(CACHE_KEY);
     }
   } catch (e) {
     console.warn('Cache read failed:', e);
+    localStorage.removeItem(CACHE_KEY);
   }
   return null;
 };
 
-const setCache = (count: number) => {
+const setCache = (products: Product[]) => {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
+    const cacheData: ProductCache = {
       timestamp: Date.now(),
-      count
-    }));
+      products
+    };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    console.log(`💾 Cached ${products.length} products for 4 hours`);
   } catch (e) {
-    // Ignore quota errors for cache
-    console.warn('Cache write failed (quota exceeded)');
+    console.warn('Cache write failed (quota exceeded):', e);
+    // If quota exceeded, try to clear old cache and retry
+    try {
+      localStorage.removeItem(CACHE_KEY);
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        timestamp: Date.now(),
+        products
+      }));
+    } catch (retryError) {
+      console.error('Cache retry failed');
+    }
   }
 };
 
@@ -43,9 +63,9 @@ export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const loadingRef = useRef(false); // Prevent duplicate loads
+  const loadingRef = useRef(false);
 
-  // Load products from Supabase or fallback
+  // Load products from cache first, then Supabase if needed
   const loadProducts = async () => {
     // Prevent duplicate simultaneous loads
     if (loadingRef.current) {
@@ -60,9 +80,18 @@ export const useProducts = () => {
     console.log('🔄 useProducts: Loading products...');
 
     try {
-      // Try Supabase first if admin is available
+      // STEP 1: Try cache first (saves bandwidth!)
+      const cachedProducts = getCache();
+      if (cachedProducts && cachedProducts.length > 0) {
+        setProducts(cachedProducts);
+        setLoading(false);
+        loadingRef.current = false;
+        return; // EXIT EARLY - No Supabase call needed!
+      }
+
+      // STEP 2: Cache miss - fetch from Supabase
       if (supabaseAdmin) {
-        console.log('🔐 Loading from Supabase...');
+        console.log('🌐 Cache miss - fetching from Supabase...');
         
         const { data, error } = await supabaseAdmin
           .from('products')
@@ -108,26 +137,45 @@ export const useProducts = () => {
           });
           
           setProducts(convertedProducts);
-          setCache(convertedProducts.length); // Only cache count, not full data
+          setCache(convertedProducts); // Cache FULL product data
           setLoading(false);
           loadingRef.current = false;
           return;
         }
       }
 
-      // Fallback to static products
-      console.log('📦 Using static products...');
+      // STEP 3: Fallback to static products
+      console.log('📦 Using static products fallback...');
       setProducts(staticProducts);
-      setCache(staticProducts.length);
+      setCache(staticProducts);
 
     } catch (error) {
       console.error('❌ Error loading products:', error);
-      setProducts(staticProducts);
+      
+      // Try cache one more time on error
+      const cachedProducts = getCache();
+      if (cachedProducts && cachedProducts.length > 0) {
+        console.log('🔄 Using cached products after error');
+        setProducts(cachedProducts);
+      } else {
+        setProducts(staticProducts);
+      }
+      
       setError('Failed to load products, using cached data');
     } finally {
       setLoading(false);
       loadingRef.current = false;
       console.log('✅ Product loading completed');
+    }
+  };
+
+  // Clear cache when saving/updating products (admin actions)
+  const clearCache = () => {
+    try {
+      localStorage.removeItem(CACHE_KEY);
+      console.log('🗑️ Product cache cleared');
+    } catch (e) {
+      console.warn('Failed to clear cache:', e);
     }
   };
 
@@ -169,6 +217,7 @@ export const useProducts = () => {
       }
 
       console.log('✅ Product saved successfully');
+      clearCache(); // Clear cache so next load gets fresh data
       await loadProducts();
       return data;
     } catch (error) {
@@ -215,6 +264,7 @@ export const useProducts = () => {
       }
 
       console.log('✅ Product updated successfully');
+      clearCache(); // Clear cache so next load gets fresh data
       await loadProducts();
       return data;
     } catch (error) {
@@ -238,6 +288,7 @@ export const useProducts = () => {
       if (error) throw error;
 
       console.log('✅ Product deleted successfully');
+      clearCache(); // Clear cache so next load gets fresh data
       await loadProducts();
     } catch (error) {
       console.error('❌ Delete error:', error);
@@ -275,6 +326,7 @@ export const useProducts = () => {
       if (error) throw error;
 
       console.log(`✅ Bulk imported ${data.length} products`);
+      clearCache(); // Clear cache so next load gets fresh data
       await loadProducts();
       return data;
     } catch (error) {
@@ -292,7 +344,10 @@ export const useProducts = () => {
     loading,
     error,
     loadProducts,
-    forceReload: loadProducts,
+    forceReload: () => {
+      clearCache();
+      return loadProducts();
+    },
     saveProduct,
     updateProduct,
     deleteProduct,
