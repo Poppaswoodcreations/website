@@ -43,10 +43,8 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
 
-# Redirect rules - IMPORTANT: robots.txt should NOT be redirected
+# Redirect all requests to index.html for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
-  conditions = {Role = [""]}
