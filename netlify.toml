@@ -35,7 +35,7 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Enable gzip compression
+# Enable security headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -43,7 +43,20 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
 
-# Redirect all requests to index.html for React Router
+# IMPORTANT: Don't redirect robots.txt or sitemap.xml
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+  force = true
+
+# Redirect all other requests to index.html for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
