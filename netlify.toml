@@ -43,8 +43,10 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
 
-# Redirect rules
+# Redirect rules - IMPORTANT: robots.txt should NOT be redirected
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
+  conditions = {Role = [""]}
