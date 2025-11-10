@@ -141,14 +141,18 @@ const Header: React.FC<HeaderProps> = ({ onCategorySelect, onShowAdmin, onShowCa
             </button>
           </nav>
 
-          {/* Right Side Icons */}
+          {/* Right Side Icons - FIXED: Added aria-label for accessibility */}
           <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-700 hover:text-amber-600 transition-colors">
+            <button 
+              className="p-2 text-gray-700 hover:text-amber-600 transition-colors"
+              aria-label="Search products"
+            >
               <Search size={20} />
             </button>
             <button
               onClick={onShowCart}
               className="relative p-2 text-gray-700 hover:text-amber-600 transition-colors"
+              aria-label={`Shopping cart with ${cartItemCount} items`}
             >
               <ShoppingCart size={20} />
               {cartItemCount > 0 && (
@@ -161,6 +165,7 @@ const Header: React.FC<HeaderProps> = ({ onCategorySelect, onShowAdmin, onShowCa
               onClick={handleAdminClick}
               className="p-2 text-gray-700 hover:text-amber-600 transition-colors relative bg-amber-50 border-2 border-amber-300 rounded-lg"
               title="🔐 ADMIN ACCESS - Full Dashboard Available!"
+              aria-label="Admin login"
             >
               <User size={20} />
               <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold animate-pulse">
@@ -170,6 +175,7 @@ const Header: React.FC<HeaderProps> = ({ onCategorySelect, onShowAdmin, onShowCa
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2 text-gray-700 hover:text-amber-600 transition-colors"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -226,7 +232,7 @@ const Header: React.FC<HeaderProps> = ({ onCategorySelect, onShowAdmin, onShowCa
       {showPasswordPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Admin Access</h3>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Admin Access</h2>
             <form onSubmit={handlePasswordSubmit}>
               <input
                 type="password"
