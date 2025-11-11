@@ -73,7 +73,8 @@ const App: React.FC = () => {
     : products.filter(p => p.category === currentView);
 
   const renderContent = () => {
-    if (loading) {
+    // Show loading state only on initial load
+    if (loading && products.length === 0) {
       return (
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 flex items-center justify-center">
           <div className="text-center">
@@ -87,23 +88,9 @@ const App: React.FC = () => {
       );
     }
 
-    if (error) {
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-amber-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-8xl mb-6">⚠️</div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Loading Error</h1>
-            <p className="text-xl text-gray-600 mb-8">{error}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors"
-            >
-              Reload Page
-            </button>
-          </div>
-        </div>
-      );
-    }
+    // ✅ REMOVED: Full-screen error that causes layout shift
+    // If there's an error but we have products (from cache), just show them!
+    // The error is silently logged but doesn't block the page
 
     // Check for specific blog post URLs first (these have slashes in the path)
     const path = location.pathname;
@@ -212,6 +199,23 @@ const App: React.FC = () => {
           onShowCart={() => setShowCart(true)}
           cartItemCount={getCartItemCount()}
         />
+        
+        {/* Optional: Subtle error indicator if needed (doesn't cause layout shift) */}
+        {error && products.length > 0 && (
+          <div className="bg-yellow-50 border-b border-yellow-200 px-4 py-2">
+            <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
+              <span className="text-yellow-800">
+                ℹ️ Showing cached products. 
+                <button 
+                  onClick={() => loadProducts()} 
+                  className="ml-2 underline font-medium hover:text-yellow-900"
+                >
+                  Refresh
+                </button>
+              </span>
+            </div>
+          </div>
+        )}
         
         <main>
           {renderContent()}
