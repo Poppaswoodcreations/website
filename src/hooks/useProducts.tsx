@@ -5,7 +5,7 @@ import { products as staticProducts } from '../data/products';
 
 // AGGRESSIVE CACHE - Store full product data for 4 hours
 const CACHE_KEY = 'poppas-products-full-cache';
-const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 HOURS (was 5 minutes)
+const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 HOURS
 
 interface ProductCache {
   timestamp: number;
@@ -19,7 +19,6 @@ const getCache = (): Product[] | null => {
       const data: ProductCache = JSON.parse(cached);
       const age = Date.now() - data.timestamp;
       
-      // Check if cache is still valid
       if (age < CACHE_DURATION) {
         const minutesOld = Math.floor(age / 60000);
         console.log(`✅ Using cached products (${minutesOld} minutes old)`);
@@ -46,7 +45,6 @@ const setCache = (products: Product[]) => {
     console.log(`💾 Cached ${products.length} products for 4 hours`);
   } catch (e) {
     console.warn('Cache write failed (quota exceeded):', e);
-    // If quota exceeded, try to clear old cache and retry
     try {
       localStorage.removeItem(CACHE_KEY);
       localStorage.setItem(CACHE_KEY, JSON.stringify({
@@ -60,14 +58,13 @@ const setCache = (products: Product[]) => {
 };
 
 export const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  // ✅ START WITH STATIC PRODUCTS IMMEDIATELY - No loading delay!
+  const [products, setProducts] = useState<Product[]>(staticProducts);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const loadingRef = useRef(false);
 
-  // Load products from cache first, then Supabase if needed
   const loadProducts = async () => {
-    // Prevent duplicate simultaneous loads
     if (loadingRef.current) {
       console.log('⏭️ Load already in progress, skipping...');
       return;
@@ -80,13 +77,13 @@ export const useProducts = () => {
     console.log('🔄 useProducts: Loading products...');
 
     try {
-      // STEP 1: Try cache first (saves bandwidth!)
+      // STEP 1: Try cache first
       const cachedProducts = getCache();
       if (cachedProducts && cachedProducts.length > 0) {
         setProducts(cachedProducts);
         setLoading(false);
         loadingRef.current = false;
-        return; // EXIT EARLY - No Supabase call needed!
+        return;
       }
 
       // STEP 2: Cache miss - fetch from Supabase
@@ -106,7 +103,6 @@ export const useProducts = () => {
         if (data && data.length > 0) {
           console.log(`✅ Loaded ${data.length} products from Supabase`);
           
-          // Convert database format to Product format
           const convertedProducts: Product[] = data.map(dbProduct => {
             let parsedImages = dbProduct.images;
             if (typeof dbProduct.images === 'string') {
@@ -137,31 +133,25 @@ export const useProducts = () => {
           });
           
           setProducts(convertedProducts);
-          setCache(convertedProducts); // Cache FULL product data
+          setCache(convertedProducts);
           setLoading(false);
           loadingRef.current = false;
           return;
         }
       }
 
-      // STEP 3: Fallback to static products
-      console.log('📦 Using static products fallback...');
-      setProducts(staticProducts);
+      // STEP 3: Keep static products
+      console.log('📦 Using static products...');
       setCache(staticProducts);
 
     } catch (error) {
       console.error('❌ Error loading products:', error);
       
-      // Try cache one more time on error
       const cachedProducts = getCache();
       if (cachedProducts && cachedProducts.length > 0) {
         console.log('🔄 Using cached products after error');
         setProducts(cachedProducts);
-      } else {
-        setProducts(staticProducts);
       }
-      
-      setError('Failed to load products, using cached data');
     } finally {
       setLoading(false);
       loadingRef.current = false;
@@ -169,7 +159,6 @@ export const useProducts = () => {
     }
   };
 
-  // Clear cache when saving/updating products (admin actions)
   const clearCache = () => {
     try {
       localStorage.removeItem(CACHE_KEY);
@@ -179,7 +168,6 @@ export const useProducts = () => {
     }
   };
 
-  // Save product to Supabase
   const saveProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       console.log('💾 Saving product:', product.name);
@@ -217,7 +205,7 @@ export const useProducts = () => {
       }
 
       console.log('✅ Product saved successfully');
-      clearCache(); // Clear cache so next load gets fresh data
+      clearCache();
       await loadProducts();
       return data;
     } catch (error) {
@@ -226,7 +214,6 @@ export const useProducts = () => {
     }
   };
 
-  // Update product in Supabase
   const updateProduct = async (productId: string, updates: Partial<Product>) => {
     try {
       if (!supabaseAdmin) {
@@ -264,7 +251,7 @@ export const useProducts = () => {
       }
 
       console.log('✅ Product updated successfully');
-      clearCache(); // Clear cache so next load gets fresh data
+      clearCache();
       await loadProducts();
       return data;
     } catch (error) {
@@ -273,7 +260,6 @@ export const useProducts = () => {
     }
   };
 
-  // Delete product from Supabase
   const deleteProduct = async (productId: string) => {
     try {
       if (!supabaseAdmin) {
@@ -288,7 +274,7 @@ export const useProducts = () => {
       if (error) throw error;
 
       console.log('✅ Product deleted successfully');
-      clearCache(); // Clear cache so next load gets fresh data
+      clearCache();
       await loadProducts();
     } catch (error) {
       console.error('❌ Delete error:', error);
@@ -296,7 +282,6 @@ export const useProducts = () => {
     }
   };
 
-  // Bulk import products
   const bulkImportProducts = async (newProducts: Product[]) => {
     try {
       if (!supabaseAdmin) {
@@ -326,7 +311,7 @@ export const useProducts = () => {
       if (error) throw error;
 
       console.log(`✅ Bulk imported ${data.length} products`);
-      clearCache(); // Clear cache so next load gets fresh data
+      clearCache();
       await loadProducts();
       return data;
     } catch (error) {
@@ -337,7 +322,7 @@ export const useProducts = () => {
 
   useEffect(() => {
     loadProducts();
-  }, []); // Only load once on mount
+  }, []);
 
   return {
     products,
