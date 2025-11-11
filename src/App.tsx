@@ -73,28 +73,12 @@ const App: React.FC = () => {
     : products.filter(p => p.category === currentView);
 
   const renderContent = () => {
-    // Show loading state only on initial load
-    if (loading && products.length === 0) {
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-8xl mb-6">🪵</div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Poppa's Wooden Creations</h1>
-            <p className="text-xl text-gray-600 mb-8">Handcrafted in New Zealand</p>
-            <div className="inline-block w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-600 mt-4">Loading website...</p>
-          </div>
-        </div>
-      );
-    }
-
-    // ✅ REMOVED: Full-screen error that causes layout shift
-    // If there's an error but we have products (from cache), just show them!
-    // The error is silently logged but doesn't block the page
-
-    // Check for specific blog post URLs first (these have slashes in the path)
+    // ✅ NEVER block the page - products start with static data
+    // They update in background from cache/API without blocking render
+    
     const path = location.pathname;
     
+    // Check for specific blog post URLs first
     if (path === '/blog/benefits-of-wooden-toys') {
       return (
         <Suspense fallback={<PageLoader />}>
