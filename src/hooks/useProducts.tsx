@@ -58,7 +58,7 @@ const setCache = (products: Product[]) => {
 };
 
 export const useProducts = () => {
-  // ✅ START WITH STATIC PRODUCTS IMMEDIATELY - No loading delay!
+  // ✅ START WITH STATIC PRODUCTS IMMEDIATELY
   const [products, setProducts] = useState<Product[]>(staticProducts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,87 +71,26 @@ export const useProducts = () => {
     }
 
     loadingRef.current = true;
-    setLoading(true);
-    setError(null);
-
     console.log('🔄 useProducts: Loading products...');
 
     try {
       // STEP 1: Try cache first
       const cachedProducts = getCache();
       if (cachedProducts && cachedProducts.length > 0) {
+        console.log(`✅ Using ${cachedProducts.length} cached products`);
         setProducts(cachedProducts);
-        setLoading(false);
         loadingRef.current = false;
         return;
       }
 
-      // STEP 2: Cache miss - fetch from Supabase
-      if (supabaseAdmin) {
-        console.log('🌐 Cache miss - fetching from Supabase...');
-        
-        const { data, error } = await supabaseAdmin
-          .from('products')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) {
-          console.error('❌ Supabase error:', error);
-          throw error;
-        }
-
-        if (data && data.length > 0) {
-          console.log(`✅ Loaded ${data.length} products from Supabase`);
-          
-          const convertedProducts: Product[] = data.map(dbProduct => {
-            let parsedImages = dbProduct.images;
-            if (typeof dbProduct.images === 'string') {
-              try {
-                parsedImages = JSON.parse(dbProduct.images);
-              } catch (e) {
-                parsedImages = [dbProduct.images];
-              }
-            }
-
-            return {
-              id: dbProduct.id,
-              name: dbProduct.name,
-              description: dbProduct.description,
-              price: dbProduct.price,
-              category: dbProduct.category,
-              images: Array.isArray(parsedImages) ? parsedImages : [parsedImages],
-              inStock: dbProduct.in_stock,
-              featured: dbProduct.featured,
-              weight: dbProduct.weight || 0.5,
-              stockQuantity: dbProduct.stock_quantity || 5,
-              seoTitle: dbProduct.seo_title || '',
-              seoDescription: dbProduct.seo_description || '',
-              seoKeywords: dbProduct.seo_keywords || '',
-              createdAt: dbProduct.created_at,
-              updatedAt: dbProduct.updated_at
-            };
-          });
-          
-          setProducts(convertedProducts);
-          setCache(convertedProducts);
-          setLoading(false);
-          loadingRef.current = false;
-          return;
-        }
-      }
-
-      // STEP 3: Keep static products
+      // STEP 2: Use static products (skip Supabase for now - it's too slow with 28MB data)
       console.log('📦 Using static products...');
+      setProducts(staticProducts);
       setCache(staticProducts);
 
     } catch (error) {
       console.error('❌ Error loading products:', error);
-      
-      const cachedProducts = getCache();
-      if (cachedProducts && cachedProducts.length > 0) {
-        console.log('🔄 Using cached products after error');
-        setProducts(cachedProducts);
-      }
+      setProducts(staticProducts);
     } finally {
       setLoading(false);
       loadingRef.current = false;
