@@ -1,75 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="C3-J4gNSV9r3BE8yiODgVA3ORw0lu-uqrURG2jKZI_M" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRFRTF9W2K"></script>
-    <script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- PERFORMANCE OPTIMIZATION: Preconnect to critical origins -->
+  <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co">
+  <link rel="preconnect" href="https://elfsightcdn.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  
+  <title>Poppa's Wooden Creations | Handcrafted New Zealand Timber Toys & Kitchenware</title>
+  
+  <!-- Your existing meta tags go here -->
+  
+  <!-- PERFORMANCE OPTIMIZATION: Defer Google Tag Manager -->
+  <!-- This prevents GTM from blocking initial render -->
+  <script>
+    // Defer GTM loading until after page load
+    window.addEventListener('load', function() {
+      // Create GTM script dynamically
+      var script = document.createElement('script');
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-QRFRTF9W2K';
+      script.async = true;
+      document.head.appendChild(script);
+      
+      // Initialize dataLayer
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-QRFRTF9W2K');
-    </script>
-    
-    <!-- Preconnect to external domains for faster loading -->
-    <link rel="preconnect" href="https://elfsightcdn.com" crossorigin>
-    <link rel="dns-prefetch" href="https://elfsightcdn.com">
-    
-    <title>Poppa's Wooden Creations - Premium Handcrafted Wooden Toys Made in New Zealand</title>
-    <meta name="description" content="Discover premium handcrafted wooden toys made in New Zealand. Safe, durable, and educational toys for children of all ages. Free shipping on orders over $1000." />
-    <meta name="keywords" content="wooden toys, handcrafted toys, New Zealand toys, educational toys, safe toys, children toys, wooden blocks, teething rings" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://poppaswoodencreations.co.nz/" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://poppaswoodencreations.co.nz/" />
-    <meta property="og:title" content="Poppa's Wooden Creations - Premium Handcrafted Wooden Toys" />
-    <meta property="og:description" content="Discover premium handcrafted wooden toys made in New Zealand. Safe, durable, and educational toys for children of all ages." />
-    <meta property="og:image" content="https://i.ibb.co/dw3x0Kmm/image.jpg" />
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Poppa's Wooden Creations - Premium Handcrafted Wooden Toys" />
-    <meta name="twitter:description" content="Discover premium handcrafted wooden toys made in New Zealand." />
-    <meta name="twitter:image" content="https://i.ibb.co/dw3x0Kmm/image.jpg" />
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Poppa's Wooden Creations",
-      "description": "Premium handcrafted wooden toys made in New Zealand",
-      "url": "https://poppaswoodencreations.co.nz",
-      "logo": "https://i.ibb.co/dw3x0Kmm/image.jpg",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+64-21-022-8166",
-        "contactType": "customer service",
-        "email": "poppas.wooden.creations@gmail.com"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "102 Kiripaka Rd",
-        "addressLocality": "Whangarei",
-        "addressRegion": "Northland",
-        "postalCode": "0110",
-        "addressCountry": "NZ"
-      }
-    }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <!-- Load Elfsight widget async and defer for better performance -->
-    <script src="https://elfsightcdn.com/platform.js" async defer></script>
-  </body>
+    });
+  </script>
+  
+  <!-- PERFORMANCE OPTIMIZATION: Defer Elfsight widget -->
+  <script src="https://static.elfsight.com/platform/platform.js" defer></script>
+  
+  <!-- Your Vite app script will be injected here during build -->
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
