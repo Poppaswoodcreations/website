@@ -5,27 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- PERFORMANCE OPTIMIZATION: Preconnect to critical origins -->
-  <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co">
-  <link rel="preconnect" href="https://elfsightcdn.com">
+  <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co" crossorigin>
+  <link rel="preconnect" href="https://elfsightcdn.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://www.google-analytics.com">
   
   <title>Poppa's Wooden Creations | Handcrafted New Zealand Timber Toys & Kitchenware</title>
   
-  <!-- Your existing meta tags go here -->
+  <!-- CRITICAL CSS: Inline above-the-fold styles -->
+  <style>
+    /* Reset & Base */
+    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
+    html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:system-ui,-apple-system,sans-serif}
+    body{margin:0;line-height:inherit}
+    
+    /* Layout - prevents layout shift */
+    #root{min-height:100vh;display:flex;flex-direction:column}
+    
+    /* Loading state - prevents blank screen flash */
+    .loading-container{display:flex;justify-content:center;align-items:center;min-height:100vh}
+    
+    /* Error container - prevents layout shift */
+    .error-container{min-height:60px;transition:opacity 0.3s ease}
+    .error-container:empty{min-height:0}
+    
+    /* Header styles - critical for LCP */
+    header{position:sticky;top:0;z-index:50;background-color:#fff;border-bottom:1px solid #e5e7eb}
+    
+    /* Hero/Title styles - critical for LCP */
+    h1{font-size:2.25rem;line-height:2.5rem;font-weight:700;color:#111827;margin:0 0 1rem 0}
+    
+    @media(max-width:768px){
+      h1{font-size:1.875rem;line-height:2.25rem}
+    }
+  </style>
   
   <!-- PERFORMANCE OPTIMIZATION: Defer Google Tag Manager -->
-  <!-- This prevents GTM from blocking initial render -->
   <script>
     // Defer GTM loading until after page load
     window.addEventListener('load', function() {
-      // Create GTM script dynamically
       var script = document.createElement('script');
       script.src = 'https://www.googletagmanager.com/gtag/js?id=G-QRFRTF9W2K';
       script.async = true;
       document.head.appendChild(script);
       
-      // Initialize dataLayer
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
@@ -34,12 +57,13 @@
   </script>
   
   <!-- PERFORMANCE OPTIMIZATION: Defer Elfsight widget -->
-  <script src="https://static.elfsight.com/platform/platform.js" defer></script>
+  <script src="https://static.elfsight.com/platform/platform.js" defer async></script>
   
-  <!-- Your Vite app script will be injected here during build -->
+  <!-- Preload key fonts if you're using custom fonts -->
+  <!-- <link rel="preload" href="/fonts/your-font.woff2" as="font" type="font/woff2" crossorigin> -->
 </head>
 <body>
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
