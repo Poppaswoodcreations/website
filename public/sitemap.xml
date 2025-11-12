@@ -9,15 +9,64 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Products Page -->
+  <!-- Category Pages -->
   <url>
-    <loc>https://poppaswoodencreations.co.nz/products</loc>
+    <loc>https://poppaswoodencreations.co.nz/wooden-trains</loc>
     <lastmod>2025-11-11</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- Blog Page -->
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-baby-toys</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-trucks</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-cars</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-planes-helicopters</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-kitchenware</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-tractors-boats</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/wooden-other-toys</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog Pages -->
   <url>
     <loc>https://poppaswoodencreations.co.nz/blog</loc>
     <lastmod>2025-11-11</lastmod>
@@ -25,7 +74,28 @@
     <priority>0.8</priority>
   </url>
   
-  <!-- About Page -->
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/blog/benefits-of-wooden-toys</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/blog/best-wooden-toys-by-age</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/blog/sensory-toys-for-babies</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Info Pages -->
   <url>
     <loc>https://poppaswoodencreations.co.nz/about</loc>
     <lastmod>2025-11-11</lastmod>
@@ -33,12 +103,39 @@
     <priority>0.7</priority>
   </url>
   
-  <!-- Cart Page -->
   <url>
-    <loc>https://poppaswoodencreations.co.nz/cart</loc>
+    <loc>https://poppaswoodencreations.co.nz/contact</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/reviews</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/shipping</loc>
     <lastmod>2025-11-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/privacy</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <url>
+    <loc>https://poppaswoodencreations.co.nz/terms</loc>
+    <lastmod>2025-11-11</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
   
 </urlset>
