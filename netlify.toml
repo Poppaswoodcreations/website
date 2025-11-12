@@ -1,3 +1,14 @@
+# Build settings
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Environment variables for build optimization
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Headers
 [[headers]]
   # Cache CSS and JS files for 1 year (they have hashed filenames)
   for = "/assets/*"
@@ -22,18 +33,70 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Redirects (keep your existing ones and add these)
+# Redirects - OLD SQUARESPACE URLS
+[[redirects]]
+  from = "/products/*"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shopcars/*"
+  to = "/"
+  status = 301
+  force = true
+
+# Remove trailing slashes from category pages
+[[redirects]]
+  from = "/wooden-trains/"
+  to = "/wooden-trains"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-baby-toys/"
+  to = "/wooden-baby-toys"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-trucks/"
+  to = "/wooden-trucks"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-cars/"
+  to = "/wooden-cars"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-kitchenware/"
+  to = "/wooden-kitchenware"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-other-toys/"
+  to = "/wooden-other-toys"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-planes-helicopters/"
+  to = "/wooden-planes-helicopters"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wooden-tractors-boats/"
+  to = "/wooden-tractors-boats"
+  status = 301
+  force = true
+
+# SPA fallback - MUST BE LAST
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Build settings
-[build]
-  command = "npm run build"
-  publish = "dist"
-
-# Environment variables for build optimization
-[build.environment]
-  NODE_VERSION = "18"
-  NPM_FLAGS = "--legacy-peer-deps"
