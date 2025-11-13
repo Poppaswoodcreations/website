@@ -13,6 +13,15 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
+    slug: 'happy-go-luck-train',
+    title: 'Happy Go Lucky Train: The Perfect Pine Wooden Toy for Toddlers in Whangārei',
+    excerpt: 'Discover the Happy Go Lucky Train - handcrafted pine wooden toy from Whangārei. Safe, durable, eco-friendly. Perfect for toddlers aged 18 months+.',
+    date: '2025-11-14',
+    readTime: '10 min read',
+    category: 'Product Spotlight',
+    image: 'https://i.ibb.co/cS62ZcGf/Messenger-creation-E64-B78-CE-A95-C-4-F83-A4-D1-41-B252-B2-B28-F-2.jpg'
+  },
+    
     slug: 'why-poppas-wooden-creations-are-best',
     title: 'Handcrafted in Whangārei: Why Poppa\'s Wooden Creations Are the Best Sustainable Toys for Your Toddler',
     excerpt: 'Discover why Poppa\'s Wooden Creations in Whangārei crafts the best sustainable wooden toys using NZ native timbers like Kauri and Rimu.',
