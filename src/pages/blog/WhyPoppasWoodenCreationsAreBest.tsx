@@ -29,7 +29,7 @@ export function WhyPoppasWoodenCreationsAreBest() {
           </div>
           
           <img 
-            src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80&auto=format&fit=crop" 
+            src="https://i.ibb.co/0Vjh62cb/Messenger-creation-FDFD65-D2-3-ABE-484-E-A64-E-508956-EFB892-1.jpg" 
             alt="Handcrafted wooden toys from Poppa's Wooden Creations"
             className="w-full h-96 object-cover rounded-lg shadow-lg mb-8"
           />
