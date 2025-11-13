@@ -27,6 +27,7 @@ const BlogList = lazy(() => import('./pages/blog/BlogList').then(m => ({ default
 const BenefitsOfWoodenToys = lazy(() => import('./pages/blog/BenefitsOfWoodenToys').then(m => ({ default: m.BenefitsOfWoodenToys })));
 const BestWoodenToysByAge = lazy(() => import('./pages/blog/BestWoodenToysByAge').then(m => ({ default: m.BestWoodenToysByAge })));
 const SensoryToysForBabies = lazy(() => import('./pages/blog/SensoryToysForBabies').then(m => ({ default: m.SensoryToysForBabies })));
+const WhyPoppasWoodenCreationsAreBest = lazy(() => import('./pages/blog/WhyPoppasWoodenCreationsAreBest').then(m => ({ default: m.WhyPoppasWoodenCreationsAreBest })));
 
 // Loading component
 const PageLoader = () => (
@@ -99,6 +100,14 @@ const App: React.FC = () => {
       return (
         <Suspense fallback={<PageLoader />}>
           <SensoryToysForBabies />
+        </Suspense>
+      );
+    }
+
+    if (path === '/blog/why-poppas-wooden-creations-are-best') {
+      return (
+        <Suspense fallback={<PageLoader />}>
+          <WhyPoppasWoodenCreationsAreBest />
         </Suspense>
       );
     }
