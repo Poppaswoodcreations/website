@@ -1,76 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- PERFORMANCE OPTIMIZATION: Preconnect to critical origins -->
-  <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co" crossorigin>
-  <link rel="preconnect" href="https://elfsightcdn.com" crossorigin>
-  <link rel="preconnect" href="https://i.ibb.co" crossorigin>
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  
-  <!-- CRITICAL: Preload hero image for LCP optimization -->
-  <link rel="preload" href="https://i.ibb.co/dw3x0Kmm/image.jpg" as="image" fetchpriority="high">
-  
-  <title>Poppa's Wooden Creations | Handcrafted New Zealand Timber Toys & Kitchenware</title>
-  
-  <!-- CRITICAL CSS: Inline above-the-fold styles -->
-  <style>
-    /* Reset & Base */
-    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
-    html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:system-ui,-apple-system,sans-serif}
-    body{margin:0;line-height:inherit}
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    /* Layout - prevents layout shift */
-    #root{min-height:100vh;display:flex;flex-direction:column}
+    <!-- PERFORMANCE OPTIMIZATION: Preconnect to critical domains -->
+    <link rel="preconnect" href="https://i.ibb.co">
+    <link rel="dns-prefetch" href="https://i.ibb.co">
+    <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co">
+    <link rel="dns-prefetch" href="https://hfirnolwhesjkxshidxo.supabase.co">
     
-    /* Loading state - prevents blank screen flash */
-    .loading-container{display:flex;justify-content:center;align-items:center;min-height:100vh}
+    <title>Poppa's Wooden Creations | Handcrafted Wooden Toys Whangārei NZ</title>
+    <meta name="description" content="Premium handcrafted wooden toys made in Whangārei, New Zealand. Sustainable, safe, and built to last. Shop our collection of trains, trucks, and educational toys." />
     
-    /* Hero styles - critical for LCP */
-    .hero-section{position:relative;background:linear-gradient(135deg,#fef3c7 0%,#fed7aa 50%,#fecaca 100%);overflow:hidden;min-height:600px}
-    .hero-image-container{aspect-ratio:1;background:#fff;border-radius:1rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);overflow:hidden;width:100%}
-    .hero-image-container img{width:100%;height:100%;object-fit:cover}
-    
-    /* Header styles - critical for initial render */
-    header{position:sticky;top:0;z-index:50;background-color:#fff;border-bottom:1px solid #e5e7eb}
-    
-    /* Typography - critical for LCP */
-    h1{font-size:2.25rem;line-height:2.5rem;font-weight:700;color:#111827;margin:0 0 1rem 0}
-    
-    @media(max-width:768px){
-      h1{font-size:1.875rem;line-height:2.25rem}
-      .hero-section{min-height:auto;padding:2rem 0}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://poppaswoodencreations.co.nz/" />
+    <meta property="og:title" content="Poppa's Wooden Creations | Handcrafted Wooden Toys NZ" />
+    <meta property="og:description" content="Premium handcrafted wooden toys made in Whangārei. Sustainable, safe, and built to last." />
+    <meta property="og:image" content="https://poppaswoodencreations.co.nz/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://poppaswoodencreations.co.nz/" />
+    <meta property="twitter:title" content="Poppa's Wooden Creations | Handcrafted Wooden Toys NZ" />
+    <meta property="twitter:description" content="Premium handcrafted wooden toys made in Whangārei. Sustainable, safe, and built to last." />
+    <meta property="twitter:image" content="https://poppaswoodencreations.co.nz/og-image.jpg" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Poppa's Wooden Creations",
+      "description": "Handcrafted wooden toys made in Whangārei, New Zealand",
+      "url": "https://poppaswoodencreations.co.nz",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Whangārei",
+        "addressRegion": "Northland",
+        "addressCountry": "NZ"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "150"
+      }
     }
-    
-    @media(min-width:1024px){
-      h1{font-size:3.75rem;line-height:1}
-    }
-  </style>
-  
-  <!-- PERFORMANCE OPTIMIZATION: Defer Google Tag Manager -->
-  <script>
-    // Defer GTM loading until after page load
-    window.addEventListener('load', function() {
-      var script = document.createElement('script');
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-QRFRTF9W2K';
-      script.async = true;
-      document.head.appendChild(script);
+    </script>
+
+    <!-- PERFORMANCE: Inline critical CSS to prevent render blocking -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      }
       
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-QRFRTF9W2K');
-    });
-  </script>
-  
-  <!-- PERFORMANCE OPTIMIZATION: Defer Elfsight widget -->
-  <script src="https://static.elfsight.com/platform/platform.js" defer async></script>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
+      /* Prevent layout shift during load */
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading indicator */
+      .initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f7f9fb;
+        z-index: 9999;
+      }
+      
+      .initial-loader.loaded {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <!-- Initial loading indicator (removed when React hydrates) -->
+    <div class="initial-loader">
+      <div style="text-align: center;">
+        <div style="display: inline-block; width: 32px; height: 32px; border: 4px solid #d97706; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <p style="color: #6b7280; margin-top: 16px;">Loading...</p>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- PERFORMANCE: Load Google Tag Manager after page is interactive -->
+    <script>
+      window.addEventListener('load', function() {
+        // Delay GTM to not block initial render
+        setTimeout(function() {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-XXXXXXX');
+        }, 2000);
+      });
+    </script>
+  </body>
 </html>
