@@ -28,7 +28,8 @@ const BenefitsOfWoodenToys = lazy(() => import('./pages/blog/BenefitsOfWoodenToy
 const BestWoodenToysByAge = lazy(() => import('./pages/blog/BestWoodenToysByAge').then(m => ({ default: m.BestWoodenToysByAge })));
 const SensoryToysForBabies = lazy(() => import('./pages/blog/SensoryToysForBabies').then(m => ({ default: m.SensoryToysForBabies })));
 const WhyPoppasWoodenCreationsAreBest = lazy(() => import('./pages/blog/WhyPoppasWoodenCreationsAreBest').then(m => ({ default: m.WhyPoppasWoodenCreationsAreBest })));
-const Happygolucktrain = lazy(() => import('./pages/blog/Happygolucktrain').then(m => ({ default: m.Happygolucktrain })));
+const HappyGoLuckTrain = lazy(() => import('./pages/blog/HappyGoLuckTrain').then(m => ({ default: m.HappyGoLuckTrain })));
+
 // Loading component
 const PageLoader = () => (
   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -104,14 +105,13 @@ const App: React.FC = () => {
       );
     }
 
-  if (path === '/blog/happy-go-luck-train') {
-  return (
-    <Suspense fallback={<PageLoader />}>
-      <HappyGoLuckTrain />
-    </Suspense>
-  );
-
-}
+    if (path === '/blog/happy-go-luck-train') {
+      return (
+        <Suspense fallback={<PageLoader />}>
+          <HappyGoLuckTrain />
+        </Suspense>
+      );
+    }
     
     if (path === '/blog/why-poppas-wooden-creations-are-best') {
       return (
