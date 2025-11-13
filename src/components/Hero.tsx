@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Star, Award, Truck, Edit, Shield, CheckCircle } from 'lucide-react';
 import { Product } from '../types';
+import OptimizedImage from './OptimizedImage';
 
 interface HeroProps {
   onCategorySelect: (category: string) => void;
@@ -169,7 +170,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             </div>
           </div>
 
-          {/* Hero Image */}
+          {/* Hero Image - OPTIMIZED FOR LCP */}
           <div className="relative">
             {/* Edit Button - Always visible */}
             <button
@@ -182,20 +183,19 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             </button>
             
             <div className="aspect-square bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden w-full">
-              <img
+              {/* ⭐ CRITICAL LCP OPTIMIZATION: Using OptimizedImage with priority={true} */}
+              <OptimizedImage
                 src={heroImage || 'https://i.ibb.co/dw3x0Kmm/image.jpg'}
                 alt="Handcrafted wooden truck toys - Premium quality wooden toys from Poppa's Wooden Creations made in New Zealand"
-                className="w-full h-full object-cover product-image"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  console.log('❌ HERO: Image failed to load, using fallback');
-                  target.src = 'https://i.ibb.co/dw3x0Kmm/image.jpg';
-                }}
+                priority={true}
+                width={1200}
+                height={1200}
+                className="w-full h-full object-cover"
                 onLoad={() => {
                   console.log('✅ HERO: Image loaded successfully');
+                }}
+                onError={() => {
+                  console.log('❌ HERO: Image failed to load, using fallback');
                 }}
               />
             </div>
