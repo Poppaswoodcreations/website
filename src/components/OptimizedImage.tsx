@@ -34,9 +34,18 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Optimize image URL for better compression
   const getOptimizedSrc = (originalSrc: string) => {
+    // Handle ImgBB URLs (your current image host)
+    if (originalSrc.includes('i.ibb.co')) {
+      // ImgBB doesn't support query params, but we can use their CDN sizes
+      // Keep original URL but ensure it's the direct image link
+      return originalSrc;
+    }
+    
+    // Handle Squarespace CDN
     if (originalSrc.includes('squarespace-cdn.com')) {
       return `${originalSrc.split('?')[0]}?format=webp&w=${width}&q=75`;
     }
+    
     return originalSrc;
   };
 
@@ -76,6 +85,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         src={currentSrc}
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
         decoding="async"
         className={`w-full h-full object-cover transition-opacity duration-300 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
