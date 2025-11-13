@@ -21,14 +21,14 @@ const blogPosts: BlogPost[] = [
     category: 'Product Spotlight',
     image: 'https://i.ibb.co/cS62ZcGf/Messenger-creation-E64-B78-CE-A95-C-4-F83-A4-D1-41-B252-B2-B28-F-2.jpg'
   },
-    
+  {
     slug: 'why-poppas-wooden-creations-are-best',
     title: 'Handcrafted in Whangārei: Why Poppa\'s Wooden Creations Are the Best Sustainable Toys for Your Toddler',
     excerpt: 'Discover why Poppa\'s Wooden Creations in Whangārei crafts the best sustainable wooden toys using NZ native timbers like Kauri and Rimu.',
     date: '2025-11-13',
     readTime: '12 min read',
     category: 'Local Craftsmanship',
-    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=60&auto=format&fit=crop'
+    image: 'https://i.ibb.co/0Vjh62cb/Messenger-creation-FDFD65-D2-3-ABE-484-E-A64-E-508956-EFB892-1.jpg'
   },
   {
     slug: 'personalised-handmade-keepsakes',
