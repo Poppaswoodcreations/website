@@ -13,6 +13,15 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
+    slug: 'why-poppas-wooden-creations-are-best',
+    title: 'Handcrafted in Whangārei: Why Poppa\'s Wooden Creations Are the Best Sustainable Toys for Your Toddler',
+    excerpt: 'Discover why Poppa\'s Wooden Creations in Whangārei crafts the best sustainable wooden toys using NZ native timbers like Kauri and Rimu.',
+    date: '2025-11-13',
+    readTime: '12 min read',
+    category: 'Local Craftsmanship',
+    image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=60&auto=format&fit=crop'
+  },
+  {
     slug: 'personalised-handmade-keepsakes',
     title: 'Custom Wooden Toys NZ: Personalised Handmade Keepsakes',
     excerpt: 'Discover custom wooden toys in NZ – safe, eco-friendly, handmade keepsakes perfect for children and unique baby gifts.',
