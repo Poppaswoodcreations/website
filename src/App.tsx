@@ -104,6 +104,15 @@ const App: React.FC = () => {
       );
     }
 
+  if (path === '/blog/happy-go-luck-train') {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <HappyGoLuckTrain />
+    </Suspense>
+  );
+
+}
+    
     if (path === '/blog/why-poppas-wooden-creations-are-best') {
       return (
         <Suspense fallback={<PageLoader />}>
