@@ -76,14 +76,14 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
           {/* Content */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <div className="flex items-center space-x-2 text-amber-600">
+              <div className="flex items-center space-x-2 text-amber-700">
                 <Award size={20} />
                 <span className="text-sm font-medium uppercase tracking-wide">Handcrafted in New Zealand</span>
               </div>
               
               <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Premium Wooden Toys
-                <span className="block text-amber-600">Made with Love</span>
+                <span className="block text-amber-700">Made with Love</span>
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl">
@@ -107,7 +107,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
                   <Star className="text-green-600" size={20} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Premium Quality</h3>
+                  <p className="font-semibold text-gray-900">Premium Quality</p>
                   <p className="text-sm text-gray-600">Hand-selected NZ timber</p>
                 </div>
               </div>
@@ -117,7 +117,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
                   <Award className="text-blue-600" size={20} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Child Safe</h3>
+                  <p className="font-semibold text-gray-900">Child Safe</p>
                   <p className="text-sm text-gray-600">Non-toxic finishes</p>
                 </div>
               </div>
@@ -127,7 +127,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
                   <Truck className="text-purple-600" size={20} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Free Shipping</h3>
+                  <p className="font-semibold text-gray-900">Free Shipping</p>
                   <p className="text-sm text-gray-600">Orders over $1000</p>
                 </div>
               </div>
@@ -137,7 +137,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => onCategorySelect('wooden-baby-toys')}
-                className="bg-amber-600 text-white px-6 sm:px-8 py-4 rounded-lg font-medium hover:bg-amber-700 transition-colors flex items-center justify-center space-x-2 group"
+                className="bg-amber-700 text-white px-6 sm:px-8 py-4 rounded-lg font-medium hover:bg-amber-800 transition-colors flex items-center justify-center space-x-2 group"
               >
                 <span>Shop Baby Toys</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -174,7 +174,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             {/* Edit Button - Always visible */}
             <button
               onClick={() => setShowImageEditor(true)}
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-amber-600 hover:bg-amber-700 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-amber-700 hover:bg-amber-800 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all"
               title="Edit hero image"
               style={{ zIndex: 30 }}
             >
@@ -200,11 +200,11 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             </div>
             
             {/* Floating Elements */}
-            <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-green-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
+            <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-green-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
               Made in NZ 🇳🇿
             </div>
             
-            <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-amber-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
+            <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-amber-700 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
               🚛 Premium Wooden Toys
             </div>
           </div>
