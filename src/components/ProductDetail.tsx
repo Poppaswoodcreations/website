@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Star, Truck, Shield, Award } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Product } from '../types';
+import { trackAddToCart } from '../utils/gtmTracking';
 
 interface ProductDetailProps {
   products: Product[];
@@ -40,6 +41,21 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products, onAddToCart }) 
 
   const canonicalUrl = `https://poppaswoodencreations.co.nz/products/${product.id}`;
   const productImage = product.images?.[0] || '/FB_IMG_1640827671355.jpg';
+
+  // ✅ GTM TRACKING: Handle Add to Cart with tracking
+  const handleAddToCart = () => {
+    // Add to cart
+    onAddToCart(product);
+    
+    // Track in GTM
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      category: product.category,
+    });
+  };
 
   return (
     <>
@@ -223,7 +239,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products, onAddToCart }) 
               {/* Add to Cart */}
               <div className="space-y-4">
                 <button
-                  onClick={() => onAddToCart(product)}
+                  onClick={handleAddToCart}
                   disabled={!product.inStock}
                   className="w-full bg-amber-600 text-white py-4 rounded-lg font-medium hover:bg-amber-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
