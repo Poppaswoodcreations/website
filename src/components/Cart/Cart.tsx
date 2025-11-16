@@ -7,7 +7,6 @@ import { loadStripe } from '@stripe/stripe-js';
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
 interface CartItem {
   id: string;
   product: Product;
