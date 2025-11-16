@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, ShoppingBag, Plus, Minus, Trash2, CreditCard, Lock, CheckCircle, AlertCircle } from 'lucide-react';
 import { Product } from '../../types';
 import { sendOrderNotification } from '../../utils/orderNotifications';
+import { trackPurchase } from '../../utils/gtmTracking';
 
 interface CartItem {
   id: string;
@@ -78,13 +79,28 @@ const Cart: React.FC<CartProps> = ({
         // Simulate payment processing
         await new Promise(resolve => setTimeout(resolve, 2000));
         
+        // ✅ GTM TRACKING: Track Stripe purchase
+        const transactionId = `stripe-test-${Date.now()}`;
+        trackPurchase({
+          transactionId: transactionId,
+          total: grandTotal,
+          currency: 'NZD',
+          products: items.map(item => ({
+            id: item.product.id,
+            name: item.product.name,
+            price: item.product.price,
+            quantity: item.quantity,
+            category: item.product.category,
+          }))
+        });
+        
         // Send order notification email
         await sendOrderNotification({
           orderTotal: grandTotal,
           items: items,
           customer: formData,
           paymentMethod: 'Credit Card (Test)',
-          orderNumber: `TEST-${Date.now()}`
+          orderNumber: transactionId
         });
         
         // Show immediate confirmation
