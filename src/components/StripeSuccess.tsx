@@ -1,20 +1,37 @@
+
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Package, Mail, Phone } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { trackPurchase } from '../utils/gtmTracking';
+import { sendOrderNotification } from '../utils/orderNotifications';
+import { supabase } from '../lib/supabase';
 
 const StripeSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    if (sessionId) {
-      // Track the purchase in GTM
-      // Note: In production, you'd fetch the actual order details from your backend
-      const orderData = JSON.parse(localStorage.getItem('stripe-order-data') || '{}');
-      
-      if (orderData && orderData.items) {
+    const processOrder = async () => {
+      if (!sessionId) {
+        setError('No session ID found');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Get order data from localStorage
+        const orderDataStr = localStorage.getItem('stripe-order-data');
+        if (!orderDataStr) {
+          console.error('No order data found in localStorage');
+          setLoading(false);
+          return;
+        }
+
+        const orderData = JSON.parse(orderDataStr);
+        
+        // Track purchase in GTM
         trackPurchase({
           transactionId: sessionId,
           total: orderData.total || 0,
@@ -29,13 +46,85 @@ const StripeSuccess: React.FC = () => {
         });
         
         console.log('✅ Stripe purchase tracked in GTM:', sessionId);
+
+        // Save order to Supabase
+        try {
+          const { data: orderRecord, error: dbError } = await supabase
+            .from('orders')
+            .insert({
+              order_number: sessionId,
+              customer_email: orderData.customerEmail || 'unknown@example.com',
+              total_amount: orderData.total || 0,
+              payment_method: 'Stripe',
+              payment_status: 'completed',
+              order_status: 'pending',
+              items: orderData.items,
+              created_at: new Date().toISOString()
+            })
+            .select()
+            .single();
+
+          if (dbError) {
+            console.error('Error saving order to database:', dbError);
+          } else {
+            console.log('✅ Order saved to database:', orderRecord);
+          }
+        } catch (dbErr) {
+          console.error('Database error:', dbErr);
+        }
+
+        // Send order notification email
+        try {
+          await sendOrderNotification({
+            orderTotal: orderData.total || 0,
+            items: orderData.items.map((item: any) => ({
+              product: {
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                images: [],
+                description: '',
+                category: item.category || 'wooden-toys',
+                featured: false,
+                stockQuantity: 0,
+                slug: ''
+              },
+              quantity: item.quantity,
+              id: item.id
+            })),
+            customer: {
+              email: orderData.customerEmail || 'unknown@example.com',
+              name: 'Stripe Customer',
+              address: '',
+              city: '',
+              postalCode: '',
+              country: 'NZ',
+              deliveryMethod: 'shipping',
+              cardNumber: '',
+              expiryDate: '',
+              cvv: ''
+            },
+            paymentMethod: 'Stripe (Credit Card)',
+            orderNumber: sessionId
+          });
+          
+          console.log('✅ Order notification email sent');
+        } catch (emailErr) {
+          console.error('Email notification error:', emailErr);
+        }
         
         // Clear the stored data
         localStorage.removeItem('stripe-order-data');
+        
+        setLoading(false);
+      } catch (err) {
+        console.error('Error processing order:', err);
+        setError('Error processing order');
+        setLoading(false);
       }
-      
-      setLoading(false);
-    }
+    };
+
+    processOrder();
   }, [sessionId]);
 
   if (loading) {
@@ -44,6 +133,30 @@ const StripeSuccess: React.FC = () => {
         <div className="text-center">
           <div className="inline-block w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-600 mt-4">Processing your order...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl w-full text-center">
+          <div className="text-red-500 mb-4">
+            <Package size={80} className="mx-auto" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Something went wrong
+          </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            {error}
+          </p>
+          <button
+            onClick={() => window.location.href = '/'}
+            className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors"
+          >
+            Return Home
+          </button>
         </div>
       </div>
     );
@@ -69,7 +182,7 @@ const StripeSuccess: React.FC = () => {
           </h3>
           <div className="text-sm text-blue-800 space-y-2 text-left">
             <p>✅ <strong>Order Confirmed:</strong> Your order has been received and is being processed</p>
-            <p>📧 <strong>Email Notification:</strong> You'll receive a confirmation email shortly</p>
+            <p>📧 <strong>Email Notification:</strong> You'll receive a confirmation email shortly at your registered email</p>
             <p>📦 <strong>Processing:</strong> We'll prepare your handcrafted wooden toys with care</p>
             <p>🚚 <strong>Shipping:</strong> Tracking information will be sent when your order ships</p>
             <p>🎯 <strong>Delivery:</strong> Your beautiful wooden toys will arrive as estimated</p>
@@ -98,6 +211,12 @@ const StripeSuccess: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {sessionId && (
+          <div className="mt-6 pt-6 border-t text-xs text-gray-500">
+            Order Reference: {sessionId}
+          </div>
+        )}
       </div>
     </div>
   );
