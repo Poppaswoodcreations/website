@@ -3,6 +3,10 @@ import { X, ShoppingBag, Plus, Minus, Trash2, CreditCard, Lock, CheckCircle, Ale
 import { Product } from '../../types';
 import { sendOrderNotification } from '../../utils/orderNotifications';
 import { trackPurchase } from '../../utils/gtmTracking';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Initialize Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 interface CartItem {
   id: string;
@@ -40,7 +44,7 @@ const Cart: React.FC<CartProps> = ({
     cvv: ''
   });
   const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal'>('stripe');
-  const [testMode, setTestMode] = useState(false); // Disable test mode - use live payments
+  const [testMode, setTestMode] = useState(false);
 
   // Calculate totals
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
@@ -75,50 +79,56 @@ const Cart: React.FC<CartProps> = ({
     setError('');
 
     try {
-      if (testMode) {
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // ✅ GTM TRACKING: Track Stripe purchase
-        const transactionId = `stripe-test-${Date.now()}`;
-        trackPurchase({
-          transactionId: transactionId,
-          total: grandTotal,
-          currency: 'NZD',
-          products: items.map(item => ({
-            id: item.product.id,
+      // Store order data for success page
+      const orderData = {
+        total: grandTotal,
+        items: items.map(item => ({
+          id: item.product.id,
+          name: item.product.name,
+          price: item.product.price,
+          quantity: item.quantity,
+          category: item.product.category,
+        }))
+      };
+      localStorage.setItem('stripe-order-data', JSON.stringify(orderData));
+
+      // Call Netlify function to create checkout session
+      const response = await fetch('/.netlify/functions/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: items.map(item => ({
             name: item.product.name,
+            description: item.product.description,
             price: item.product.price,
             quantity: item.quantity,
-            category: item.product.category,
-          }))
-        });
-        
-        // Send order notification email
-        await sendOrderNotification({
-          orderTotal: grandTotal,
-          items: items,
-          customer: formData,
-          paymentMethod: 'Credit Card (Test)',
-          orderNumber: transactionId
-        });
-        
-        // Show immediate confirmation
-        alert(`✅ ORDER PLACED!\n\nTotal: $${grandTotal.toFixed(2)} NZD\nCustomer: ${formData.name}\n\n📧 Email notification sent to adrianbarber8@gmail.com`);
-        
-        setSuccess(true);
-        setTimeout(() => {
-          items.forEach(item => onRemoveItem(item.product.id));
-          handleCloseCheckout();
-          onClose();
-        }, 2000);
-      } else {
-        // Real Stripe integration would go here
-        throw new Error('Live Stripe payments not implemented yet');
+          })),
+          customerEmail: formData.email,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const { sessionId } = await response.json();
+      
+      // Redirect to Stripe Checkout
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error('Stripe failed to load');
+      }
+
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+      
+      if (error) {
+        throw error;
       }
     } catch (err) {
+      console.error('Stripe error:', err);
       setError(err instanceof Error ? err.message : 'Payment failed');
-    } finally {
       setProcessing(false);
     }
   };
@@ -370,24 +380,6 @@ const Cart: React.FC<CartProps> = ({
               <div className="mb-6">
                 <h3 className="font-semibold text-gray-900 mb-3">Choose Payment Method</h3>
                 
-                {/* Test Mode Toggle */}
-                <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={testMode}
-                      onChange={(e) => setTestMode(e.target.checked)}
-                      className="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500"
-                    />
-                    <span className="text-sm font-medium text-yellow-800">
-                      🧪 Test Mode (enable only for testing - payments will be simulated)
-                    </span>
-                  </label>
-                  <p className="text-xs text-yellow-700 mt-1">
-                    {testMode ? 'TEST: Payments will be simulated' : 'LIVE: Real payments will be processed'}
-                  </p>
-                </div>
-                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <button
                     type="button"
@@ -421,9 +413,6 @@ const Cart: React.FC<CartProps> = ({
                       <span className="font-bold text-blue-600">PayPal</span>
                     </div>
                     <p className="text-sm text-gray-600 mt-2">Pay with your PayPal account</p>
-                    <p className="text-xs text-gray-600 mt-1">
-                      {testMode ? '🧪 Test mode: Will simulate PayPal payment' : '💳 Live mode: Real PayPal payment'}
-                    </p>
                   </button>
                 </div>
               </div>
@@ -560,49 +549,17 @@ const Cart: React.FC<CartProps> = ({
               {/* PAYMENT FORMS */}
               {paymentMethod === 'stripe' ? (
                 <form onSubmit={handleStripePayment} className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-3">Credit Card Details</h3>
-                    <div className="space-y-4">
-                      <input
-                        type="text"
-                        placeholder="Card number (4242 4242 4242 4242 for testing) *"
-                        required
-                        value={formData.cardNumber}
-                        onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                      />
-                      <div className="grid grid-cols-2 gap-4">
-                        <input
-                          type="text"
-                          placeholder="MM/YY (12/34 for testing) *"
-                          required
-                          value={formData.expiryDate}
-                          onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
-                          className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                        />
-                        <input
-                          type="text"
-                          placeholder="CVV (123 for testing) *"
-                          required
-                          value={formData.cvv}
-                          onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
-                          className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
                   <div className="bg-blue-50 p-4 rounded-lg flex items-start space-x-3">
                     <Lock className="text-blue-600 mt-0.5" size={20} />
                     <div className="text-sm text-blue-800">
-                      <p className="font-medium">Secure Payment</p>
-                      <p>Your payment information is encrypted and secure. We never store your card details.</p>
+                      <p className="font-medium">Secure Payment with Stripe</p>
+                      <p>You'll be redirected to Stripe's secure checkout page.</p>
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    disabled={processing}
+                    disabled={processing || !formData.email}
                     className="w-full bg-amber-600 text-white py-4 rounded-lg font-medium hover:bg-amber-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {processing ? (
@@ -673,19 +630,8 @@ const Cart: React.FC<CartProps> = ({
                       <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
                         <span className="text-blue-600 text-xs font-bold">PP</span>
                       </div>
-                      <span>
-                        {testMode ? '🧪 Test PayPal Payment' : `💳 Pay ${grandTotal.toFixed(2)} NZD with PayPal`}
-                      </span>
+                      <span>Pay ${grandTotal.toFixed(2)} NZD with PayPal</span>
                     </button>
-                    
-                    {/* PayPal Info */}
-                    <div className="p-3 bg-blue-50 border border-blue-200 rounded text-xs">
-                      <p className="font-medium text-blue-800 mb-1">PayPal Payment Details:</p>
-                      <p className="text-blue-700">• Total: ${grandTotal.toFixed(2)} NZD</p>
-                      <p className="text-blue-700">• Items: {items.length}</p>
-                      <p className="text-blue-700">• Mode: {testMode ? '🧪 TEST (Simulated)' : '💳 LIVE (Real payments)'}</p>
-                      <p className="text-blue-700">• You'll be redirected to PayPal's secure payment page</p>
-                    </div>
                   </div>
                 </div>
               )}

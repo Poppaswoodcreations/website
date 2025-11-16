@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import App from '../App';
 import ProductDetail from './ProductDetail';
 import PayPalSuccess from './PayPalSuccess';
+import StripeSuccess from './StripeSuccess';
 import NotFound from './NotFound';
 import { Product } from '../types';
 
@@ -27,6 +28,7 @@ const Router: React.FC<RouterProps> = ({ products, onAddToCart }) => {
           } 
         />
         <Route path="/paypal-success" element={<PayPalSuccess />} />
+        <Route path="/stripe-success" element={<StripeSuccess />} />
         <Route path="/wooden-trains" element={<App />} />
         <Route path="/wooden-baby-toys" element={<App />} />
         <Route path="/wooden-trucks" element={<App />} />
