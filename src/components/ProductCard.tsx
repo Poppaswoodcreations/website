@@ -1,218 +1,134 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Star, Award, Truck, Edit, Shield, CheckCircle } from 'lucide-react';
+import React from 'react';
+import { ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
+import { trackAddToCart } from '../utils/gtmTracking';
 
-interface HeroProps {
-  onCategorySelect: (category: string) => void;
-  products?: Product[];
+interface ProductCardProps {
+  product: Product;
+  onSelect: (product: Product) => void;
+  onAddToCart: (product: Product) => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
-  const [heroImage, setHeroImage] = useState('');
-  const [showImageEditor, setShowImageEditor] = useState(false);
-
-  // Load saved hero image
-  useEffect(() => {
-    try {
-      // Try multiple storage keys for hero image
-      const savedHeroImage = localStorage.getItem('poppas-hero-image') || 
-                            localStorage.getItem('hero-image') ||
-                            localStorage.getItem('main-image');
-      
-      if (savedHeroImage) {
-        console.log('🖼️ HERO: Found saved hero image');
-        setHeroImage(savedHeroImage);
-      } else {
-        console.log('🖼️ HERO: No saved image, using default truck and helicopter image');
-        setHeroImage('https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp');
+const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCart }) => {
+  // Get the first image from the product's images array
+  const getProductImage = () => {
+    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+      const firstImage = product.images[0];
+      if (firstImage && firstImage.trim() !== '') {
+        console.log(`🖼️ ProductCard: Using image for ${product.name}:`, firstImage);
+        return firstImage;
       }
-    } catch (error) {
-      console.error('Error loading hero image:', error);
-      setHeroImage('https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp');
     }
-  }, []);
+    
+    console.log(`❌ ProductCard: No valid image for ${product.name}, using fallback`);
+    return 'https://i.ibb.co/dw3x0Kmm/image.jpg';
+  };
 
-  const handleSaveHeroImage = () => {
-    try {
-      console.log('💾 HERO: Saving hero image:', heroImage.substring(0, 100) + '...');
-      
-      // Save to localStorage
-      localStorage.setItem('poppas-hero-image', heroImage);
-      
-      // Force update the state to trigger re-render
-      setHeroImage(heroImage);
-      
-      // Verify save
-      const verification = localStorage.getItem('poppas-hero-image');
-      if (verification === heroImage) {
-        console.log('✅ HERO: Image saved successfully');
-        setShowImageEditor(false);
-        alert('Hero image updated successfully! Refresh the page to see the change.');
-        
-        // Force page refresh to show the new image
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        throw new Error('Save verification failed');
-      }
-    } catch (error) {
-      console.error('❌ HERO: Failed to save hero image:', error);
-      alert('Failed to save hero image. Please try again.');
-    }
+  const productImage = getProductImage();
+
+  // ✅ GTM TRACKING: Handle Add to Cart with tracking
+  const handleAddToCartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Add to cart
+    onAddToCart(product);
+    
+    // Track in GTM
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      category: product.category,
+    });
+  };
+
+  const handleProductClick = () => {
+    onAddToCart(product);
+    
+    // Track in GTM
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      category: product.category,
+    });
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10 hidden md:block">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-      </div>
-
-      <div className="relative container mx-auto px-4 py-8 sm:py-12 lg:py-24">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Content */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2 text-amber-700">
-                <Award size={20} />
-                <span className="text-sm font-medium uppercase tracking-wide">Handcrafted in New Zealand</span>
-              </div>
-              
-              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Premium Wooden Toys
-                <span className="block text-amber-700">Made with Love</span>
-              </h1>
-              
-              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl">
-                Discover our collection of beautiful, safe, and sustainable wooden toys handcrafted in New Zealand. 
-                Each piece is made from premium timber including Kauri, Rimu, and Macrocarpa, designed to inspire 
-                creativity and last for generations. Our toys are not just playthings – they're heirloom pieces 
-                that grow with your child and can be passed down through families.
-              </p>
-
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                From our workshop in Whangarei, we create toys that encourage imaginative play, develop fine motor 
-                skills, and provide endless hours of screen-free entertainment. Every toy is hand-sanded to a 
-                silky smooth finish and finished with child-safe, non-toxic materials.
-              </p>
-            </div>
-
-            {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <Star className="text-green-600" size={20} />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Premium Quality</p>
-                  <p className="text-sm text-gray-600">Hand-selected NZ timber</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Award className="text-blue-600" size={20} />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Child Safe</p>
-                  <p className="text-sm text-gray-600">Non-toxic finishes</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Truck className="text-purple-600" size={20} />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Free Shipping</p>
-                  <p className="text-sm text-gray-600">Orders over $1000</p>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => onCategorySelect('wooden-baby-toys')}
-                className="bg-amber-700 text-white px-6 sm:px-8 py-4 rounded-lg font-medium hover:bg-amber-800 transition-colors flex items-center justify-center space-x-2 group"
-              >
-                <span>Shop Baby Toys</span>
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 pt-4">
-              <div className="flex items-center space-x-1 text-sm sm:text-base">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-yellow-400 fill-current" />
-                ))}
-                <span className="text-sm text-gray-600 ml-2">4.9/5 (150+ reviews)</span>
-              </div>
-              <div className="flex items-center space-x-4 text-sm text-gray-600">
-                <div className="flex items-center space-x-1">
-                  <Shield size={14} className="text-green-500" />
-                  <span>SSL Secure</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Award size={14} className="text-blue-500" />
-                  <span>NZ Registered</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <CheckCircle size={14} className="text-purple-500" />
-                  <span>GDPR Compliant</span>
-                </div>
-              </div>
-            </div>
+    <div
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+      onClick={handleProductClick}
+    >
+      <div className="relative h-48 bg-gradient-to-br from-amber-100 to-amber-200 overflow-hidden">
+        <img
+          src={productImage}
+          alt={`${product.name} - Handcrafted wooden toy by Poppa's Wooden Creations`}
+          className="w-full h-48 object-cover"
+          loading="lazy"
+          onLoad={() => console.log(`✅ Image loaded for ${product.name}:`, productImage)}
+          onError={(e) => {
+            console.log(`❌ Image failed for ${product.name}:`, productImage);
+            const target = e.target as HTMLImageElement;
+            // Don't change the src on error - let it show broken image or keep trying
+            target.style.border = '2px solid red';
+          }}
+        />
+        
+        {product.featured && (
+          <div className="absolute top-2 left-2 bg-amber-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+            Featured
           </div>
-
-          {/* Hero Image */}
-          <div className="relative">
-            {/* Edit Button - Always visible */}
-            <button
-              onClick={() => setShowImageEditor(true)}
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-amber-700 hover:bg-amber-800 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all"
-              title="Edit hero image"
-              style={{ zIndex: 30 }}
-            >
-              <Edit size={16} className="sm:w-5 sm:h-5" />
-            </button>
-            
-            <div className="aspect-square bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden w-full">
-              <img
-                src={heroImage || 'https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp'}
-                alt="Handcrafted wooden truck and helicopter toys - Premium quality wooden toys from Poppa's Wooden Creations made in New Zealand"
-                className="w-full h-full object-cover product-image"
-                loading="eager"
-                fetchpriority="high"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  console.log('❌ HERO: Image failed to load, using fallback');
-                  target.src = 'https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp';
-                }}
-                onLoad={() => {
-                  console.log('✅ HERO: Image loaded successfully');
-                }}
-              />
-            </div>
-            
-            {/* Floating Elements */}
-            <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-green-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
-              Made in NZ 🇳🇿
-            </div>
-            
-            <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-amber-700 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
-              🚛 Premium Wooden Toys
-            </div>
+        )}
+        {!product.inStock && (
+          <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+            Out of Stock
+          </div>
+        )}
+      </div>
+      
+      <div className="p-4">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
+          {product.name}
+        </h3>
+        
+        <p className="text-gray-600 mb-3 text-sm line-clamp-2">
+          {product.description.length > 100 ? `${product.description.substring(0, 100)}...` : product.description}
+        </p>
+        
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xl font-bold text-amber-600">
+            ${product.price.toFixed(2)} NZD
+          </span>
+          <div className="text-right">
+            {product.inStock ? (
+              <div>
+                <span className="text-green-600 text-xs font-medium">In Stock</span>
+                {product.stockQuantity && (
+                  <div className="text-gray-500 text-xs">
+                    {product.stockQuantity} available
+                  </div>
+                )}
+              </div>
+            ) : (
+              <span className="text-red-600 text-xs font-medium">Out of Stock</span>
+            )}
           </div>
         </div>
+        
+        <button
+          onClick={handleAddToCartClick}
+          disabled={!product.inStock}
+          className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2 font-medium"
+        >
+          <ShoppingCart size={16} />
+          <span>Add to Cart</span>
+        </button>
       </div>
-
-    </section>
+    </div>
   );
 };
 
-export default Hero;
+export default ProductCard;
