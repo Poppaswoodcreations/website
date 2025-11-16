@@ -5,8 +5,9 @@ import { sendOrderNotification } from '../../utils/orderNotifications';
 import { trackPurchase } from '../../utils/gtmTracking';
 import { loadStripe } from '@stripe/stripe-js';
 
-// Initialize Stripe
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+// Initialize Stripe - Temporarily hardcoded for testing
+const stripePromise = loadStripe('pk_live_51STuwTDnRGGY8UdiPeyjnL7TIOi5sTRLgrvJW3eM33IvQD5R5Ba8d6ktSs1HQZAX4MQLJH2C2Q4mJJKVOsRLQnQs00ZCoQs2DQ');
+
 interface CartItem {
   id: string;
   product: Product;
