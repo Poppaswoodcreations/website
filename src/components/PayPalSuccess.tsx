@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Package, Mail, Phone } from 'lucide-react';
+import { trackPurchase } from '../utils/gtmTracking';
 
 const PayPalSuccess: React.FC = () => {
   const [orderData, setOrderData] = useState<any>(null);
@@ -11,6 +12,27 @@ const PayPalSuccess: React.FC = () => {
       if (stored) {
         const data = JSON.parse(stored);
         setOrderData(data);
+        
+        // ✅ GTM TRACKING: Track the purchase
+        if (data && data.items && data.items.length > 0) {
+          // Generate a unique transaction ID
+          const transactionId = `paypal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          
+          trackPurchase({
+            transactionId: transactionId,
+            total: data.total || 0,
+            currency: 'NZD',
+            products: data.items.map((item: any) => ({
+              id: item.id || item.productId || 'unknown',
+              name: item.name || 'Unknown Product',
+              price: item.price || 0,
+              quantity: item.quantity || 1,
+              category: item.category || 'Wooden Toys',
+            }))
+          });
+          
+          console.log('✅ Purchase tracked in GTM:', transactionId);
+        }
         
         // Clear the stored data
         localStorage.removeItem('paypal-order-data');
