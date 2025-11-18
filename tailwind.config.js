@@ -14,10 +14,10 @@ export default {
           300: '#fcd34d',
           400: '#fbbf24',
           500: '#f59e0b',
-          600: '#d97706',  // Darkened for WCAG AAA contrast
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
+          600: '#b45309',  // WCAG AAA compliant - darker orange
+          700: '#92400e',
+          800: '#78350f',
+          900: '#451a03',
         },
         green: {
           50: '#f0fdf4',
@@ -26,10 +26,10 @@ export default {
           300: '#86efac',
           400: '#4ade80',
           500: '#22c55e',
-          600: '#15803d',  // Darkened for WCAG AAA contrast
-          700: '#14532d',
-          800: '#166534',
-          900: '#14532d',
+          600: '#14532d',  // WCAG AAA compliant - darker green
+          700: '#166534',
+          800: '#14532d',
+          900: '#052e16',
         }
       },
       fontFamily: {
