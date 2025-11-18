@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script defer>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.defer=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-NQG3DNXR');</script>
     <!-- End Google Tag Manager -->
@@ -14,10 +14,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- PERFORMANCE OPTIMIZATION: Preconnect to critical domains -->
-    <link rel="preconnect" href="https://i.ibb.co">
+    <link rel="preconnect" href="https://i.ibb.co" crossorigin>
     <link rel="dns-prefetch" href="https://i.ibb.co">
-    <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co">
+    <link rel="preconnect" href="https://hfirnolwhesjkxshidxo.supabase.co" crossorigin>
     <link rel="dns-prefetch" href="https://hfirnolwhesjkxshidxo.supabase.co">
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     
     <title>Poppa's Wooden Creations | Handcrafted Wooden Toys Whangārei NZ</title>
     <meta name="description" content="Premium handcrafted wooden toys made in Whangārei, New Zealand. Sustainable, safe, and built to last. Shop our collection of trains, trucks, and educational toys." />
@@ -28,12 +30,14 @@
     <meta property="og:title" content="Poppa's Wooden Creations | Handcrafted Wooden Toys NZ" />
     <meta property="og:description" content="Premium handcrafted wooden toys made in Whangārei. Sustainable, safe, and built to last." />
     <meta property="og:image" content="https://poppaswoodencreations.co.nz/og-image.jpg" />
+    
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://poppaswoodencreations.co.nz/" />
     <meta property="twitter:title" content="Poppa's Wooden Creations | Handcrafted Wooden Toys NZ" />
     <meta property="twitter:description" content="Premium handcrafted wooden toys made in Whangārei. Sustainable, safe, and built to last." />
     <meta property="twitter:image" content="https://poppaswoodencreations.co.nz/og-image.jpg" />
+    
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
     {
@@ -55,6 +59,7 @@
       }
     }
     </script>
+    
     <!-- PERFORMANCE: Inline critical CSS to prevent render blocking -->
     <style>
       /* Critical CSS for above-the-fold content */
@@ -67,6 +72,28 @@
       #root {
         min-height: 100vh;
       }
+      
+      /* Loading spinner */
+      .loading-spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #f3f4f6;
+        border-top: 4px solid #d97706;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
@@ -75,7 +102,13 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     
-    <div id="root"></div>
+    <!-- Loading indicator shown while React loads -->
+    <div id="root">
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
