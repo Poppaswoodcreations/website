@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  publicDir: 'public',
   server: {
     host: true,
     port: 5173,
@@ -20,7 +19,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
+          vendor: ['react', 'react-dom'],
           supabase: ['@supabase/supabase-js'],
           ui: ['lucide-react', 'react-helmet-async']
         },
@@ -41,7 +40,7 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react', '@supabase/supabase-js']
+    include: ['react', 'react-dom', 'lucide-react', '@supabase/supabase-js']
   },
   esbuild: {
     drop: ['debugger'],

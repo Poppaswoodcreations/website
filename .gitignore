@@ -196,9 +196,3 @@ dist
 # Supabase
 .branches
 .temp
-# Supabase Configuration
-VITE_SUPABASE_URL=https://hfirnolwhesjkxshidxo.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmaXJub2x3aGVzamt4c2hpZHhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1MjI5MTgsImV4cCI6MjA0ODA5ODkxOH0.tZ8bY5LvVQGQxvxQKrJNxLY_EqMVZPqZ3vXqLvKPJ-0
-
-# Stripe Configuration  
-VITE_STRIPE_PUBLISHABLE_KEY=pk_live_51STuwTDnRGGY8Ud_PUT_YOUR_FULL_KEY_HERE
