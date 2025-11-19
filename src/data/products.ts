@@ -58,13 +58,6 @@ export const categories = [
     description: 'Farm tractors and sailing boats for adventure play',
     image: 'https://i.ibb.co/FkkjBShk/image.jpg',
     slug: 'wooden-tractors-boats'
-  },
-  {
-    id: 'other-toys',
-    name: 'Other Wooden Toys',
-    description: 'Unique wooden toys and educational games',
-    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
-    slug: 'wooden-other-toys'
   }
 ];
 
@@ -108,6 +101,43 @@ export const products: Product[] = [
     image: 'https://i.ibb.co/x82psRdL/image.jpg',
     description: 'Natural wooden teething ring perfect for baby comfort',
     stock: 8
+  },
+  {
+    id: 'noise-maker',
+    name: 'NOISE MAKER',
+    category: 'baby-toys',
+    price: 40.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden noise maker toy perfect for musical play',
+    stock: 10
+  },
+  {
+    id: 'floor-noise-maker',
+    name: 'FLOOR NOISE MAKER',
+    category: 'baby-toys',
+    price: 30.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Large floor wooden noise maker for musical play',
+    stock: 2
+  },
+  {
+    id: 'pine-kiwi',
+    name: 'pine kiwi',
+    category: 'baby-toys',
+    price: 25.00,
+    image: 'https://i.ibb.co/tM2rrMsC/image.jpg',
+    description: 'Pine wooden kiwi bird representing New Zealand',
+    featured: true,
+    stock: 3
+  },
+  {
+    id: 'hammer-set',
+    name: 'hammer set',
+    category: 'baby-toys',
+    price: 40.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden hammer tool set perfect for construction play',
+    stock: 2
   },
 
   // TRUCKS
@@ -222,7 +252,7 @@ export const products: Product[] = [
     category: 'cars',
     price: 5.00,
     image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
-    description: 'Classic New Zealand pine ute (utility vehicle)',
+    description: 'Classic New Zealand pine ute utility vehicle',
     stock: 6
   },
   {
@@ -408,6 +438,33 @@ export const products: Product[] = [
     description: 'Sleek wooden sports car design',
     stock: 1
   },
+  {
+    id: 'tude-dude-coaster',
+    name: 'TUDE DUDE COASTER',
+    category: 'cars',
+    price: 15.00,
+    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
+    description: 'Tude Dude themed wooden coaster',
+    stock: 1
+  },
+  {
+    id: 'power-pony-coaster',
+    name: 'POWER PONY COASTER',
+    category: 'cars',
+    price: 15.00,
+    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
+    description: 'Power Pony themed wooden coaster',
+    stock: 1
+  },
+  {
+    id: 'freaky-ford-coaster',
+    name: 'FREAKY FORD COASTER',
+    category: 'cars',
+    price: 15.00,
+    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
+    description: 'Freaky Ford themed wooden coaster',
+    stock: 1
+  },
 
   // PLANES
   {
@@ -416,4 +473,193 @@ export const products: Product[] = [
     category: 'planes',
     price: 30.00,
     image: 'https://i.ibb.co/tM2rrMsC/image.jpg',
-    description: 'Beau
+    description: 'Beautiful wooden helicopter made from premium rimu',
+    featured: true,
+    stock: 5
+  },
+  {
+    id: 'bi-plane',
+    name: 'bi plane',
+    category: 'planes',
+    price: 20.00,
+    image: 'https://i.ibb.co/yc5YffjH/received-649542706226495-2-optimized.webp',
+    description: 'Classic wooden biplane with authentic aviation details',
+    stock: 3
+  },
+  {
+    id: 'pine-plan',
+    name: 'pine plan',
+    category: 'planes',
+    price: 20.00,
+    image: 'https://i.ibb.co/yc5YffjH/received-649542706226495-2-optimized.webp',
+    description: 'Simple pine wooden airplane perfect for young aviators',
+    stock: 4
+  },
+  {
+    id: 'wooden-pine-helicopter',
+    name: 'wooden pine helicopter',
+    category: 'planes',
+    price: 20.00,
+    image: 'https://i.ibb.co/tM2rrMsC/image.jpg',
+    description: 'Pine wooden helicopter perfect for aviation adventures',
+    stock: 9
+  },
+
+  // KITCHEN
+  {
+    id: 'big-spatuler-flat',
+    name: 'BIG SPATULER FLAT',
+    category: 'kitchen',
+    price: 20.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Large flat wooden spatula perfect for cooking',
+    stock: 3
+  },
+  {
+    id: 'wooden-spoon',
+    name: 'wooden SPOON',
+    category: 'kitchen',
+    price: 12.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Handcrafted wooden spoon perfect for cooking',
+    stock: 5
+  },
+  {
+    id: 'toaster-tongs',
+    name: 'TOASTER-TONGS',
+    category: 'kitchen',
+    price: 30.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden toaster tongs for safe bread handling',
+    stock: 2
+  },
+  {
+    id: 'rolling-pin',
+    name: 'ROLLING PIN',
+    category: 'kitchen',
+    price: 40.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Traditional wooden rolling pin perfect for baking',
+    stock: 1
+  },
+  {
+    id: 'egg-cup',
+    name: 'egg cup',
+    category: 'kitchen',
+    price: 10.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden egg cup perfect for breakfast',
+    stock: 3
+  },
+  {
+    id: 'small-spatuler-curve',
+    name: 'SMALL SPATULER CURVE',
+    category: 'kitchen',
+    price: 12.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Small curved wooden spatula perfect for cooking',
+    stock: 2
+  },
+  {
+    id: 'small-spatuler-flat',
+    name: 'SMALL SPATULER FLAT',
+    category: 'kitchen',
+    price: 12.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Small flat wooden spatula perfect for cooking',
+    stock: 3
+  },
+  {
+    id: 'spreader',
+    name: 'SPREADER',
+    category: 'kitchen',
+    price: 10.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden spreader for butter and spreads',
+    stock: 5
+  },
+  {
+    id: 'small-spoon',
+    name: 'SMALL SPOON',
+    category: 'kitchen',
+    price: 8.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Small wooden spoon for stirring',
+    stock: 4
+  },
+  {
+    id: 'porridge-spurtle',
+    name: 'PORRIDGE SPURTLE',
+    category: 'kitchen',
+    price: 15.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Traditional Scottish wooden spurtle for stirring porridge',
+    stock: 2
+  },
+  {
+    id: 'pot-scraper',
+    name: 'POT SCRAPER',
+    category: 'kitchen',
+    price: 8.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden pot scraper for cooking',
+    stock: 3
+  },
+  {
+    id: 'salad-hands',
+    name: 'SALAD HANDS',
+    category: 'kitchen',
+    price: 50.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden salad hands for serving',
+    stock: 1
+  },
+  {
+    id: 'key-holder',
+    name: 'KEY HOLDER',
+    category: 'kitchen',
+    price: 25.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Functional wooden key holder for organizing keys',
+    stock: 3
+  },
+
+  // TRACTORS & BOATS
+  {
+    id: 'police-boat',
+    name: 'police boat',
+    category: 'tractors-boats',
+    price: 100.00,
+    image: 'https://i.ibb.co/FkkjBShk/image.jpg',
+    description: 'Wooden police patrol boat for law enforcement missions',
+    stock: 2
+  },
+  {
+    id: 'pine-boat',
+    name: 'pine boat',
+    category: 'tractors-boats',
+    price: 20.00,
+    image: 'https://i.ibb.co/FkkjBShk/image.jpg',
+    description: 'Simple pine wooden boat perfect for water adventures',
+    stock: 3
+  },
+  {
+    id: 'tractor-exquisite',
+    name: 'Tractor Exquisite',
+    category: 'tractors-boats',
+    price: 80.00,
+    image: 'https://i.ibb.co/FkkjBShk/image.jpg',
+    description: 'Premium wooden tractor with exquisite craftsmanship',
+    featured: true,
+    stock: 2
+  },
+  {
+    id: 'fishing-boat',
+    name: 'FISHING BOAT',
+    category: 'tractors-boats',
+    price: 100.00,
+    image: 'https://i.ibb.co/FkkjBShk/image.jpg',
+    description: 'Wooden fishing boat perfect for marine adventures',
+    stock: 1
+  }
+];
