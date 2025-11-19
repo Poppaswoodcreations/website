@@ -58,6 +58,13 @@ export const categories = [
     description: 'Farm tractors and sailing boats for adventure play',
     image: 'https://i.ibb.co/FkkjBShk/image.jpg',
     slug: 'wooden-tractors-boats'
+  },
+  {
+    id: 'other-toys',
+    name: 'Other Wooden Toys',
+    description: 'Unique wooden toys and educational games',
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    slug: 'wooden-other-toys'
   }
 ];
 
@@ -101,43 +108,6 @@ export const products: Product[] = [
     image: 'https://i.ibb.co/x82psRdL/image.jpg',
     description: 'Natural wooden teething ring perfect for baby comfort',
     stock: 8
-  },
-  {
-    id: 'noise-maker',
-    name: 'NOISE MAKER',
-    category: 'baby-toys',
-    price: 40.00,
-    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
-    description: 'Wooden noise maker toy perfect for musical play',
-    stock: 10
-  },
-  {
-    id: 'floor-noise-maker',
-    name: 'FLOOR NOISE MAKER',
-    category: 'baby-toys',
-    price: 30.00,
-    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
-    description: 'Large floor wooden noise maker for musical play',
-    stock: 2
-  },
-  {
-    id: 'pine-kiwi',
-    name: 'pine kiwi',
-    category: 'baby-toys',
-    price: 25.00,
-    image: 'https://i.ibb.co/tM2rrMsC/image.jpg',
-    description: 'Pine wooden kiwi bird representing New Zealand',
-    featured: true,
-    stock: 3
-  },
-  {
-    id: 'hammer-set',
-    name: 'hammer set',
-    category: 'baby-toys',
-    price: 40.00,
-    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
-    description: 'Wooden hammer tool set perfect for construction play',
-    stock: 2
   },
 
   // TRUCKS
@@ -438,33 +408,6 @@ export const products: Product[] = [
     description: 'Sleek wooden sports car design',
     stock: 1
   },
-  {
-    id: 'tude-dude-coaster',
-    name: 'TUDE DUDE COASTER',
-    category: 'cars',
-    price: 15.00,
-    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
-    description: 'Tude Dude themed wooden coaster',
-    stock: 1
-  },
-  {
-    id: 'power-pony-coaster',
-    name: 'POWER PONY COASTER',
-    category: 'cars',
-    price: 15.00,
-    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
-    description: 'Power Pony themed wooden coaster',
-    stock: 1
-  },
-  {
-    id: 'freaky-ford-coaster',
-    name: 'FREAKY FORD COASTER',
-    category: 'cars',
-    price: 15.00,
-    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
-    description: 'Freaky Ford themed wooden coaster',
-    stock: 1
-  },
 
   // PLANES
   {
@@ -614,15 +557,6 @@ export const products: Product[] = [
     description: 'Wooden salad hands for serving',
     stock: 1
   },
-  {
-    id: 'key-holder',
-    name: 'KEY HOLDER',
-    category: 'kitchen',
-    price: 25.00,
-    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
-    description: 'Functional wooden key holder for organizing keys',
-    stock: 3
-  },
 
   // TRACTORS & BOATS
   {
@@ -660,6 +594,81 @@ export const products: Product[] = [
     price: 100.00,
     image: 'https://i.ibb.co/FkkjBShk/image.jpg',
     description: 'Wooden fishing boat perfect for marine adventures',
+    stock: 1
+  },
+
+  // OTHER TOYS
+  {
+    id: 'key-holder',
+    name: 'KEY HOLDER',
+    category: 'other-toys',
+    price: 25.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Functional wooden key holder for organizing keys',
+    stock: 3
+  },
+  {
+    id: 'hammer-set',
+    name: 'hammer set',
+    category: 'other-toys',
+    price: 40.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden hammer tool set perfect for construction play',
+    stock: 2
+  },
+  {
+    id: 'noise-maker',
+    name: 'NOISE MAKER',
+    category: 'other-toys',
+    price: 40.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Wooden noise maker toy perfect for musical play',
+    stock: 10
+  },
+  {
+    id: 'floor-noise-maker',
+    name: 'FLOOR NOISE MAKER',
+    category: 'other-toys',
+    price: 30.00,
+    image: 'https://i.ibb.co/VcvfnLgb/FB-IMG-1641578276716-optimized.webp',
+    description: 'Large floor wooden noise maker for musical play',
+    stock: 2
+  },
+  {
+    id: 'pine-kiwi',
+    name: 'pine kiwi',
+    category: 'other-toys',
+    price: 25.00,
+    image: 'https://i.ibb.co/tM2rrMsC/image.jpg',
+    description: 'Pine wooden kiwi bird representing New Zealand',
+    featured: true,
+    stock: 3
+  },
+  {
+    id: 'tude-dude-coaster',
+    name: 'TUDE DUDE COASTER',
+    category: 'other-toys',
+    price: 15.00,
+    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
+    description: 'Tude Dude themed wooden coaster',
+    stock: 1
+  },
+  {
+    id: 'power-pony-coaster',
+    name: 'POWER PONY COASTER',
+    category: 'other-toys',
+    price: 15.00,
+    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
+    description: 'Power Pony themed wooden coaster',
+    stock: 1
+  },
+  {
+    id: 'freaky-ford-coaster',
+    name: 'FREAKY FORD COASTER',
+    category: 'other-toys',
+    price: 15.00,
+    image: 'https://i.ibb.co/1GbsQ0F8/image.jpg',
+    description: 'Freaky Ford themed wooden coaster',
     stock: 1
   }
 ];
