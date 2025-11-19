@@ -2,11 +2,6 @@
   publish = "dist"
   command = "npm install && npm run build"
 
-# Environment variables for production
-[build.environment]
-  NODE_ENV = "production"
-  VITE_NODE_ENV = "production"
-
 # Netlify redirects for React SPA - CRITICAL for proper routing
 [[redirects]]
   from = "/about"
