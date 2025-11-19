@@ -70,9 +70,25 @@ const App: React.FC = () => {
     addToCart(product);
   };
 
+  // ✅ FIXED: Map slug to category ID
   const filteredProducts = currentView === 'home' 
     ? products.filter(p => p.featured).slice(0, 8)
-    : products.filter(p => p.category === currentView);
+    : products.filter(p => {
+        // Map slug to category ID
+        const slugToCategoryMap: { [key: string]: string } = {
+          'wooden-trains': 'trains',
+          'wooden-baby-toys': 'baby-toys',
+          'wooden-trucks': 'trucks',
+          'wooden-cars': 'cars',
+          'wooden-planes-helicopters': 'planes',
+          'wooden-kitchenware': 'kitchen',
+          'wooden-tractors-boats': 'tractors-boats',
+          'wooden-other-toys': 'other-toys'
+        };
+        
+        const categoryId = slugToCategoryMap[currentView] || currentView;
+        return p.category === categoryId;
+      });
 
   const renderContent = () => {
     // ✅ NEVER block the page - products start with static data
