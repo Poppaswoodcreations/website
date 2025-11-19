@@ -53,7 +53,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductSelect, on
         "item": {
           "@type": "Product",
           "name": product.name,
-          "image": product.images[0],
+          "image": product.image,
           "description": product.description,
           "brand": {
             "@type": "Brand",
@@ -63,7 +63,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, onProductSelect, on
             "@type": "Offer",
             "price": product.price.toFixed(2),
             "priceCurrency": "NZD",
-            "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
             "url": `https://poppaswoodencreations.co.nz/${category || 'products'}`,
             "seller": {
               "@type": "Organization",
