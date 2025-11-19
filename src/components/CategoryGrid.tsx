@@ -47,12 +47,6 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, onCategorySelec
                 <p className="text-gray-600 mb-3">
                   {category.description}
                 </p>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-amber-700 font-medium">
-                    {category.productCount} products
-                  </span>
-                </div>
               </div>
             </div>
           ))}
