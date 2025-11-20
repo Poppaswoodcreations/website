@@ -41,6 +41,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const tabs = [
     { id: 'products', label: '📦 Product Manager', icon: Package },
     { id: 'orders', label: '📋 Orders', icon: BarChart3 },
+    { id: 'seo-optimizer', label: '🚀 SEO Optimizer', icon: Globe },
     { id: 'hero-editor', label: '🎨 Edit Hero', icon: Edit3 },
     { id: 'footer-editor', label: '📄 Edit Footer', icon: Settings },
     { id: 'add-category', label: '➕ Add Category', icon: Plus },
@@ -375,6 +376,29 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </div>
         );
 
+      case 'orders':
+        return <OrderManager />;
+
+      case 'seo-optimizer':
+        return (
+          <div className="h-full flex flex-col">
+            <div className="mb-4">
+              <h3 className="text-xl font-bold text-gray-900">🚀 SEO Content Optimizer</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Generate SEO-optimized titles, descriptions, and social media content for your products
+              </p>
+            </div>
+            <div className="flex-1 bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <iframe 
+                src="/seo-optimizer.html" 
+                className="w-full h-full border-0"
+                title="SEO Optimizer"
+                style={{ minHeight: '600px' }}
+              />
+            </div>
+          </div>
+        );
+
       case 'hero-editor':
         return (
           <div className="space-y-6">
@@ -490,9 +514,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             }}
           />
         );
-
-      case 'orders':
-        return <OrderManager />;
 
       case 'database':
         return (
