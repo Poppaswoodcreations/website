@@ -137,7 +137,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => onCategorySelect('wooden-baby-toys')}
-                className="bg-amber-700 text-white px-6 sm:px-8 py-4 rounded-lg font-medium hover:bg-amber-800 transition-colors flex items-center justify-center space-x-2 group"
+                className="bg-amber-700 text-white px-6 sm:px-8 py-4 rounded-lg font-bold hover:bg-amber-800 transition-colors flex items-center justify-center space-x-2 group shadow-lg"
               >
                 <span>Shop Baby Toys</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -174,7 +174,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             {/* Edit Button - Always visible */}
             <button
               onClick={() => setShowImageEditor(true)}
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-amber-700 hover:bg-amber-800 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-amber-800 hover:bg-amber-900 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all"
               title="Edit hero image"
               style={{ zIndex: 30 }}
             >
@@ -199,12 +199,12 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
               />
             </div>
             
-            {/* Floating Elements */}
-            <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-green-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
+            {/* Floating Elements - FIXED CONTRAST */}
+            <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-green-700 text-white px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-xl">
               Made in NZ 🇳🇿
             </div>
             
-            <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-amber-700 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
+            <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-amber-800 text-white px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-xl">
               🚛 Premium Wooden Toys
             </div>
           </div>
