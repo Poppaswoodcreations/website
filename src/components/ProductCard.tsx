@@ -70,10 +70,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCar
           loading="lazy"
           onLoad={() => console.log(`✅ Image loaded for ${product.name}:`, productImage)}
           onError={(e) => {
-            console.log(`❌ Image failed for ${product.name}:`, productImage);
             const target = e.target as HTMLImageElement;
-            // Don't change the src on error - let it show broken image or keep trying
-            target.style.border = '2px solid red';
+            // ✅ SILENT FALLBACK: Use inline SVG to prevent console errors
+            target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23f59e0b" width="400" height="300"/%3E%3Ctext x="50%25" y="45%25" font-size="20" text-anchor="middle" fill="white" font-weight="bold"%3EPoppa%27s%3C/text%3E%3Ctext x="50%25" y="55%25" font-size="16" text-anchor="middle" fill="white"%3EWooden Creations%3C/text%3E%3C/svg%3E';
+            target.onerror = null; // Prevent infinite loop
           }}
         />
         
