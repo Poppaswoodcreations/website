@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO & AI Content Optimizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .char-count {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .char-count span {
+            color: #6c757d;
+        }
+
+        .char-count.good {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .char-count.warning {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .char-count.error {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .ai-generator-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .ai-generator-box h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-generator-box input {
+            background: white;
+            color: #333;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 30px 0;
+            color: #6c757d;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .ai-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .preview-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .preview-section h3 {
+            margin-bottom: 20px;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3em;
+        }
+
+        .preview-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 0;
+        }
+
+        .preview-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .preview-tab:hover {
+            color: #495057;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .preview-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .preview-content {
+            display: none;
+        }
+
+        .preview-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .google-preview {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .google-url {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .google-url::before {
+            content: "🌐";
+        }
+
+        .google-title {
+            font-size: 20px;
+            color: #1a0dab;
+            margin-bottom: 5px;
+            line-height: 1.3;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .google-title:hover {
+            text-decoration: underline;
+        }
+
+        .google-description {
+            font-size: 14px;
+            color: #4d5156;
+            line-height: 1.58;
+        }
+
+        .preview-empty {
+            color: #999;
+            font-style: italic;
+        }
+
+        .social-preview {
+            background: white;
+            border: 1px solid #dadde1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .social-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 64px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .social-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .social-content {
+            padding: 15px;
+            background: #f0f2f5;
+        }
+
+        .social-url {
+            font-size: 12px;
+            color: #65676b;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .social-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #050505;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .social-description {
+            font-size: 14px;
+            color: #65676b;
+            line-height: 1.4;
+        }
+
+        .suggestion-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .suggestion-box.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .suggestion-box.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .suggestion-box.info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .output-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .preview-tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .preview-tab {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 SEO & AI Content Optimizer</h1>
+            <p>Optimize your content for Google & AI search engines</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Important Notice -->
+            <div class="suggestion-box info" style="margin-bottom: 30px;">
+                <strong>ℹ️ AI Features Notice:</strong> The AI generation features require this tool to be hosted on a web server. If AI buttons don't work when opening this file locally, you can either:
+                <ul style="margin: 10px 0 0 20px;">
+                    <li>Upload this file to your website</li>
+                    <li>Use a local web server</li>
+                    <li>Or simply enter your SEO content manually (all other features work offline!)</li>
+                </ul>
+            </div>
+
+            <!-- AI Auto-Generator Section -->
+            <div class="ai-generator-box">
+                <h3>
+                    🤖 AI Auto-Generator
+                    <span class="ai-badge">✨ POWERED BY AI</span>
+                </h3>
+                <div class="input-group">
+                    <label>Enter your topic or URL to generate optimized meta tags:</label>
+                    <input type="text" id="aiInput" placeholder="e.g., Best handcrafted wooden toys for toddlers">
+                </div>
+                <button class="btn" onclick="generateWithAI()" id="aiBtn">
+                    🪄 Generate with AI
+                </button>
+            </div>
+
+            <div class="divider">
+                <span>OR ENTER MANUALLY</span>
+            </div>
+
+            <!-- Manual Input Section -->
+            <div class="input-group">
+                <label>Page URL:</label>
+                <input type="url" id="pageUrl" placeholder="https://www.example.com/page">
+            </div>
+
+            <div class="input-group">
+                <label>Product Image:</label>
+                <div style="display: flex; gap: 10px; align-items: start; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <input type="file" id="productImage" accept="image/*" onchange="handleImageUpload()" style="display: none;">
+                        <button class="btn btn-secondary" onclick="document.getElementById('productImage').click()" style="margin: 0; width: 100%;">
+                            📷 Upload Product Image
+                        </button>
+                        <div id="imagePreview" style="margin-top: 15px; display: none;">
+                            <img id="previewImg" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <button class="btn btn-secondary" onclick="removeImage()" style="margin-top: 10px; width: 100%; background: #dc3545;">
+                                🗑️ Remove Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group" id="altTextSection" style="display: none;">
+                <label>Image Alt Text (for SEO & Accessibility):</label>
+                <div style="display: flex; gap: 10px; align-items: start;">
+                    <div style="flex: 1;">
+                        <input type="text" id="imageAlt" placeholder="Describe your product image for SEO">
+                        <div style="margin-top: 5px; font-size: 0.9em; color: #6c757d;">
+                            Alt text helps search engines understand your image and improves accessibility
+                        </div>
+                    </div>
+                    <button class="btn" onclick="generateAltText()" id="altAiBtn" style="margin: 0; white-space: nowrap;">
+                        🪄 AI Generate
+                    </button>
+                </div>
+            </div>
+
+            <div class="divider">
+                <span>SEO SETTINGS</span>
+            </div>
+
+            <div class="input-group">
+                <label>SEO Title:</label>
+                <div style="display: flex; gap: 10px; align-items: start;">
+                    <div style="flex: 1;">
+                        <input type="text" id="metaTitle" placeholder="Enter your page title" maxlength="70" oninput="updateCharCount('metaTitle', 'titleCount', 50, 60)">
+                        <div class="char-count" id="titleCount">
+                            <span>0/60 characters (recommended)</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="generateField('title')" id="titleAiBtn" style="margin: 0; white-space: nowrap;">
+                        🪄 AI Generate
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>SEO Description:</label>
+                <div style="display: flex; gap: 10px; align-items: start;">
+                    <div style="flex: 1;">
+                        <textarea id="metaDescription" placeholder="Enter your page description" maxlength="160" oninput="updateCharCount('metaDescription', 'descCount', 150, 160)"></textarea>
+                        <div class="char-count" id="descCount">
+                            <span>0/160 characters (recommended)</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="generateField('description')" id="descAiBtn" style="margin: 0; white-space: nowrap;">
+                        🪄 AI Generate
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>SEO Keywords:</label>
+                <div style="display: flex; gap: 10px; align-items: start;">
+                    <input type="text" id="keywords" placeholder="e.g., wooden toys, handcrafted, eco-friendly" style="flex: 1;">
+                    <button class="btn" onclick="generateField('keywords')" id="keywordsAiBtn" style="margin: 0; white-space: nowrap;">
+                        🪄 AI Generate
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn" onclick="analyzeContent()">
+                📊 Analyze & Preview
+            </button>
+            <button class="btn btn-secondary" onclick="generateCode('html')">
+                💾 Generate HTML
+            </button>
+            <button class="btn btn-secondary" onclick="generateCode('tsx')">
+                ⚛️ Generate TSX/React
+            </button>
+
+            <!-- Suggestions Section -->
+            <div id="suggestions"></div>
+
+            <!-- Preview Section -->
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>👁️ Preview Your Content</h3>
+                
+                <div class="preview-tabs">
+                    <button class="preview-tab active" onclick="switchTab('google')">
+                        🔍 Google Search
+                    </button>
+                    <button class="preview-tab" onclick="switchTab('social')">
+                        📱 Social Media
+                    </button>
+                </div>
+
+                <div id="googlePreview" class="preview-content active">
+                    <div class="google-preview">
+                        <div class="google-url" id="previewUrl">www.example.com</div>
+                        <div class="google-title" id="previewTitle">Your Page Title Will Appear Here</div>
+                        <div class="google-description" id="previewDesc">Your meta description will appear here in Google search results. Make it compelling to increase click-through rates!</div>
+                    </div>
+                </div>
+
+                <div id="socialPreview" class="preview-content">
+                    <div class="social-preview">
+                        <div class="social-image" id="socialImagePreview">🖼️</div>
+                        <div class="social-content">
+                            <div class="social-url" id="socialUrl">EXAMPLE.COM</div>
+                            <div class="social-title" id="socialTitle">Your Page Title Will Appear Here</div>
+                            <div class="social-description" id="socialDesc">Your meta description will appear here when shared on social media platforms like Facebook, Twitter, and LinkedIn.</div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="downloadSocialPreview()" style="margin-top: 15px; width: 100%;" id="downloadSocialBtn">
+                        📥 Download Social Media Preview
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>📋 Generated HTML Code</h3>
+                <p>Copy and paste this code into the &lt;head&gt; section of your HTML:</p>
+                <div class="code-box" id="codeOutput">
+                    <button class="copy-btn" onclick="copyCode()">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'google';
+        let uploadedImage = null;
+
+        function handleImageUpload() {
+            const input = document.getElementById('productImage');
+            const file = input.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage = e.target.result;
+                    
+                    // Show image preview
+                    document.getElementById('previewImg').src = uploadedImage;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    
+                    // Show alt text section
+                    document.getElementById('altTextSection').style.display = 'block';
+                    
+                    // Update social preview
+                    updateSocialImage();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            uploadedImage = null;
+            document.getElementById('productImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('altTextSection').style.display = 'none';
+            document.getElementById('imageAlt').value = '';
+            
+            // Reset social preview
+            const socialImg = document.getElementById('socialImagePreview');
+            socialImg.innerHTML = '🖼️';
+            socialImg.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        }
+
+        function updateSocialImage() {
+            const socialImg = document.getElementById('socialImagePreview');
+            if (uploadedImage) {
+                socialImg.innerHTML = `<img src="${uploadedImage}" alt="Product preview">`;
+                socialImg.style.background = 'none';
+            } else {
+                socialImg.innerHTML = '🖼️';
+                socialImg.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+        }
+
+        async function generateAltText() {
+            if (!uploadedImage) {
+                alert('Please upload an image first');
+                return;
+            }
+
+            const context = document.getElementById('aiInput').value.trim() || 
+                          document.getElementById('metaTitle').value.trim() || 
+                          'this product image';
+
+            const btn = document.getElementById('altAiBtn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>';
+
+            try {
+                // Extract base64 data and mime type
+                const base64Match = uploadedImage.match(/^data:(.*?);base64,(.*)$/);
+                if (!base64Match) {
+                    throw new Error('Invalid image format');
+                }
+                
+                const mimeType = base64Match[1];
+                const base64Data = base64Match[2];
+
+                console.log('Sending request with mime type:', mimeType);
+
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 200,
+                        messages: [
+                            { 
+                                role: "user", 
+                                content: [
+                                    {
+                                        type: "image",
+                                        source: {
+                                            type: "base64",
+                                            media_type: mimeType,
+                                            data: base64Data
+                                        }
+                                    },
+                                    {
+                                        type: "text",
+                                        text: `Generate SEO-optimized alt text for this product image. Context: ${context}
+
+Requirements:
+- Descriptive and specific (8-12 words)
+- Include relevant keywords naturally
+- Describe what's in the image
+- Good for both SEO and accessibility
+
+Respond ONLY with the alt text, nothing else. NO quotes or formatting.`
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    throw new Error(errorData.error?.message || 'API request failed');
+                }
+
+                const data = await response.json();
+                
+                if (!data.content || !data.content[0] || !data.content[0].text) {
+                    throw new Error('Invalid response format');
+                }
+                
+                let result = data.content[0].text.trim();
+                
+                // Remove any quotes
+                result = result.replace(/^["']|["']$/g, '');
+
+                document.getElementById('imageAlt').value = result;
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+
+            } catch (error) {
+                console.error('Error generating alt text:', error);
+                alert('Failed to generate alt text: ' + error.message + '\n\nYou can still enter alt text manually.');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        function updateCharCount(inputId, countId, min, max) {
+            const input = document.getElementById(inputId);
+            const countDiv = document.getElementById(countId);
+            const length = input.value.length;
+            
+            let status = '';
+            if (length === 0) {
+                status = '';
+            } else if (length < min) {
+                status = 'warning';
+            } else if (length >= min && length <= max) {
+                status = 'good';
+            } else {
+                status = 'error';
+            }
+            
+            countDiv.className = `char-count ${status}`;
+            countDiv.innerHTML = `<span>${length}/${max} characters (recommended)</span>`;
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.preview-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.preview-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            if (tab === 'google') {
+                document.getElementById('googlePreview').classList.add('active');
+            } else {
+                document.getElementById('socialPreview').classList.add('active');
+            }
+        }
+
+        async function generateField(fieldType) {
+            const topicInput = document.getElementById('aiInput').value.trim();
+            const pageUrl = document.getElementById('pageUrl').value.trim();
+            const existingTitle = document.getElementById('metaTitle').value.trim();
+            const existingDesc = document.getElementById('metaDescription').value.trim();
+            
+            // Use AI input, or URL, or existing title as context
+            const context = topicInput || pageUrl || existingTitle || existingDesc;
+            
+            if (!context) {
+                alert('Please enter a topic in the AI Generator box, or fill in the URL, or provide some context first.');
+                return;
+            }
+
+            const buttonMap = {
+                'title': 'titleAiBtn',
+                'description': 'descAiBtn',
+                'keywords': 'keywordsAiBtn'
+            };
+            
+            const btn = document.getElementById(buttonMap[fieldType]);
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>';
+
+            try {
+                let prompt = '';
+                
+                if (fieldType === 'title') {
+                    prompt = `Generate an SEO-optimized title for: "${context}"
+
+Requirements:
+- Must be 50-60 characters long
+- Include relevant keywords naturally
+- Be compelling and click-worthy
+- Accurate and descriptive
+
+Respond ONLY with the title text, nothing else. DO NOT include quotes or any other formatting.`;
+                } else if (fieldType === 'description') {
+                    prompt = `Generate an SEO-optimized meta description for: "${context}"
+
+Requirements:
+- Must be 150-160 characters long
+- Include relevant keywords naturally
+- Be compelling and encourage clicks
+- Accurately describe the content
+- Include a call-to-action if appropriate
+
+Respond ONLY with the description text, nothing else. DO NOT include quotes or any other formatting.`;
+                } else if (fieldType === 'keywords') {
+                    prompt = `Generate 5-7 SEO keywords for: "${context}"
+
+Requirements:
+- Relevant, searchable keywords
+- Mix of short and long-tail keywords
+- Comma-separated list
+- No hashtags or special characters
+
+Respond ONLY with the comma-separated keywords, nothing else.`;
+                }
+
+                console.log('Making API request for:', fieldType);
+
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 300,
+                        messages: [
+                            { 
+                                role: "user", 
+                                content: prompt
+                            }
+                        ]
+                    })
+                });
+
+                console.log('Response status:', response.status);
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('API Error:', errorData);
+                    throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.content || !data.content[0] || !data.content[0].text) {
+                    throw new Error('Invalid response format from API');
+                }
+                
+                let result = data.content[0].text.trim();
+                
+                // Remove any quotes that might be around the result
+                result = result.replace(/^["']|["']$/g, '');
+
+                // Populate the field
+                if (fieldType === 'title') {
+                    document.getElementById('metaTitle').value = result;
+                    updateCharCount('metaTitle', 'titleCount', 50, 60);
+                } else if (fieldType === 'description') {
+                    document.getElementById('metaDescription').value = result;
+                    updateCharCount('metaDescription', 'descCount', 150, 160);
+                } else if (fieldType === 'keywords') {
+                    document.getElementById('keywords').value = result;
+                }
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+
+            } catch (error) {
+                console.error('Error generating content:', error);
+                
+                let errorMessage = 'Failed to generate content.\n\n';
+                
+                if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+                    errorMessage += '⚠️ IMPORTANT: This tool must be hosted on a web server to use AI features.\n\n';
+                    errorMessage += 'Opening the HTML file directly (file://) blocks API calls.\n\n';
+                    errorMessage += 'Solutions:\n';
+                    errorMessage += '1. Upload to your website\n';
+                    errorMessage += '2. Use a local server (e.g., "python -m http.server")\n';
+                    errorMessage += '3. Or enter content manually for now';
+                } else {
+                    errorMessage += 'Error: ' + error.message + '\n\n';
+                    errorMessage += 'You can still enter content manually.';
+                }
+                
+                alert(errorMessage);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        async function generateWithAI() {
+            const input = document.getElementById('aiInput').value.trim();
+            
+            if (!input) {
+                alert('Please enter a topic or URL to generate content');
+                return;
+            }
+
+            const btn = document.getElementById('aiBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Generating...';
+
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 1000,
+                        messages: [
+                            { 
+                                role: "user", 
+                                content: `Generate SEO-optimized meta tags for: "${input}"
+
+Please provide a JSON response with the following structure:
+{
+  "title": "An engaging, SEO-optimized title (50-60 characters)",
+  "description": "A compelling meta description (150-160 characters)",
+  "keywords": "keyword1, keyword2, keyword3, keyword4, keyword5"
+}
+
+Make the title compelling and include relevant keywords naturally. The description should encourage clicks while accurately describing the content. DO NOT OUTPUT ANYTHING OTHER THAN VALID JSON.`
+                            }
+                        ]
+                    })
+                });
+
+                const data = await response.json();
+                let responseText = data.content[0].text;
+                
+                // Strip markdown code blocks if present
+                responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+                
+                const result = JSON.parse(responseText);
+
+                // Populate the fields
+                document.getElementById('metaTitle').value = result.title;
+                document.getElementById('metaDescription').value = result.description;
+                document.getElementById('keywords').value = result.keywords;
+
+                // Update character counts
+                updateCharCount('metaTitle', 'titleCount', 50, 60);
+                updateCharCount('metaDescription', 'descCount', 150, 160);
+
+                // Auto-analyze
+                analyzeContent();
+
+                btn.disabled = false;
+                btn.innerHTML = '🪄 Generate with AI';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to generate content. Please try again or enter manually.');
+                btn.disabled = false;
+                btn.innerHTML = '🪄 Generate with AI';
+            }
+        }
+
+        function analyzeContent() {
+            const title = document.getElementById('metaTitle').value;
+            const description = document.getElementById('metaDescription').value;
+            const url = document.getElementById('pageUrl').value;
+            const keywords = document.getElementById('keywords').value;
+
+            if (!title || !description) {
+                alert('Please enter at least a title and description');
+                return;
+            }
+
+            // Update previews
+            updatePreviews(title, description, url);
+
+            // Generate suggestions
+            generateSuggestions(title, description, keywords);
+
+            // Show preview section
+            document.getElementById('previewSection').style.display = 'block';
+        }
+
+        function updatePreviews(title, description, url) {
+            // Extract domain from URL
+            let domain = 'example.com';
+            if (url) {
+                try {
+                    const urlObj = new URL(url);
+                    domain = urlObj.hostname;
+                } catch (e) {
+                    domain = 'example.com';
+                }
+            }
+
+            // Google Preview
+            document.getElementById('previewUrl').textContent = domain;
+            document.getElementById('previewTitle').textContent = title || 'Your Page Title';
+            document.getElementById('previewDesc').textContent = description || 'Your description';
+
+            // Social Preview
+            document.getElementById('socialUrl').textContent = domain.toUpperCase();
+            document.getElementById('socialTitle').textContent = title || 'Your Page Title';
+            document.getElementById('socialDesc').textContent = description || 'Your description';
+        }
+
+        function generateSuggestions(title, description, keywords) {
+            const suggestionsDiv = document.getElementById('suggestions');
+            let suggestions = [];
+
+            // Only show suggestions if there are issues - don't nag about everything
+            
+            // Title analysis - only warn if significantly off
+            if (title.length > 70) {
+                suggestions.push({
+                    type: 'error',
+                    text: `⚠️ Title is ${title.length} characters. Google will truncate it at ~60 characters. Consider shortening.`
+                });
+            } else if (title.length >= 50 && title.length <= 70) {
+                suggestions.push({
+                    type: 'success',
+                    text: '✓ Title length looks good!'
+                });
+            }
+
+            // Description analysis - only warn if significantly off
+            if (description.length > 170) {
+                suggestions.push({
+                    type: 'error',
+                    text: `⚠️ Description is ${description.length} characters. Google will truncate it at ~160 characters. Consider shortening.`
+                });
+            } else if (description.length >= 140 && description.length <= 170) {
+                suggestions.push({
+                    type: 'success',
+                    text: '✓ Description length looks good!'
+                });
+            }
+
+            // Keywords analysis
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim().toLowerCase());
+                const titleLower = title.toLowerCase();
+                const descLower = description.toLowerCase();
+                
+                const titleKeywords = keywordList.filter(k => titleLower.includes(k));
+                const descKeywords = keywordList.filter(k => descLower.includes(k));
+
+                if (titleKeywords.length > 0) {
+                    suggestions.push({
+                        type: 'success',
+                        text: `✓ Found "${titleKeywords.join('", "')}" in title`
+                    });
+                }
+
+                if (descKeywords.length > 0) {
+                    suggestions.push({
+                        type: 'success',
+                        text: `✓ Found "${descKeywords.join('", "')}" in description`
+                    });
+                }
+            }
+
+            // Image check
+            if (uploadedImage) {
+                const altText = document.getElementById('imageAlt').value;
+                if (altText) {
+                    suggestions.push({
+                        type: 'success',
+                        text: '✓ Product image added with alt text'
+                    });
+                }
+            }
+
+            // Only render if we have suggestions
+            if (suggestions.length > 0) {
+                suggestionsDiv.innerHTML = '<h3 style="margin-bottom: 15px; color: #495057;">📊 SEO Analysis</h3>' + 
+                    suggestions.map(s => `<div class="suggestion-box ${s.type}">${s.text}</div>`).join('');
+            } else {
+                suggestionsDiv.innerHTML = '';
+            }
+        }
+
+        function generateCode(format = 'html') {
+            const title = document.getElementById('metaTitle').value;
+            const description = document.getElementById('metaDescription').value;
+            const url = document.getElementById('pageUrl').value;
+            const keywords = document.getElementById('keywords').value;
+            const imageAlt = document.getElementById('imageAlt').value;
+
+            if (!title || !description) {
+                alert('Please enter at least a title and description');
+                return;
+            }
+
+            let code = '';
+            let heading = '';
+
+            if (format === 'tsx') {
+                // Generate TSX/React format
+                heading = '⚛️ Generated TSX/React Code';
+                
+                let imageMetaTags = '';
+                if (uploadedImage && imageAlt) {
+                    const imageUrl = url ? `${url}/product-image.jpg` : 'https://example.com/product-image.jpg';
+                    imageMetaTags = `
+      {/* Product Image */}
+      <meta property="og:image" content="${imageUrl}" />
+      <meta property="og:image:alt" content="${escapeHtml(imageAlt)}" />
+      <meta property="twitter:image" content="${imageUrl}" />
+      <meta property="twitter:image:alt" content="${escapeHtml(imageAlt)}" />`;
+                }
+
+                code = `import Head from 'next/head'; // For Next.js
+// or import { Helmet } from 'react-helmet'; // For React
+
+export default function SEOHead() {
+  return (
+    <Head>
+      {/* SEO Meta Tags */}
+      <title>${escapeHtml(title)}</title>
+      <meta name="description" content="${escapeHtml(description)}" />
+${keywords ? `      <meta name="keywords" content="${escapeHtml(keywords)}" />` : ''}
+${url ? `      <link rel="canonical" href="${escapeHtml(url)}" />` : ''}
+
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+${url ? `      <meta property="og:url" content="${escapeHtml(url)}" />` : ''}
+      <meta property="og:title" content="${escapeHtml(title)}" />
+      <meta property="og:description" content="${escapeHtml(description)}" />${imageMetaTags}
+
+      {/* Twitter */}
+      <meta property="twitter:card" content="summary_large_image" />
+${url ? `      <meta property="twitter:url" content="${escapeHtml(url)}" />` : ''}
+      <meta property="twitter:title" content="${escapeHtml(title)}" />
+      <meta property="twitter:description" content="${escapeHtml(description)}" />
+    </Head>
+  );
+}
+
+// Usage in your page:
+// import SEOHead from './SEOHead';
+// 
+// function MyPage() {
+//   return (
+//     <>
+//       <SEOHead />
+//       {/* Your page content */}
+//     </>
+//   );
+// }`;
+            } else {
+                // Generate HTML format
+                heading = '💾 Generated HTML Code';
+                
+                let imageMetaTags = '';
+                if (uploadedImage && imageAlt) {
+                    const imageUrl = url ? `${url}/product-image.jpg` : 'https://example.com/product-image.jpg';
+                    imageMetaTags = `
+<!-- Product Image -->
+<meta property="og:image" content="${imageUrl}">
+<meta property="og:image:alt" content="${escapeHtml(imageAlt)}">
+<meta property="twitter:image" content="${imageUrl}">
+<meta property="twitter:image:alt" content="${escapeHtml(imageAlt)}">`;
+                }
+
+                code = `<!-- SEO Meta Tags -->
+<title>${escapeHtml(title)}</title>
+<meta name="description" content="${escapeHtml(description)}">
+${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">` : ''}
+${url ? `<link rel="canonical" href="${escapeHtml(url)}">` : ''}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+${url ? `<meta property="og:url" content="${escapeHtml(url)}">` : ''}
+<meta property="og:title" content="${escapeHtml(title)}">
+<meta property="og:description" content="${escapeHtml(description)}">${imageMetaTags}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+${url ? `<meta property="twitter:url" content="${escapeHtml(url)}">` : ''}
+<meta property="twitter:title" content="${escapeHtml(title)}">
+<meta property="twitter:description" content="${escapeHtml(description)}">`;
+            }
+
+            document.getElementById('outputSection').querySelector('h3').textContent = heading;
+            document.getElementById('codeOutput').innerHTML = `<button class="copy-btn" onclick="copyCode()">📋 Copy</button><pre>${escapeHtml(code)}</pre>`;
+            document.getElementById('outputSection').style.display = 'block';
+
+            // Scroll to output
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyCode() {
+            const codeBox = document.getElementById('codeOutput');
+            const code = codeBox.querySelector('pre').textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = codeBox.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        async function downloadSocialPreview() {
+            const title = document.getElementById('metaTitle').value || 'Your Product Title';
+            const description = document.getElementById('metaDescription').value || 'Your product description';
+            const url = document.getElementById('pageUrl').value;
+            
+            let domain = 'YOUR-WEBSITE.COM';
+            if (url) {
+                try {
+                    const urlObj = new URL(url);
+                    domain = urlObj.hostname.toUpperCase();
+                } catch (e) {
+                    domain = 'YOUR-WEBSITE.COM';
+                }
+            }
+
+            // Create a canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = 1200;
+            canvas.height = 630; // Standard OG image size
+            const ctx = canvas.getContext('2d');
+
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // If there's an uploaded image, draw it
+            if (uploadedImage) {
+                try {
+                    const img = new Image();
+                    img.src = uploadedImage;
+                    await new Promise((resolve) => {
+                        img.onload = resolve;
+                    });
+                    
+                    // Draw image in top portion (full width, 60% height)
+                    const imgHeight = canvas.height * 0.6;
+                    const scale = Math.max(canvas.width / img.width, imgHeight / img.height);
+                    const scaledWidth = img.width * scale;
+                    const scaledHeight = img.height * scale;
+                    const x = (canvas.width - scaledWidth) / 2;
+                    const y = (imgHeight - scaledHeight) / 2;
+                    
+                    ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+                    
+                    // Draw semi-transparent overlay for bottom text area
+                    ctx.fillStyle = 'rgba(102, 126, 234, 0.95)';
+                    ctx.fillRect(0, imgHeight, canvas.width, canvas.height - imgHeight);
+                } catch (e) {
+                    console.error('Error loading image:', e);
+                }
+            }
+
+            // Add white content box at bottom
+            const contentY = uploadedImage ? canvas.height * 0.6 : canvas.height * 0.25;
+            const contentHeight = canvas.height - contentY;
+            
+            if (!uploadedImage) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.fillRect(50, contentY, canvas.width - 100, contentHeight - 50);
+            }
+
+            // Domain name
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText(domain, 60, contentY + 40);
+
+            // Title
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 48px Arial';
+            const maxWidth = canvas.width - 120;
+            
+            // Word wrap title
+            const words = title.split(' ');
+            let line = '';
+            let y = contentY + 100;
+            
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                const metrics = ctx.measureText(testLine);
+                
+                if (metrics.width > maxWidth && i > 0) {
+                    ctx.fillText(line, 60, y);
+                    line = words[i] + ' ';
+                    y += 55;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, 60, y);
+
+            // Description
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = '28px Arial';
+            y += 50;
+            
+            // Word wrap description
+            const descWords = description.split(' ');
+            line = '';
+            let lineCount = 0;
+            
+            for (let i = 0; i < descWords.length && lineCount < 2; i++) {
+                const testLine = line + descWords[i] + ' ';
+                const metrics = ctx.measureText(testLine);
+                
+                if (metrics.width > maxWidth && i > 0) {
+                    ctx.fillText(line, 60, y);
+                    line = descWords[i] + ' ';
+                    y += 38;
+                    lineCount++;
+                } else {
+                    line = testLine;
+                }
+            }
+            if (lineCount < 2) {
+                ctx.fillText(line.trim() + (descWords.length > 15 ? '...' : ''), 60, y);
+            }
+
+            // Convert to blob and download
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'social-media-preview.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                // Update button
+                const btn = document.getElementById('downloadSocialBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Downloaded!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
