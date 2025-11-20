@@ -24,11 +24,11 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
         setHeroImage(savedHeroImage);
       } else {
         console.log('🖼️ HERO: No saved image, using default truck and helicopter image');
-        setHeroImage('https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp');
+        setHeroImage('https://i.ibb.co/Txg3MSn8/received-691501892230146-optimized.webp');
       }
     } catch (error) {
       console.error('Error loading hero image:', error);
-      setHeroImage('https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp');
+      setHeroImage('https://i.ibb.co/Txg3MSn8/received-691501892230146-optimized.webp');
     }
   }, []);
 
@@ -183,15 +183,16 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
             
             <div className="aspect-square bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden w-full">
               <img
-                src={heroImage || 'https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp'}
+                src={heroImage || 'https://i.ibb.co/Txg3MSn8/received-691501892230146-optimized.webp'}
                 alt="Handcrafted wooden truck and helicopter toys - Premium quality wooden toys from Poppa's Wooden Creations made in New Zealand"
                 className="w-full h-full object-cover product-image"
                 loading="eager"
                 fetchpriority="high"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  console.log('❌ HERO: Image failed to load, using fallback');
-                  target.src = 'https://i.ibb.co/nN1QQWT6/received-691501892230146-optimized.webp';
+                  // ✅ SILENT FALLBACK: Use inline SVG to prevent console errors
+                  target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"%3E%3Crect fill="%23f59e0b" width="600" height="600"/%3E%3Ctext x="50%25" y="45%25" font-size="32" text-anchor="middle" fill="white" font-weight="bold"%3EPoppa%27s%3C/text%3E%3Ctext x="50%25" y="52%25" font-size="24" text-anchor="middle" fill="white" font-weight="bold"%3EWooden Creations%3C/text%3E%3Ctext x="50%25" y="58%25" font-size="16" text-anchor="middle" fill="white"%3EHandcrafted in NZ%3C/text%3E%3C/svg%3E';
+                  target.onerror = null; // Prevent infinite loop
                 }}
                 onLoad={() => {
                   console.log('✅ HERO: Image loaded successfully');
