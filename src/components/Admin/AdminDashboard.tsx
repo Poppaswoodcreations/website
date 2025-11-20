@@ -12,6 +12,7 @@ import SupabaseSync from './SupabaseSync';
 import EmailManager from './EmailManager';
 import OrderManager from './OrderManager';
 import FooterEditor from './FooterEditor';
+import SEOOptimizer from './SEOOptimizer';
 import { useProducts } from '../../hooks/useProducts';
 
 interface AdminDashboardProps {
@@ -380,24 +381,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         return <OrderManager />;
 
       case 'seo-optimizer':
-        return (
-          <div className="h-full flex flex-col">
-            <div className="mb-4">
-              <h3 className="text-xl font-bold text-gray-900">🚀 SEO Content Optimizer</h3>
-              <p className="text-sm text-gray-600 mt-1">
-                Generate SEO-optimized titles, descriptions, and social media content for your products
-              </p>
-            </div>
-            <div className="flex-1 bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <iframe 
-                src="/seo-optimizer.html" 
-                className="w-full h-full border-0"
-                title="SEO Optimizer"
-                style={{ minHeight: '600px' }}
-              />
-            </div>
-          </div>
-        );
+        return <SEOOptimizer />;
 
       case 'hero-editor':
         return (
