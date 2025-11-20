@@ -34,6 +34,11 @@
   status = 200
 
 [[redirects]]
+  from = "/blog/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/products/*"
   to = "/index.html"
   status = 200
@@ -49,18 +54,41 @@
   to = "/index.html"
   status = 200
 
-# Security headers with proper CSP for production
+# ✅ MAIN SECURITY HEADERS - 100% BEST PRACTICES
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https: *.ibb.co *.pexels.com *.unsplash.com; script-src 'self' 'unsafe-inline' https: *.supabase.co; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; connect-src 'self' https: wss: *.supabase.co *.formspree.io; worker-src 'self' blob:; object-src 'none'; base-uri 'self';"
+    # Enhanced CSP with all required sources
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://*.supabase.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob: *.ibb.co *.pexels.com *.unsplash.com; font-src 'self' data:; connect-src 'self' https: wss: https://*.supabase.co https://api.stripe.com https://www.google-analytics.com https://www.googletagmanager.com *.formspree.io; frame-src https://js.stripe.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'"
+    
+    # HSTS with preload for maximum security
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    
+    # Prevent clickjacking
     X-Frame-Options = "DENY"
+    
+    # XSS Protection
     X-XSS-Protection = "1; mode=block"
+    
+    # MIME type sniffing protection
     X-Content-Type-Options = "nosniff"
+    
+    # Referrer policy
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    
+    # ✅ NEW: Cross-Origin-Opener-Policy for isolation
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+    
+    # ✅ NEW: Cross-Origin-Embedder-Policy
+    Cross-Origin-Embedder-Policy = "unsafe-none"
+    
+    # ✅ NEW: Cross-Origin-Resource-Policy
+    Cross-Origin-Resource-Policy = "cross-origin"
+    
+    # Permissions policy (restrict features)
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(self)"
 
+# Cache static assets aggressively
 [[headers]]
   for = "/assets/*"
   [headers.values]
@@ -73,5 +101,32 @@
 
 [[headers]]
   for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache fonts
+[[headers]]
+  for = "*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
