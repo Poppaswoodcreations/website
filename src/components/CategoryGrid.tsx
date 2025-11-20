@@ -30,9 +30,12 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, onCategorySelec
                   src={category.image}
                   alt={category.name}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = 'https://i.ibb.co/FkkjBShk/image.jpg';
+                    // ✅ SILENT FALLBACK: Use inline SVG to prevent console errors
+                    target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23f59e0b" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" font-size="18" text-anchor="middle" fill="white" font-weight="bold"%3E' + encodeURIComponent(category.name) + '%3C/text%3E%3C/svg%3E';
+                    target.onerror = null; // Prevent infinite loop
                   }}
                 />
               </div>
