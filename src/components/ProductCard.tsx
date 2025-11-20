@@ -78,12 +78,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCar
         />
         
         {product.featured && (
-          <div className="absolute top-2 left-2 bg-amber-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+          <div className="absolute top-2 left-2 bg-amber-700 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
             Featured
           </div>
         )}
         {!product.inStock && (
-          <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+          <div className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
             Out of Stock
           </div>
         )}
@@ -105,15 +105,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCar
           <div className="text-right">
             {product.inStock ? (
               <div>
-                <span className="text-green-600 text-xs font-medium">In Stock</span>
+                <span className="text-green-700 text-xs font-bold">In Stock</span>
                 {product.stockQuantity && (
-                  <div className="text-gray-500 text-xs">
+                  <div className="text-gray-600 text-xs font-medium">
                     {product.stockQuantity} available
                   </div>
                 )}
               </div>
             ) : (
-              <span className="text-red-600 text-xs font-medium">Out of Stock</span>
+              <span className="text-red-700 text-xs font-bold">Out of Stock</span>
             )}
           </div>
         </div>
@@ -121,7 +121,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, onAddToCar
         <button
           onClick={handleAddToCartClick}
           disabled={!product.inStock}
-          className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2 font-medium"
+          className="w-full bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-800 transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed flex items-center justify-center space-x-2 font-bold shadow-md"
         >
           <ShoppingCart size={16} />
           <span>Add to Cart</span>
