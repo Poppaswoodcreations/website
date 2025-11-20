@@ -168,6 +168,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSave, onClose }) =
       stockQuantity: Number(formData.stockQuantity)
     };
 
+    // DEBUG: Log what we're about to save
+    console.log('🔍 DEBUG - Full productToSave:', productToSave);
+    console.log('🔍 DEBUG - SEO Title:', productToSave.seoTitle);
+    console.log('🔍 DEBUG - SEO Description:', productToSave.seoDescription);
+    console.log('🔍 DEBUG - SEO Keywords:', productToSave.seoKeywords);
+    console.log('🔍 DEBUG - formData before save:', formData);
+
     console.log('💾 Saving product:', productToSave.name);
     
     // Call save function
