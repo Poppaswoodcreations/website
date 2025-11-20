@@ -58,7 +58,6 @@ const setCache = (products: Product[]) => {
 };
 
 export const useProducts = () => {
-  // ✅ START WITH STATIC PRODUCTS IMMEDIATELY
   const [products, setProducts] = useState<Product[]>(staticProducts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,10 +82,41 @@ export const useProducts = () => {
         return;
       }
 
-      // STEP 2: Use static products (skip Supabase for now - it's too slow with 28MB data)
-      console.log('📦 Using static products...');
-      setProducts(staticProducts);
-      setCache(staticProducts);
+      // STEP 2: Try Supabase database
+      console.log('🔄 Fetching from Supabase...');
+      const { data: dbProducts, error: dbError } = await supabase
+        .from('products')
+        .select('*');
+
+      if (dbError) {
+        console.error('❌ Supabase error:', dbError);
+        console.log('📦 Falling back to static products');
+        setProducts(staticProducts);
+        setCache(staticProducts);
+      } else if (dbProducts && dbProducts.length > 0) {
+        console.log(`✅ Loaded ${dbProducts.length} products from Supabase`);
+        // Convert snake_case to camelCase
+        const products = dbProducts.map(p => ({
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          price: p.price,
+          category: p.category,
+          images: p.images,
+          inStock: p.in_stock,
+          featured: p.featured,
+          stockQuantity: p.stock_quantity,
+          weight: p.weight,
+          createdAt: p.created_at,
+          updatedAt: p.updated_at
+        }));
+        setProducts(products);
+        setCache(products);
+      } else {
+        console.log('📦 No products in database, using static');
+        setProducts(staticProducts);
+        setCache(staticProducts);
+      }
 
     } catch (error) {
       console.error('❌ Error loading products:', error);
@@ -105,9 +135,7 @@ export const useProducts = () => {
     } catch (e) {
       console.warn('Failed to clear cache:', e);
     }
-  };
-
-  const saveProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
+  };const saveProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       console.log('💾 Saving product:', product.name);
       
