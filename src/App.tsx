@@ -70,24 +70,14 @@ const App: React.FC = () => {
     addToCart(product);
   };
 
-  // ✅ FIXED: Map slug to category ID
+  // ✅ FIXED: Categories in database already have "wooden-" prefix
   const filteredProducts = currentView === 'home' 
     ? products.filter(p => p.featured).slice(0, 8)
     : products.filter(p => {
-        // Map slug to category ID
-        const slugToCategoryMap: { [key: string]: string } = {
-          'wooden-trains': 'trains',
-          'wooden-baby-toys': 'baby-toys',
-          'wooden-trucks': 'trucks',
-          'wooden-cars': 'cars',
-          'wooden-planes-helicopters': 'planes',
-          'wooden-kitchenware': 'kitchen',
-          'wooden-tractors-boats': 'tractors-boats',
-          'wooden-other-toys': 'other-toys'
-        };
-        
-        const categoryId = slugToCategoryMap[currentView] || currentView;
-        return p.category === categoryId;
+        // Database categories already have the full slug with "wooden-" prefix
+        // So we match directly without conversion
+        console.log('🔍 Filtering:', { currentView, productCategory: p.category, productName: p.name });
+        return p.category === currentView;
       });
 
   const renderContent = () => {
