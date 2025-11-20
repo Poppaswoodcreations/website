@@ -95,7 +95,7 @@ export const useProducts = () => {
         setCache(staticProducts);
       } else if (dbProducts && dbProducts.length > 0) {
         console.log(`✅ Loaded ${dbProducts.length} products from Supabase`);
-        // Convert snake_case to camelCase
+        // Convert snake_case to camelCase - INCLUDING SEO FIELDS
         const products = dbProducts.map(p => ({
           id: p.id,
           name: p.name,
@@ -108,7 +108,10 @@ export const useProducts = () => {
           stockQuantity: p.stock_quantity,
           weight: p.weight,
           createdAt: p.created_at,
-          updatedAt: p.updated_at
+          updatedAt: p.updated_at,
+          seoTitle: p.seo_title || '',           // ✅ ADDED - Map SEO title
+          seoDescription: p.seo_description || '', // ✅ ADDED - Map SEO description
+          seoKeywords: p.seo_keywords || ''        // ✅ ADDED - Map SEO keywords
         }));
         setProducts(products);
         setCache(products);
@@ -135,7 +138,9 @@ export const useProducts = () => {
     } catch (e) {
       console.warn('Failed to clear cache:', e);
     }
-  };const saveProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
+  };
+
+  const saveProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       console.log('💾 Saving product:', product.name);
       
