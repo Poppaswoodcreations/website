@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Star, Award, Truck, Edit, Shield, CheckCircle } from 'lucide-react';
+import { ArrowRight, Star, Award, Truck, Shield, CheckCircle } from 'lucide-react';
 import { Product } from '../types';
 
 interface HeroProps {
@@ -8,8 +8,9 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
-  const [heroImage, setHeroImage] = useState('');
-  const [showImageEditor, setShowImageEditor] = useState(false);
+  // ✅ FIXED: Use local image instead of ImgBB
+  const defaultHeroImage = '/images/products/Messenger-creation-9-D5326-FA-08-DE-471-A-BAB1-6-E385-C838-D90-2-optimized.webp';
+  const [heroImage, setHeroImage] = useState(defaultHeroImage);
 
   // Load saved hero image
   useEffect(() => {
@@ -23,44 +24,14 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
         console.log('🖼️ HERO: Found saved hero image');
         setHeroImage(savedHeroImage);
       } else {
-        console.log('🖼️ HERO: No saved image, using default truck and helicopter image');
-        setHeroImage('https://i.ibb.co/Txg3MSn8/received-691501892230146-optimized.webp');
+        console.log('🖼️ HERO: No saved image, using default local image');
+        setHeroImage(defaultHeroImage);
       }
     } catch (error) {
       console.error('Error loading hero image:', error);
-      setHeroImage('https://i.ibb.co/Txg3MSn8/received-691501892230146-optimized.webp');
+      setHeroImage(defaultHeroImage);
     }
   }, []);
-
-  const handleSaveHeroImage = () => {
-    try {
-      console.log('💾 HERO: Saving hero image:', heroImage.substring(0, 100) + '...');
-      
-      // Save to localStorage
-      localStorage.setItem('poppas-hero-image', heroImage);
-      
-      // Force update the state to trigger re-render
-      setHeroImage(heroImage);
-      
-      // Verify save
-      const verification = localStorage.getItem('poppas-hero-image');
-      if (verification === heroImage) {
-        console.log('✅ HERO: Image saved successfully');
-        setShowImageEditor(false);
-        alert('Hero image updated successfully! Refresh the page to see the change.');
-        
-        // Force page refresh to show the new image
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        throw new Error('Save verification failed');
-      }
-    } catch (error) {
-      console.error('❌ HERO: Failed to save hero image:', error);
-      alert('Failed to save hero image. Please try again.');
-    }
-  };
 
   return (
     <section className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 overflow-hidden">
@@ -171,19 +142,9 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
 
           {/* Hero Image */}
           <div className="relative">
-            {/* Edit Button - Always visible */}
-            <button
-              onClick={() => setShowImageEditor(true)}
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-amber-800 hover:bg-amber-900 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all"
-              title="Edit hero image"
-              style={{ zIndex: 30 }}
-            >
-              <Edit size={16} className="sm:w-5 sm:h-5" />
-            </button>
-            
             <div className="aspect-square bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden w-full">
               <img
-                src={heroImage || 'https://i.ibb.co/Txg3MSn8/received-691501892230146-optimized.webp'}
+                src={heroImage}
                 alt="Handcrafted wooden truck and helicopter toys - Premium quality wooden toys from Poppa's Wooden Creations made in New Zealand"
                 className="w-full h-full object-cover product-image"
                 loading="eager"
@@ -200,7 +161,7 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
               />
             </div>
             
-            {/* Floating Elements - FIXED CONTRAST */}
+            {/* Floating Elements */}
             <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-green-700 text-white px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-xl">
               Made in NZ 🇳🇿
             </div>
@@ -211,7 +172,6 @@ const Hero: React.FC<HeroProps> = ({ onCategorySelect, products = [] }) => {
           </div>
         </div>
       </div>
-
     </section>
   );
 };
